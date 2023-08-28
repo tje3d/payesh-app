@@ -1,0 +1,48 @@
+html,
+body {
+  @apply h-full overflow-x-hidden;
+  font-family: VazirFA;
+  font-weight: 300;
+}
+
+body {
+  text-rendering: optimizeSpeed;
+  font-size: 16px;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
+html.dark,
+html.dark body {
+  background-color: #282a42;
+  color: #ececec;
+}
+
+html.light {
+  color-scheme: light;
+}
+
+html.light,
+html.light body {
+  background-color: #f7f7f9;
+  color: #222222;
+}
+
+img {
+  -webkit-user-drag: none;
+  @apply select-none;
+}
+
+.nodrag {
+  -webkit-user-drag: none;
+}
+
+input[type='password'] {
+  font-family: sans-serif;
+}
+
+.hide-border-t-notempty:not(:placeholder-shown) {
+  @apply border-t-transparent;
+}
