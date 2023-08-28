@@ -31,7 +31,9 @@
     >
       <header class="text-start">
         <div class="flex justify-between items-center pb-2">
-          <h1 class="font-bold text-lg text-gray-800 dark:text-gray-300">ورود به سامانه هیئت‌ها</h1>
+          <h1 class="font-bold text-lg text-gray-800 dark:text-gray-300">
+            ورود به سامانه {import.meta.env.VITE_APP_NAME}
+          </h1>
           <div dir="ltr"><LightSwitch /></div>
         </div>
 
