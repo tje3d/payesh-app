@@ -1,25 +1,38 @@
 <script lang="ts">
-  import focus from '/src/actions/focus.action'
+  import { onDestroy } from 'svelte'
   import { focusTrap } from '/src/actions/focusTrap.action'
   import Ripple from '/src/actions/ripple.action'
-  import { SvelteSubject } from '/src/bloc/bloc.default'
+  import { LoginBloc } from '/src/bloc/login.bloc'
+  import Spinner from '/src/components/Spinner.svelte'
+  import WarningAlert from '/src/components/alerts/WarningAlert.svelte'
   import InputText from '/src/components/form/input-text.svelte'
   import LightSwitch from '/src/components/light-switch.svelte'
   import MetaTitle from '/src/components/meta-title.svelte'
+  import { get } from '/src/di/di.default'
+  import { toUnsubscriber } from '/src/helpers/utils.helper'
 
-  const loading = new SvelteSubject<boolean>(false)
+  const bloc = get(LoginBloc)
 
-  async function onSubmit() {
-    loading.next(true)
+  const loading = bloc.loginLoading$
+  const messageError = bloc.error$
+  const errors = bloc.formError$
+  const login = bloc.login$
 
-    // goto('/panel');
-
-    loading.next(false)
+  let form: typeof LoginBloc.loginSchema._type = {
+    rememberMe: true,
+    username: '',
+    password: '',
   }
 
-  let rememberMe: boolean = true
-  let username: string = ''
-  let password: string = ''
+  async function onSubmit(this: HTMLFormElement) {
+    if ($loading) {
+      return
+    }
+
+    bloc.loginSubmit$.next(form)
+  }
+
+  onDestroy(toUnsubscriber(login.subscribe()))
 </script>
 
 <MetaTitle titles="ورود" />
@@ -43,22 +56,30 @@
       </header>
 
       <section class="pt-8 text-start">
-        <form
-          action=""
-          class="flex flex-col space-y-4"
-          use:focusTrap
-          on:submit|preventDefault={onSubmit}
-        >
+        <form class="flex flex-col space-y-4" use:focusTrap on:submit|preventDefault={onSubmit}>
           <div class="w-full">
-            <InputText label="نام کاربری" focus={true} bind:value={username} />
+            <InputText
+              label="نام کاربری"
+              focus={true}
+              bind:value={form.username}
+              error={$errors.username}
+              readonly={$loading}
+            />
           </div>
 
           <div class="w-full">
-            <InputText label="رمزعبور" password={true} bind:value={password} />
+            <InputText
+              label="رمزعبور"
+              password={true}
+              bind:value={form.password}
+              error={$errors.password}
+              readonly={$loading}
+            />
           </div>
 
           <div class="flex flex-wrap text-center justify-between items-center" dir="ltr">
-            <a href="/register" class="text-sm underline">ثبت نام نکرده اید؟</a>
+            <!-- <a href="/register" class="text-sm underline">ثبت نام نکرده اید؟</a> -->
+            <div />
 
             <label class="inline-flex items-center">
               <div class="text-sm">مرا به خاطر بسپار</div>
@@ -72,7 +93,7 @@
                   type="checkbox"
                   class="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-indigo-500 checked:bg-indigo-500 checked:before:bg-indigo-500 hover:before:opacity-10"
                   id="checkbox"
-                  checked
+                  bind:checked={form.rememberMe}
                 />
                 <div
                   class="pointer-events-none absolute top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 text-white opacity-0 transition-opacity peer-checked:opacity-100"
@@ -97,20 +118,27 @@
           </div>
 
           <button
-            class="middle none center rounded-lg bg-blue-500 py-3 px-6 text-sm font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+            type="submit"
+            class="btn blue"
+            class:loading={$loading}
+            disabled={$loading}
             use:Ripple
           >
-            ورود
-          </button>
+            <span>ورود</span>
 
-          {#if $loading}
-            <div class="absolute left-0 bottom-0 right-0">
-              <!-- <ProgressBar meter="bg-primary-500" /> -->
-            </div>
-          {/if}
+            {#if $loading}
+              <Spinner class="w-4 h-4 mx-auto" />
+            {/if}
+          </button>
         </form>
       </section>
     </div>
+
+    {#if typeof $messageError === 'string'}
+      <WarningAlert closable={false}>
+        <div slot="title">{$messageError}</div>
+      </WarningAlert>
+    {/if}
 
     <div class="text-xs opacity-40">تمام حقوق این وبگاه متعلق به آستان قدس رضوی است</div>
   </div>

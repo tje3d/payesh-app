@@ -7,6 +7,10 @@ declare global {
     // interface PageData {}
     // interface Platform {}
   }
+
+  interface ZodFieldError {
+    [key: string]: string[] | undefined
+  }
 }
 
-export {};
+export {}

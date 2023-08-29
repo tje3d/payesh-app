@@ -2,17 +2,19 @@
   import { onMount } from 'svelte'
   import * as FocusAction from '/src/actions/focus.action'
   import OnlyNumber from '/src/actions/only-number.action'
+  import { slide } from 'svelte/transition'
 
   export let value: string | number | undefined = ''
   export let label: string
   export let disabled: boolean = false
+  export let readonly: boolean = false
   export let focus: boolean = false
   export let textArea: boolean = false
   export let height: string = 'h-14'
   export let onlyNumber: boolean = false
   export let maxLength: number = 110
   export let password: boolean = false
-  export let error: string | undefined = undefined
+  export let error: string | string[] | undefined = undefined
 
   let input: HTMLInputElement | HTMLTextAreaElement
   let isEmpty = true
@@ -48,6 +50,7 @@
       on:focus={onFocus}
       bind:value
       {disabled}
+      {readonly}
     />
   {:else}
     <textarea
@@ -56,6 +59,8 @@
       class:border-gray-400={!isEmpty}
       placeholder=" "
       on:focus={onFocus}
+      {disabled}
+      {readonly}
     />
   {/if}
   <label
@@ -68,5 +73,7 @@
 </div>
 
 {#if error}
-  <div class="font-bold text-xs text-red-500 mt-2">{error}</div>
+  <div class="font-bold text-xs text-red-500 mt-2" in:slide|local={{ duration: 150 }}>
+    {Array.isArray(error) ? error[0] : error}
+  </div>
 {/if}
