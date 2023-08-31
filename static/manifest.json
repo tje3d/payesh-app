@@ -1,0 +1,36 @@
+{
+  "screenshots": [
+    {
+      "src": "https://payesh.mercurial.ir",
+      "sizes": "2880x1800",
+      "type": "image/png"
+    }
+  ],
+  "short_name": "Payesh",
+  "name": "Payesh",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/images/logo.png",
+      "sizes": "48x48 72x72 96x96 128x128 256x256 512x512",
+      "type": "image/png"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Report",
+      "url": "/panel/report",
+      "description": "New Report"
+    }
+  ],
+  "background_color": "#0b1221",
+  "display": "standalone",
+  "theme_color": "#0b1221",
+  "description": "Payesh App",
+  "dir": "rtl",
+  "lang": "fa",
+  "start_url": "/",
+  "scope": "/",
+  "prefer_related_applications": false,
+  "display_override": ["window-control-overlay", "standalone"]
+}

@@ -1,5 +1,5 @@
-import adapter from '@sveltejs/adapter-auto';
-import { vitePreprocess } from '@sveltejs/kit/vite';
+import adapter from '@sveltejs/adapter-auto'
+import { vitePreprocess } from '@sveltejs/kit/vite'
 // import adapterNode from '@sveltejs/adapter-node';
 
 /** @type {import('@sveltejs/kit').Config} */
@@ -23,6 +23,6 @@ const config = {
       pollInterval: 60 * 1000,
     },
   },
-};
+}
 
-export default config;
+export default config
