@@ -46,7 +46,7 @@ export class LoginBloc extends Bloc {
           ).pipe(
             timeout(4000),
             map((result) => {
-              goto('/panel/send-report')
+              goto('/panel/dashboard')
 
               return 'با موفقیت وارد شدید'
             }),

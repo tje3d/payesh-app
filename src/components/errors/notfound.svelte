@@ -16,7 +16,7 @@
     <p class="mt-6 text-base leading-7 text-gray-600">
       متأسفیم، ما نتوانستیم صفحه مورد نظر شما را پیدا کنیم.
     </p>
-    <div class="mt-10 flex items-center justify-center gap-x-2">
+    <div class="mt-10 flex items-center flex-col md:flex-row justify-center gap-x-2 gap-y-4">
       <a href="#" class="btn indigo ghost icon" use:Ripple={'light'} on:click|preventDefault={back}>
         <IconArrow class="w-4 h-4" />
         <span>بازگشت به صفحه قبل</span>

@@ -15,7 +15,8 @@ html.dark {
 }
 
 html.dark,
-html.dark body {
+html.dark body,
+html.dark .body-bg {
   background-color: #282a42;
   color: #ececec;
 }
@@ -25,7 +26,8 @@ html.light {
 }
 
 html.light,
-html.light body {
+html.light body,
+html.light .body-bg {
   background-color: #f7f7f9;
   color: #222222;
 }

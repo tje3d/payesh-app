@@ -38,7 +38,7 @@
 <MetaTitle titles="ورود" />
 
 <div class="h-full mx-auto flex justify-center items-center" dir="rtl">
-  <div class="space-y-10 text-center flex flex-col items-center">
+  <div class="space-y-10 text-center flex flex-col items-center m-auto">
     <div
       class="p-6 shadow-xl relative overflow-hidden bg-white dark:bg-[#30334e] rounded-lg min-w-[300px]"
     >
@@ -84,11 +84,7 @@
             <label class="inline-flex items-center">
               <div class="text-sm">مرا به خاطر بسپار</div>
 
-              <label
-                class="relative flex cursor-pointer items-center rounded-full p-3"
-                for="checkbox"
-                use:Ripple
-              >
+              <label class="relative flex cursor-pointer items-center rounded-full p-3" use:Ripple>
                 <input
                   type="checkbox"
                   class="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-indigo-500 checked:bg-indigo-500 checked:before:bg-indigo-500 hover:before:opacity-10"

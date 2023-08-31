@@ -19,6 +19,7 @@ specifiers:
   sass: ^1.66.1
   svelte: ^4.0.5
   svelte-check: ^3.4.3
+  svelte-floating-ui: ^1.5.3
   tailwindcss: ^3.3.3
   tslib: ^2.4.1
   typescript: ^5.0.0
@@ -29,6 +30,7 @@ specifiers:
 dependencies:
   '@iconify-json/heroicons': 1.1.12
   rxjs: 7.8.1
+  svelte-floating-ui: 1.5.3
   unplugin-icons: 0.16.6
   zod: 3.22.2
 
@@ -319,6 +321,23 @@ packages:
     resolution: {integrity: sha512-ZSjtmelB7IJfWD2Fvb7+Z+ChTIKWq6kjda95fLcQKNS5aheVHn4IkfgRQE3sIIzTcSLwLcLZUD9UBt+V7+h+Pw==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
+
+  /@floating-ui/core/1.4.1:
+    resolution: {integrity: sha512-jk3WqquEJRlcyu7997NtR5PibI+y5bi+LS3hPmguVClypenMsCY3CBa3LAQnozRCtCrYWSEtAdiskpamuJRFOQ==}
+    dependencies:
+      '@floating-ui/utils': 0.1.1
+    dev: false
+
+  /@floating-ui/dom/1.5.1:
+    resolution: {integrity: sha512-KwvVcPSXg6mQygvA1TjbN/gh///36kKtllIF8SUm0qpFj8+rvYrpvlYdL1JoA71SHpDqgSSdGOSoQ0Mp3uY5aw==}
+    dependencies:
+      '@floating-ui/core': 1.4.1
+      '@floating-ui/utils': 0.1.1
+    dev: false
+
+  /@floating-ui/utils/0.1.1:
+    resolution: {integrity: sha512-m0G6wlnhm/AX0H12IOWtK8gASEMffnX08RtKkCgTdHb9JpHKGloI7icFfLg9ZmQeavcvR0PKmzxClyuFPSjKWw==}
+    dev: false
 
   /@humanwhocodes/config-array/0.11.10:
     resolution: {integrity: sha512-KVVjQmNUepDVGXNuoRRdmmEjruj0KfiGSbS8LVc12LMsWDQzRXJ0qdhN8L8uUigKpfEHRhlaQFY0ib1tnUbNeQ==}
@@ -2208,6 +2227,13 @@ packages:
       postcss-scss: 4.0.7_postcss@8.4.28
       svelte: 4.2.0
     dev: true
+
+  /svelte-floating-ui/1.5.3:
+    resolution: {integrity: sha512-yjLeRQ4SNcICbMabp5S2cXc5ubBd2eua+swfTqqGBeg8ZrUvotZYK8jsRWETl/3RgLQsaZbEYKx8OmLA3wL/yw==}
+    dependencies:
+      '@floating-ui/core': 1.4.1
+      '@floating-ui/dom': 1.5.1
+    dev: false
 
   /svelte-hmr/0.15.3_svelte@4.2.0:
     resolution: {integrity: sha512-41snaPswvSf8TJUhlkoJBekRrABDXDMdpNpT2tfHIv4JuhgvHqLMhEPGtaQn0BmbNSTkuz2Ed20DF2eHw0SmBQ==}
