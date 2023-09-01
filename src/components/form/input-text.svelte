@@ -41,7 +41,9 @@
   {#if !textArea}
     <input
       bind:this={input}
-      class={`peer h-full w-full rounded-[7px] border border-gray-200 hide-border-t-notempty bg-transparent px-3 py-2.5 text-sm font-normal text-gray-700 dark:text-gray-200 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-gray-200 placeholder-shown:border-t-gray-200 dark:placeholder-shown:border-gray-600 dark:placeholder-shown:border-t-gray-600 focus:border-2 focus:border-blue-500 dark:focus:border-blue-500 focus:border-t-transparent dark:focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-gray-50 dark:disabled:bg-white/5 ${$$props.class}`}
+      class={`peer h-full w-full rounded-[7px] border border-gray-200 hide-border-t-notempty bg-transparent px-3 py-2.5 text-sm font-normal text-gray-700 dark:text-gray-200 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-gray-200 placeholder-shown:border-t-gray-200 dark:placeholder-shown:border-gray-600 dark:placeholder-shown:border-t-gray-600 focus:border-2 focus:border-blue-500 dark:focus:border-blue-500 focus:border-t-transparent dark:focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-gray-50 dark:disabled:bg-white/5 ${
+        $$props.class || ''
+      }`}
       class:border-gray-400={!isEmpty}
       placeholder=" "
       type="text"
@@ -59,7 +61,9 @@
   {:else}
     <textarea
       bind:this={input}
-      class={`peer h-full w-full rounded-[7px] border border-gray-200 hide-border-t-notempty bg-transparent px-3 py-2.5 text-sm font-normal text-gray-700 dark:text-gray-200 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-gray-200 placeholder-shown:border-t-gray-200 dark:placeholder-shown:border-gray-600 dark:placeholder-shown:border-t-gray-600 focus:border-2 focus:border-blue-500 dark:focus:border-blue-500 focus:border-t-transparent dark:focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-gray-50 dark:disabled:bg-white/5 pt-4 ${$$props.class}`}
+      class={`peer h-full w-full rounded-[7px] border border-gray-200 hide-border-t-notempty bg-transparent px-3 py-2.5 text-sm font-normal text-gray-700 dark:text-gray-200 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-gray-200 placeholder-shown:border-t-gray-200 dark:placeholder-shown:border-gray-600 dark:placeholder-shown:border-t-gray-600 focus:border-2 focus:border-blue-500 dark:focus:border-blue-500 focus:border-t-transparent dark:focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-gray-50 dark:disabled:bg-white/5 pt-4 ${
+        $$props.class || ''
+      }`}
       class:border-gray-400={!isEmpty}
       placeholder=" "
       on:focus={onFocus}
