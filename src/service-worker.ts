@@ -8,7 +8,7 @@ import { build, files, prerendered, version } from '$service-worker'
 const worker = self as unknown as ServiceWorkerGlobalScope
 const FILES = `cache${version}`
 
-const to_cache = build.concat(['/', '/manifest.json', '/favicon.png']).concat(prerendered)
+const to_cache = build.concat(['/manifest.json', '/favicon.png']).concat(prerendered)
 
 const staticAssets = new Set(to_cache.concat(files).concat(['/']))
 
