@@ -81,8 +81,9 @@ worker.addEventListener('fetch', (event) => {
   const isImage = !!url.pathname.match(/\.png$|\.jpg$|\.jpeg$|\.webp$/)
   const isFont = !!url.pathname.match(/\.woff$/)
   const isJson = !!url.pathname.match(/\.json$/)
+  const isVersionJson = !!url.pathname.match(/version\.json$/)
 
-  if (isStaticAsset || isImage || isFont || isJson) {
+  if (isStaticAsset || isImage || isFont || (isJson && !isVersionJson)) {
     event.respondWith(
       (async () => {
         // always serve static files and bundler-generated assets from cache.
