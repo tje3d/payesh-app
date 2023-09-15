@@ -1,26 +1,26 @@
 <script lang="ts">
-  import { onDestroy } from 'svelte'
+  import { map, switchMap, take, timer } from 'rxjs'
+  import {
+    onServiceWorkerControllerChange,
+    serviceWorkerRegistration,
+  } from '/src/helpers/observable.helper'
+  import { unDestroy } from '/src/helpers/svelte.helper'
+
   import '/src/assets/css/app.scss'
 
-  let refreshing = false
-
-  function onUpdate() {
-    if (!refreshing) {
-      console.log('🎉🎉 Application Updated Successful 🎉🎉')
-      location.reload()
-      refreshing = true
-    }
-  }
-
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.addEventListener('controllerchange', onUpdate)
-  }
-
-  onDestroy(() => {
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.removeEventListener('controllerchange', onUpdate)
-    }
+  unDestroy(onServiceWorkerControllerChange.pipe(take(1)), () => {
+    console.log('🎉🎉 Application Updated Successful 🎉🎉')
+    location.reload()
   })
+
+  unDestroy(
+    serviceWorkerRegistration.pipe(
+      switchMap((register) => timer(0, 1000 * 20).pipe(map(() => register))),
+    ),
+    (register) => {
+      register.update()
+    },
+  )
 </script>
 
 <slot />

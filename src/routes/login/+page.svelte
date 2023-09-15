@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { onDestroy } from 'svelte'
   import { focusTrap } from '/src/actions/focusTrap.action'
   import Ripple from '/src/actions/ripple.action'
   import { LoginBloc } from '/src/bloc/login.bloc'
@@ -9,7 +8,7 @@
   import LightSwitch from '/src/components/light-switch.svelte'
   import MetaTitle from '/src/components/meta-title.svelte'
   import { get } from '/src/di/di.default'
-  import { toUnsubscriber } from '/src/helpers/utils.helper'
+  import { unDestroy } from '/src/helpers/svelte.helper'
 
   const bloc = get(LoginBloc)
 
@@ -32,7 +31,7 @@
     bloc.loginSubmit$.next(form)
   }
 
-  onDestroy(toUnsubscriber(login.subscribe()))
+  unDestroy(login)
 </script>
 
 <MetaTitle titles="ورود" />

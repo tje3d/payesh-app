@@ -1,6 +1,5 @@
 <script lang="ts">
   import { map, tap } from 'rxjs'
-  import { onDestroy } from 'svelte'
   import { createFloatingActions } from 'svelte-floating-ui'
   import { flip, shift } from 'svelte-floating-ui/dom'
   import { scale } from 'svelte/transition'
@@ -9,7 +8,7 @@
   import KeyboardEvents from '/src/actions/keyboard-events.action'
   import Ripple from '/src/actions/ripple.action'
   import { SvelteSubject } from '/src/bloc/bloc.default'
-  import { toUnsubscriber } from '/src/helpers/utils.helper'
+  import { unDestroy } from '/src/helpers/svelte.helper'
 
   export let value: string | boolean | number | undefined = undefined
   export let options: Option[] = []
@@ -95,21 +94,17 @@
     hoverIndex.next(prev < 0 ? options.length - 1 : prev)
   }
 
-  onDestroy(
-    toUnsubscriber(
-      showDropdown
-        .pipe(
-          tap((status) => {
-            if (!status) {
-              hoverIndex.next(-1)
-            }
-          }),
-        )
-        .subscribe(),
+  unDestroy(
+    showDropdown.pipe(
+      tap((status) => {
+        if (!status) {
+          hoverIndex.next(-1)
+        }
+      }),
     ),
   )
 
-  onDestroy(toUnsubscriber(selected.subscribe((item) => (value = item))))
+  unDestroy(selected, (item) => (value = item))
 </script>
 
 <div class="relative" use:clickOutside={onClickOutSide}>

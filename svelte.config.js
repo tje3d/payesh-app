@@ -1,6 +1,5 @@
-import adapter from '@sveltejs/adapter-auto'
+import adapter from '@sveltejs/adapter-cloudflare'
 import { vitePreprocess } from '@sveltejs/kit/vite'
-// import adapterNode from '@sveltejs/adapter-node';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -27,8 +26,12 @@ const config = {
       checkOrigin: false,
     },
 
+    serviceWorker: {
+      register: true,
+    },
+
     version: {
-      pollInterval: 60 * 1000,
+      pollInterval: 0,
     },
   },
 }
