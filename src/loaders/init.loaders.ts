@@ -1,5 +1,4 @@
 import { AuthBloc } from '/src/bloc/auth.bloc'
-import { DataBloc } from '/src/bloc/data.bloc'
 import { di } from '/src/di/di.default'
 import { unDestroy } from '/src/helpers/svelte.helper'
 
@@ -17,24 +16,6 @@ export default async function init() {
       localStorage.setItem('token', token)
     } else {
       localStorage.removeItem('token')
-    }
-  })
-
-  // ─── Data ────────────────────────────────────────────────────────────
-
-  unDestroy(di(DataBloc).inspectItems, (item) => {
-    if (!item) {
-      localStorage.removeItem('inspectItems')
-    } else {
-      localStorage.setItem('inspectItems', JSON.stringify(item))
-    }
-  })
-
-  unDestroy(di(DataBloc).organs, (item) => {
-    if (!item) {
-      localStorage.removeItem('organs')
-    } else {
-      localStorage.setItem('organs', JSON.stringify(item))
     }
   })
 }

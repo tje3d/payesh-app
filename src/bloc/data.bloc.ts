@@ -1,4 +1,4 @@
-import { defer, from, map, shareReplay, startWith, switchMap } from 'rxjs'
+import { defer, from, map, shareReplay, startWith, switchMap, tap } from 'rxjs'
 import { Bloc } from './bloc.default'
 import type { IKhadem } from '/src/entities/khadem.entity'
 import { api } from '/src/helpers/api.helper'
@@ -13,7 +13,16 @@ export class DataBloc extends Bloc {
       startWith(start),
       map((data) => data as { id: number; title: string }[] | undefined),
     )
-  }).pipe(shareReplay({ bufferSize: 1, refCount: false }))
+  }).pipe(
+    tap((item) => {
+      if (!item) {
+        localStorage.removeItem('inspectItems')
+      } else {
+        localStorage.setItem('inspectItems', JSON.stringify(item))
+      }
+    }),
+    shareReplay({ bufferSize: 1, refCount: false }),
+  )
 
   organs = defer(() => {
     const start = loadCacheJsonIfAny('organs')
@@ -32,7 +41,16 @@ export class DataBloc extends Bloc {
             | undefined,
       ),
     )
-  }).pipe(shareReplay({ bufferSize: 1, refCount: false }))
+  }).pipe(
+    tap((item) => {
+      if (!item) {
+        localStorage.removeItem('organs')
+      } else {
+        localStorage.setItem('organs', JSON.stringify(item))
+      }
+    }),
+    shareReplay({ bufferSize: 1, refCount: false }),
+  )
 
   person = defer(() => {
     const start = loadCacheJsonIfAny('person')
@@ -42,5 +60,14 @@ export class DataBloc extends Bloc {
       startWith(start),
       map((data) => data as IKhadem[] | undefined),
     )
-  }).pipe(shareReplay({ bufferSize: 1, refCount: false }))
+  }).pipe(
+    tap((item) => {
+      if (!item) {
+        localStorage.removeItem('person')
+      } else {
+        localStorage.setItem('person', JSON.stringify(item))
+      }
+    }),
+    shareReplay({ bufferSize: 1, refCount: false }),
+  )
 }
