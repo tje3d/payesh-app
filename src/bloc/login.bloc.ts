@@ -1,5 +1,5 @@
 import { HTTPError } from 'ky'
-import { Subject, catchError, finalize, from, map, of, shareReplay, switchMap, timeout } from 'rxjs'
+import { Subject, catchError, finalize, from, map, of, shareReplay, switchMap } from 'rxjs'
 import z from 'zod'
 import { Bloc, SvelteSubject } from './bloc.default'
 import { AuthBloc } from '/src/bloc/auth.bloc'
@@ -43,7 +43,6 @@ export class LoginBloc extends Bloc {
               json: form,
             }),
           ).pipe(
-            timeout(10000),
             switchMap((response) => from(response.json())),
             map((response: any) => {
               di(AuthBloc).token.next(response.token)

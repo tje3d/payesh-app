@@ -3,16 +3,18 @@
   import Ripple from '/src/actions/ripple.action'
   import Switch from '/src/components/form/switch.svelte'
   import { ThemeBloc } from '/src/bloc/theme.bloc'
-  import { get } from '/src/di/di.default'
+  import { di, get } from '/src/di/di.default'
   import IconLeft from '~icons/heroicons/chevron-left'
   import IconMoon from '~icons/heroicons/moon'
   import IconPassword from '~icons/heroicons/finger-print'
   import IconPower from '~icons/heroicons/power'
   import { goto } from '$app/navigation'
   import { logout } from '/src/actions/logout.action'
+  import { AuthBloc } from '/src/bloc/auth.bloc'
 
   const themeBloc = get(ThemeBloc)
   const themeMode = themeBloc.mode$
+  const displayName = di(AuthBloc).displayName
 
   let darkMode: boolean = $themeMode === 'dark'
 
@@ -24,7 +26,7 @@
 <div class="py-8">
   <div class="flex flex-col items-center justify-center gap-2">
     <div class="relative">
-      <img class="w-24 h-24 rounded-full" src="/images/sample-avatar.webp" alt="تصویر" />
+      <img class="w-24 h-24 rounded-full" src="https://placehold.co/96x96" alt="تصویر" />
 
       <div
         class="absolute right-0 bottom-0 w-8 h-8 rounded-full bg-blue-500 grid place-content-center text-white cursor-pointer"
@@ -33,7 +35,7 @@
       </div>
     </div>
     <div class="flex flex-col gap-1 justify-center text-center">
-      <div>سید حسین نیکدل</div>
+      <div>{$displayName}</div>
       <div class="text-xs text-gray-500 font-sans">tje3d@yahoo.com</div>
     </div>
   </div>

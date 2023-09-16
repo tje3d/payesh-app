@@ -7,6 +7,10 @@
   import Ripple from '/src/actions/ripple.action'
   import LightSwitch from '/src/components/light-switch.svelte'
   import MetaTitle from '/src/components/meta-title.svelte'
+  import { di } from '/src/di/di.default'
+  import { AuthBloc } from '/src/bloc/auth.bloc'
+
+  const displayName = di(AuthBloc).displayName
 </script>
 
 <MetaTitle titles="داشبورد" />
@@ -34,7 +38,7 @@
 
       <div>
         <span class="text-sm">سلام, </span>
-        <strong class="font-bold">سید حسین نیکدل</strong>
+        <strong class="font-bold">{$displayName}</strong>
       </div>
 
       <div class="text-xs">به نرم افزار پایش خدام آستان قدس رضوی خوش آمدید</div>

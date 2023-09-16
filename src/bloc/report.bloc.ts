@@ -1,16 +1,18 @@
-import { combineLatest, distinctUntilChanged, map, tap } from 'rxjs'
+import { combineLatest, distinctUntilChanged, map, switchMap, tap } from 'rxjs'
 import { Bloc, SvelteSubject } from './bloc.default'
-import Khadem from '/src/entities/khadem.entity'
+import { DataBloc } from '/src/bloc/data.bloc'
+import { di } from '/src/di/di.default'
+import type { IKhadem } from '/src/entities/khadem.entity'
 
 export class ReportBloc extends Bloc {
   management = new SvelteSubject<string | undefined>(undefined)
   office = new SvelteSubject<string | undefined>(undefined)
   post = new SvelteSubject<string | undefined>(undefined)
   step$ = new SvelteSubject<number>(0)
-  selectedPerson$ = new SvelteSubject<Khadem | undefined>(undefined)
-  canSelectPerson$ = combineLatest([this.management, this.office]).pipe(
-    map(([t, b]) => {
-      if (typeof t === 'undefined' || typeof b === 'undefined') {
+  selectedPerson = new SvelteSubject<IKhadem | undefined>(undefined)
+  canSelectPerson = combineLatest([this.management, this.office, this.post]).pipe(
+    map(([t, b, p]) => {
+      if (typeof t === 'undefined' || typeof b === 'undefined' || typeof p === 'undefined') {
         return false
       }
 
@@ -21,30 +23,33 @@ export class ReportBloc extends Bloc {
   selectedOptions$ = new SvelteSubject<number[]>([])
   hasSelectedOptions$ = this.selectedOptions$.pipe(map((items) => items.length !== 0))
 
-  personsSearch$ = new SvelteSubject<string | undefined>(undefined)
-  personsLoading$ = new SvelteSubject<boolean>(false)
-  persons$ = this.personsSearch$.pipe(
-    map((search) => {
-      this.personsLoading$.next(false)
+  personsSearch = new SvelteSubject<string | undefined>(undefined)
+  personsLoading = new SvelteSubject<boolean>(false)
+  persons = this.personsSearch.pipe(
+    switchMap((search) => {
+      this.personsLoading.next(false)
 
-      if (!search) {
-        return SamplePersonList.slice(0, 9)
-      }
+      return di(DataBloc).person.pipe(
+        map((persons) => {
+          if (!search) {
+            return persons?.slice(0, 9) || []
+          }
 
-      this.personsLoading$.next(true)
-
-      const regExp = new RegExp(search, 'ig')
-      return SamplePersonList.filter((item) => {
-        return regExp.test(item.code) || regExp.test(item.name)
-      }).slice(0, 9)
+          const regExp = new RegExp(search, 'ig')
+          return (
+            persons
+              ?.filter((item) => {
+                return (
+                  regExp.test(item.code) ||
+                  regExp.test(item.first_name) ||
+                  regExp.test(item.last_name)
+                )
+              })
+              .slice(0, 9) || []
+          )
+        }),
+        tap(() => this.personsLoading.next(false)),
+      )
     }),
-    tap(() => this.personsLoading$.next(false)),
   )
 }
-
-const SamplePersonList: Khadem[] = [
-  new Khadem(1, 'سید حسین نیکدل', '321456784948', '/images/sample-avatar.webp'),
-  new Khadem(2, 'معین پرکامل', '0291909527', '/images/sample-avatar.webp'),
-  new Khadem(3, 'تست سوم', '777777777777', '/images/sample-avatar.webp'),
-  new Khadem(4, 'تست چهارم', '127475885888', '/images/sample-avatar.webp'),
-]

@@ -19,11 +19,11 @@
   const management = bloc.management
   const office = bloc.office
   const post = bloc.post
-  const selectedPerson = bloc.selectedPerson$
-  const personsSearch = bloc.personsSearch$
-  const personsLoading = bloc.personsLoading$
-  const persons = bloc.persons$
-  const canSelectPerson = bloc.canSelectPerson$
+  const selectedPerson = bloc.selectedPerson
+  const personsSearch = bloc.personsSearch
+  const personsLoading = bloc.personsLoading
+  const persons = bloc.persons
+  const canSelectPerson = bloc.canSelectPerson
   const inspectItems = dataBloc.inspectItems
   const selectedOptions = bloc.selectedOptions$
   const hasSelectedOptions = bloc.hasSelectedOptions$
@@ -35,11 +35,11 @@
   }
 
   function selectFirstSearchResult() {
-    if ($persons.length !== 1) {
+    if ($persons?.length !== 1) {
       return
     }
 
-    selectedPerson.next($persons[0])
+    selectedPerson.next($persons?.[0])
   }
 
   function onOptionChanges(e: Event) {
@@ -126,12 +126,12 @@
                 <div class="shrink-0">
                   <img
                     class="object-cover w-10 h-10 rounded-full bg-gray-100"
-                    src={person.image}
                     alt="تصویر"
+                    src="https://placehold.co/40x40"
                   />
                 </div>
                 <div>
-                  <div class="text-sm mb-1">{person.name}</div>
+                  <div class="text-sm mb-1">{person.first_name} {person.last_name}</div>
                   <div class="text-gray-500">{person.code}</div>
                 </div>
               </div>
@@ -147,11 +147,11 @@
     <!-- info -->
     <div class="rounded-lg bg-white shadow-sm mx-4 p-4 flex gap-4 items-center dark:bg-[#30334e]">
       <div>
-        <img class="rounded-full w-20 h-20" src={$selectedPerson.image} />
+        <img class="rounded-full w-20 h-20" alt="تصویر" src="https://placehold.co/80x80" />
       </div>
       <div>
         <div class="mb-1">
-          <div class="font-bold">{$selectedPerson.name}</div>
+          <div class="font-bold">{$selectedPerson.first_name} {$selectedPerson.last_name}</div>
           <div class="text-sm text-gray-500">{$selectedPerson.code}</div>
         </div>
         <div class="text chip ghost teal">طرح و برنامه</div>

@@ -1,4 +1,4 @@
-import { distinctUntilChanged, map } from 'rxjs'
+import { combineLatest, distinctUntilChanged, map } from 'rxjs'
 import { Bloc, SvelteSubject } from './bloc.default'
 import type AuthUser from '/src/entities/auth-user.entity'
 
@@ -8,9 +8,13 @@ export class AuthBloc extends Bloc {
 
   isLoggedIn$ = this.token.pipe(map((token) => !!token)).pipe(distinctUntilChanged())
 
-  displayName$ = this.user.pipe(
-    map((user) => {
+  displayName = combineLatest([this.user, this.token]).pipe(
+    map(([user, token]) => {
       if (!user) {
+        if (token) {
+          return 'بی نام'
+        }
+
         return 'میهمان'
       }
 

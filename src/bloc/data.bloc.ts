@@ -1,5 +1,6 @@
 import { defer, from, map, shareReplay, startWith, switchMap } from 'rxjs'
 import { Bloc } from './bloc.default'
+import type { IKhadem } from '/src/entities/khadem.entity'
 import { api } from '/src/helpers/api.helper'
 import { loadCacheJsonIfAny } from '/src/helpers/cache.helper'
 
@@ -30,6 +31,16 @@ export class DataBloc extends Bloc {
               }
             | undefined,
       ),
+    )
+  }).pipe(shareReplay({ bufferSize: 1, refCount: false }))
+
+  person = defer(() => {
+    const start = loadCacheJsonIfAny('person')
+
+    return api('/1/person').pipe(
+      switchMap((response) => from(response.json())),
+      startWith(start),
+      map((data) => data as IKhadem[] | undefined),
     )
   }).pipe(shareReplay({ bufferSize: 1, refCount: false }))
 }
