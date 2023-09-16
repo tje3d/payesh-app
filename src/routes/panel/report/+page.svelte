@@ -8,19 +8,23 @@
   import Checkbox from '/src/components/form/checkbox.svelte'
   import InputText from '/src/components/form/input-text.svelte'
   import Selectdown from '/src/components/form/selectdown.svelte'
-  import { get } from '/src/di/di.default'
+  import { di, get } from '/src/di/di.default'
+  import { DataBloc } from '/src/bloc/data.bloc'
 
   const bloc = get(ReportBloc)
+  const dataBloc = di(DataBloc)
 
   const step = bloc.step$
-  const taghsim = bloc.taghsim$
-  const bakhsh = bloc.bakhsh$
+  const organs = dataBloc.organs
+  const management = bloc.management
+  const office = bloc.office
+  const post = bloc.post
   const selectedPerson = bloc.selectedPerson$
   const personsSearch = bloc.personsSearch$
   const personsLoading = bloc.personsLoading$
   const persons = bloc.persons$
   const canSelectPerson = bloc.canSelectPerson$
-  const personOptions = bloc.personOptions$
+  const inspectItems = dataBloc.inspectItems
   const selectedOptions = bloc.selectedOptions$
   const hasSelectedOptions = bloc.hasSelectedOptions$
 
@@ -64,24 +68,22 @@
 
       <div class="mx-4 bg-white dark:bg-[#30334e] shadow-sm rounded-lg p-4 flex flex-col gap-4">
         <Selectdown
-          bind:value={$taghsim}
-          label="انتخاب تقسیم بندی"
-          options={[
-            { title: 'انتظامات', value: 0 },
-            { title: 'ویلچر', value: 1 },
-          ]}
+          bind:value={$management}
+          label="انتخاب مدیریت"
+          options={$organs?.managements.map((item) => ({ value: item.id, title: item.title })) ||
+            []}
         />
 
         <Selectdown
-          bind:value={$bakhsh}
-          label="انتخاب بخش"
-          options={[
-            { title: 'بخش اول', value: 0 },
-            { title: 'بخش دوم', value: 1 },
-            { title: 'بخش سوم', value: 2 },
-            { title: 'بخش چهارم', value: 3 },
-            { title: 'بخش پنجم', value: 4 },
-          ]}
+          bind:value={$office}
+          label="انتخاب اداره"
+          options={$organs?.offices.map((item) => ({ value: item.id, title: item.title })) || []}
+        />
+
+        <Selectdown
+          bind:value={$post}
+          label="انتخاب پست"
+          options={$organs?.posts.map((item) => ({ value: item.id, title: item.title })) || []}
         />
       </div>
     </div>
@@ -113,7 +115,7 @@
         {#each $persons as person, i (person.id)}
           <div class="px-4 mt-4">
             <div
-              class="btn font-normal gray bg-white dark:bg-white/5 shadow-lg icon cursor-pointer py-3 px-2"
+              class="btn font-normal gray bg-white dark:bg-white/5 shadow-none border dark:border-gray-700 icon cursor-pointer py-3 px-2"
               use:Ripple
               on:click={() => selectedPerson.next(person)}
               role="button"
@@ -159,22 +161,24 @@
 
     <!-- options -->
     <div class="mt-4 px-4 flex flex-col gap-4">
-      {#each $personOptions as option (option.id)}
-        <label
-          class="btn font-normal text-sm rounded-lg cursor-pointer bg-white dark:bg-[#30334e] shadow-lg icon justify-between pe-2"
-          use:Ripple
-        >
-          <div>{option.name}</div>
+      {#if $inspectItems}
+        {#each $inspectItems as option (option.id)}
+          <label
+            class="btn font-normal text-sm rounded-lg cursor-pointer bg-white dark:bg-[#30334e] shadow-lg icon justify-between pe-2"
+            use:Ripple
+          >
+            <div>{option.title}</div>
 
-          <div>
-            <Checkbox
-              on:change={onOptionChanges}
-              bind:checked={optionsIndexChecked[option.id]}
-              value={option.id}
-            />
-          </div>
-        </label>
-      {/each}
+            <div>
+              <Checkbox
+                on:change={onOptionChanges}
+                bind:checked={optionsIndexChecked[option.id]}
+                value={option.id}
+              />
+            </div>
+          </label>
+        {/each}
+      {/if}
     </div>
     <!-- options -->
 

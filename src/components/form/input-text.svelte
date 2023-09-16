@@ -16,7 +16,7 @@
   export let maxLength: number = 110
   export let password: boolean = false
   export let error: string | string[] | undefined = undefined
-  export let autocomplete: string | undefined
+  export let autocomplete: string | undefined = undefined
 
   let input: HTMLInputElement | HTMLTextAreaElement
   let isEmpty = true

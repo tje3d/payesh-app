@@ -1,6 +1,8 @@
 import type { DownloadProgress, KyResponse } from 'ky'
 import ky from 'ky'
 import { Observable, catchError, from, map, of, switchMap } from 'rxjs'
+import { AuthBloc } from '/src/bloc/auth.bloc'
+import { di } from '/src/di/di.default'
 import { shareIt } from '/src/helpers/observable.helper'
 
 export function downloadFile(
@@ -65,9 +67,16 @@ export function fetchKy(url: Parameters<typeof ky>[0], options?: Parameters<type
 }
 
 export function api(url: Parameters<typeof fetchKy>[0], options?: Parameters<typeof fetchKy>[1]) {
-  // di(AuthBloc).user$
-
   url = import.meta.env.VITE_API_URL + url
+  const token = di(AuthBloc).token.value
+
+  if (token) {
+    options = Object.assign(options || {}, {
+      headers: {
+        Authorization: 'Token ' + token,
+      },
+    } as typeof options)
+  }
 
   return fetchKy(url, options)
 }
