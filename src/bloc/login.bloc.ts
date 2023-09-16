@@ -1,14 +1,17 @@
-import { goto } from '$app/navigation'
+import { HTTPError } from 'ky'
 import { Subject, catchError, finalize, from, map, of, shareReplay, switchMap, timeout } from 'rxjs'
 import z from 'zod'
 import { Bloc, SvelteSubject } from './bloc.default'
-import { zodFormat } from '/src/helpers/validator.helper'
+import { AuthBloc } from '/src/bloc/auth.bloc'
+import { di } from '/src/di/di.default'
+import { api } from '/src/helpers/api.helper'
+import { filterFormError, filterMessageError, makeError } from '/src/helpers/error.helper'
+import { MessageError, type ApiErrors } from '/src/lib/Errors'
 
 export class LoginBloc extends Bloc {
-  error$ = new SvelteSubject<ZodFieldError | string | undefined>(undefined)
-  formError$ = this.error$.pipe(
-    map((err) => (typeof err !== 'undefined' && typeof err !== 'string' ? err : {})),
-  )
+  error = new SvelteSubject<z.ZodError | ApiErrors | undefined>(undefined)
+  messageError = filterMessageError(this.error)
+  formError = filterFormError(this.error)
 
   static loginSchema = z.object({
     rememberMe: z.boolean(),
@@ -19,16 +22,11 @@ export class LoginBloc extends Bloc {
   loginSubmit$ = new Subject<typeof LoginBloc.loginSchema._type>()
   login$ = this.loginSubmit$.pipe(
     switchMap((form) => {
-      this.error$.next(undefined)
+      this.error.next(undefined)
 
       return from(LoginBloc.loginSchema.parseAsync(form)).pipe(
         catchError((err) => {
-          if (err instanceof z.ZodError) {
-            err.format(zodFormat)
-            this.error$.next(err.formErrors.fieldErrors)
-          } else {
-            console.error(err)
-          }
+          this.error.next(err)
 
           return of(undefined)
         }),
@@ -40,18 +38,30 @@ export class LoginBloc extends Bloc {
           this.loginLoading$.next(true)
 
           return from(
-            new Promise((resolve) => {
-              setTimeout(resolve, 300)
+            api('/1/login', {
+              method: 'post',
+              json: form,
             }),
           ).pipe(
-            timeout(4000),
-            map((result) => {
-              goto('/panel/dashboard')
+            timeout(10000),
+            switchMap((response) => from(response.json())),
+            map((response: any) => {
+              di(AuthBloc).token.next(response.token)
 
               return 'با موفقیت وارد شدید'
             }),
             catchError((err) => {
-              console.error(err)
+              // goto('/panel/dashboard')
+              // return 'با موفقیت وارد شدید'
+              if (err instanceof HTTPError) {
+                if (err.response.status === 400) {
+                  this.error.next(new MessageError('نام کاربری یا رمزعبور اشتباه است'))
+                } else {
+                  this.error.next(makeError(err))
+                }
+              } else {
+                this.error.next(makeError(err))
+              }
 
               return of(undefined)
             }),

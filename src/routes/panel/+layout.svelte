@@ -9,6 +9,18 @@
   import { page } from '$app/stores'
   import Ripple from '/src/actions/ripple.action'
   import BottomBarItem from '../../components/BottomBarItem.svelte'
+  import { di } from '/src/di/di.default'
+  import { AuthBloc } from '/src/bloc/auth.bloc'
+  import { unDestroy } from '/src/helpers/svelte.helper'
+  import { goto } from '$app/navigation'
+
+  const isLoggedIn = di(AuthBloc).isLoggedIn$
+
+  unDestroy(isLoggedIn, (status) => {
+    if (!status) {
+      goto('/login')
+    }
+  })
 </script>
 
 <div class="pb-16">

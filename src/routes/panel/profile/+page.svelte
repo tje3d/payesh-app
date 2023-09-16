@@ -9,6 +9,7 @@
   import IconPassword from '~icons/heroicons/finger-print'
   import IconPower from '~icons/heroicons/power'
   import { goto } from '$app/navigation'
+  import { logout } from '/src/actions/logout.action'
 
   const themeBloc = get(ThemeBloc)
   const themeMode = themeBloc.mode$
@@ -70,7 +71,7 @@
       aria-pressed="false"
       tabindex="0"
       use:Ripple
-      on:click={() => goto('/login')}
+      use:logout
     >
       <div class="flex justify-between items-center text-sm h-8 text-rose-500">
         <div class="flex items-center">

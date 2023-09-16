@@ -1,4 +1,4 @@
-import { Observable, Subject, defer } from 'rxjs'
+import { Observable, Subject, defer, type Observer } from 'rxjs'
 import { take } from 'rxjs/operators'
 import { onDestroy, onMount } from 'svelte'
 
@@ -19,7 +19,10 @@ export const onDestroy$ = defer(() => {
 })
 
 // Unsubscribe on destroy
-export function unDestroy<T>(observable: Observable<T>, callback?: (input: T) => void) {
+export function unDestroy<T>(
+  observable: Observable<T>,
+  callback?: Partial<Observer<T>> | ((value: T) => void),
+) {
   const sub = observable.subscribe(callback)
 
   onDestroy(() => {

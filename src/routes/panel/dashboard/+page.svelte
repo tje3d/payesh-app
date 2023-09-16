@@ -1,12 +1,12 @@
 <script lang="ts">
+  import IconLeft from '~icons/heroicons/arrow-left'
+  import IconSync from '~icons/heroicons/arrow-path'
+  import IconDocs from '~icons/heroicons/clipboard-document'
+  import IconAdd from '~icons/heroicons/document-plus'
+  import IconUserPlus from '~icons/heroicons/user-plus'
   import Ripple from '/src/actions/ripple.action'
   import LightSwitch from '/src/components/light-switch.svelte'
   import MetaTitle from '/src/components/meta-title.svelte'
-  import IconLeft from '~icons/heroicons/arrow-left'
-  import IconAdd from '~icons/heroicons/document-plus'
-  import IconDocs from '~icons/heroicons/clipboard-document'
-  import IconUserPlus from '~icons/heroicons/user-plus'
-  import IconSync from '~icons/heroicons/arrow-path'
 </script>
 
 <MetaTitle titles="داشبورد" />

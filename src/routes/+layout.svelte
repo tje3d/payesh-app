@@ -7,6 +7,9 @@
   import { unDestroy } from '/src/helpers/svelte.helper'
 
   import '/src/assets/css/app.scss'
+  import { di } from '/src/di/di.default'
+  import { AuthBloc } from '/src/bloc/auth.bloc'
+  import init from '/src/loaders/init.loaders'
 
   unDestroy(onServiceWorkerControllerChange.pipe(take(1)), () => {
     console.log('🎉🎉 Application Updated Successful 🎉🎉')
@@ -21,6 +24,8 @@
       register.update()
     },
   )
+
+  init()
 </script>
 
 <slot />

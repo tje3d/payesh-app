@@ -16,6 +16,7 @@
   export let maxLength: number = 110
   export let password: boolean = false
   export let error: string | string[] | undefined = undefined
+  export let autocomplete: string | undefined
 
   let input: HTMLInputElement | HTMLTextAreaElement
   let isEmpty = true
@@ -49,6 +50,7 @@
       type="text"
       maxlength={maxLength}
       spellcheck={false}
+      {autocomplete}
       use:KeyboardEvents
       on:Enter
       use:FocusAction.default={focus}
@@ -87,7 +89,7 @@
 </div>
 
 {#if error}
-  <div class="font-bold text-xs text-red-500 mt-2" in:slide|local={{ duration: 150 }}>
+  <div class="text-xs text-red-500 mt-2" in:slide|local={{ duration: 150 }}>
     {Array.isArray(error) ? error[0] : error}
   </div>
 {/if}

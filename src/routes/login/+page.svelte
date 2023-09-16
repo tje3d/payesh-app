@@ -1,20 +1,23 @@
 <script lang="ts">
+  import { goto } from '$app/navigation'
   import { focusTrap } from '/src/actions/focusTrap.action'
   import Ripple from '/src/actions/ripple.action'
+  import { AuthBloc } from '/src/bloc/auth.bloc'
   import { LoginBloc } from '/src/bloc/login.bloc'
   import Spinner from '/src/components/Spinner.svelte'
   import WarningAlert from '/src/components/alerts/WarningAlert.svelte'
   import InputText from '/src/components/form/input-text.svelte'
   import LightSwitch from '/src/components/light-switch.svelte'
   import MetaTitle from '/src/components/meta-title.svelte'
-  import { get } from '/src/di/di.default'
+  import { di, get } from '/src/di/di.default'
   import { unDestroy } from '/src/helpers/svelte.helper'
 
   const bloc = get(LoginBloc)
+  const isLoggedIn = di(AuthBloc).isLoggedIn$
 
   const loading = bloc.loginLoading$
-  const messageError = bloc.error$
-  const errors = bloc.formError$
+  const messageError = bloc.messageError
+  const formError = bloc.formError
   const login = bloc.login$
 
   let form: typeof LoginBloc.loginSchema._type = {
@@ -32,14 +35,20 @@
   }
 
   unDestroy(login)
+
+  unDestroy(isLoggedIn, (login) => {
+    if (login) {
+      goto('/panel/dashboard')
+    }
+  })
 </script>
 
 <MetaTitle titles="ورود" />
 
-<div class="h-full mx-auto flex justify-center items-center" dir="rtl">
+<div class="h-full mx-auto flex justify-center items-center px-4 sm:px-0" dir="rtl">
   <div class="space-y-10 text-center flex flex-col items-center m-auto">
     <div
-      class="p-6 shadow-xl relative overflow-hidden bg-white dark:bg-[#30334e] rounded-lg min-w-[300px]"
+      class="p-6 shadow-xl relative overflow-hidden bg-white dark:bg-[#30334e] rounded-lg min-w-[300px] border dark:border-gray-700"
     >
       <header class="text-start">
         <div class="flex justify-between items-center pb-2">
@@ -59,9 +68,10 @@
           <div class="w-full">
             <InputText
               label="نام کاربری"
+              autocomplete="username"
               focus={true}
               bind:value={form.username}
-              error={$errors.username}
+              error={$formError.username}
               readonly={$loading}
             />
           </div>
@@ -69,9 +79,10 @@
           <div class="w-full">
             <InputText
               label="رمزعبور"
+              autocomplete="current-password"
               password={true}
               bind:value={form.password}
-              error={$errors.password}
+              error={$formError.password}
               readonly={$loading}
             />
           </div>
@@ -129,9 +140,10 @@
       </section>
     </div>
 
-    {#if typeof $messageError === 'string'}
-      <WarningAlert closable={false}>
-        <div slot="title">{$messageError}</div>
+    {#if $messageError}
+      <WarningAlert closable={true}>
+        <div slot="title">خطا</div>
+        <div>{$messageError}</div>
       </WarningAlert>
     {/if}
 
