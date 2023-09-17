@@ -1,13 +1,12 @@
 import { Ripple as Core } from '$lib/Ripple'
-import { ThemeBloc, type ThemeMode } from '/src/bloc/theme.bloc'
+import { ThemeBloc } from '/src/bloc/theme.bloc'
 import { get } from '/src/di/di.default'
 
 const rippleCore = new Core()
 
-export default function Ripple(node: HTMLElement, mode: ThemeMode | 'auto' = 'auto') {
+export default function Ripple(node: HTMLElement, mode: boolean | 'auto' = 'auto') {
   function onClick(this: HTMLElement, event: Event) {
-    const finalMode =
-      mode === 'auto' ? (get(ThemeBloc).mode$.getValue() === 'dark' ? 'light' : 'dark') : mode
+    const finalMode = mode === 'auto' ? (get(ThemeBloc).isDark.value ? 'light' : 'dark') : mode
 
     rippleCore.create(event, finalMode)
   }

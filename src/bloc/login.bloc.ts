@@ -1,11 +1,12 @@
 import { HTTPError } from 'ky'
-import { Subject, catchError, finalize, from, map, of, shareReplay, switchMap } from 'rxjs'
+import { Subject, catchError, finalize, from, map, of, switchMap } from 'rxjs'
 import z from 'zod'
 import { Bloc, SvelteSubject } from './bloc.default'
 import { AuthBloc } from '/src/bloc/auth.bloc'
 import { di } from '/src/di/di.default'
 import { api } from '/src/helpers/api.helper'
 import { filterFormError, filterMessageError, makeError } from '/src/helpers/error.helper'
+import { shareIt } from '/src/helpers/observable.helper'
 import { MessageError, type ApiErrors } from '/src/lib/Errors'
 
 export class LoginBloc extends Bloc {
@@ -69,6 +70,6 @@ export class LoginBloc extends Bloc {
         }),
       )
     }),
-    shareReplay({ refCount: true, bufferSize: 1 }),
+    shareIt(),
   )
 }

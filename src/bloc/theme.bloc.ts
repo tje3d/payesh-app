@@ -1,39 +1,59 @@
-import { map, startWith, type Subscription } from 'rxjs'
-import { Bloc, SvelteSubject } from './bloc.default'
+import { Observable, distinctUntilChanged, fromEvent, switchMap } from 'rxjs'
+import { Bloc, SvelteSubject } from '/src/bloc/bloc.default'
 
 export class ThemeBloc extends Bloc {
-  mode$ = new SvelteSubject<ThemeMode>('light')
-  ripple$ = this.mode$.pipe(
-    map((mode) => (mode === 'light' ? 'dark' : 'light')),
-    startWith('light' as ThemeMode),
+  isDark = new SvelteSubject<boolean>(false)
+
+  onPreferChange = fromEvent<MediaQueryListEvent>(
+    window.matchMedia('(prefers-color-scheme: dark)'),
+    'change',
   )
-  _themeSub?: Subscription
+
+  init: Observable<boolean>
 
   constructor() {
     super()
 
-    this._themeSub = this.mode$.subscribe((theme) => {
-      document.documentElement.className = theme
-    })
-  }
+    this.init = this._initBase.pipe(
+      switchMap(() => {
+        return new Observable<boolean>((observer) => {
+          // ─── Init ────────────────────────────
 
-  close(): void {
-    super.close()
+          this.isDark.next(localStorage.getItem('isDark') === 'true')
 
-    this._themeSub?.unsubscribe()
+          this.sub(this.isDark.pipe(distinctUntilChanged()), (isDark) => {
+            localStorage.setItem('isDark', isDark + '')
+
+            document.documentElement.className = isDark ? 'dark' : 'light'
+          })
+
+          this.sub(this.onPreferChange, (event) => {
+            if (event.matches) {
+              this.dark()
+            } else {
+              this.light()
+            }
+          })
+
+          !observer.closed && observer.next(true)
+
+          return () => {
+            // ...
+          }
+        })
+      }),
+    )
   }
 
   light() {
-    this.mode$.next('light')
+    this.isDark.next(false)
   }
 
   dark() {
-    this.mode$.next('dark')
+    this.isDark.next(true)
   }
 
   toggle() {
-    this.mode$.getValue() === 'light' ? this.dark() : this.light()
+    this.isDark.value ? this.light() : this.dark()
   }
 }
-
-export type ThemeMode = 'dark' | 'light'

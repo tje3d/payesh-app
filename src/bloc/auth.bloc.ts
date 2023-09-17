@@ -1,4 +1,4 @@
-import { combineLatest, distinctUntilChanged, map } from 'rxjs'
+import { Observable, combineLatest, distinctUntilChanged, map, switchMap } from 'rxjs'
 import { Bloc, SvelteSubject } from './bloc.default'
 import type AuthUser from '/src/entities/auth-user.entity'
 
@@ -31,6 +31,40 @@ export class AuthBloc extends Bloc {
       return '/panel'
     }),
   )
+
+  init: Observable<boolean>
+
+  constructor() {
+    super()
+
+    this.init = this._initBase.pipe(
+      switchMap(() => {
+        return new Observable<boolean>((observer) => {
+          // ─── Init ────────────────────────────
+
+          const token = localStorage.getItem('token') || null
+
+          if (token && typeof token === 'string') {
+            this.token.next(token)
+          }
+
+          this.sub(this.token, (token) => {
+            if (token) {
+              localStorage.setItem('token', token)
+            } else {
+              localStorage.removeItem('token')
+            }
+          })
+
+          !observer.closed && observer.next(true)
+
+          return () => {
+            // ...
+          }
+        })
+      }),
+    )
+  }
 
   logout() {
     if (typeof this.token.value === 'undefined') {

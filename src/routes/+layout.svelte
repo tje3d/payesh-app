@@ -7,7 +7,14 @@
   import { unDestroy } from '/src/helpers/svelte.helper'
 
   import '/src/assets/css/app.scss'
+  import { AuthBloc } from '/src/bloc/auth.bloc'
+  import { ThemeBloc } from '/src/bloc/theme.bloc'
+  import { di } from '/src/di/di.default'
   import init from '/src/loaders/init.loaders'
+
+  const blocs = [di(AuthBloc).init, di(ThemeBloc).init]
+
+  blocs.forEach((sub) => unDestroy(sub))
 
   unDestroy(onServiceWorkerControllerChange.pipe(take(1)), () => {
     console.log('🎉🎉 Application Updated Successful 🎉🎉')
