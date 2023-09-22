@@ -1,16 +1,54 @@
 <script lang="ts">
+  import { map, pairwise } from 'rxjs'
   import IconLeft from '~icons/heroicons/arrow-left'
-  import IconSync from '~icons/heroicons/arrow-path'
   import IconDocs from '~icons/heroicons/clipboard-document'
   import IconAdd from '~icons/heroicons/document-plus'
   import IconUserPlus from '~icons/heroicons/user-plus'
   import Ripple from '/src/actions/ripple.action'
+  import { AuthBloc } from '/src/bloc/auth.bloc'
+  import { OfflineReportBloc } from '/src/bloc/offline.report.bloc'
+  import { ToastBloc } from '/src/bloc/toast.bloc'
+  import Spinner from '/src/components/Spinner.svelte'
   import LightSwitch from '/src/components/light-switch.svelte'
   import MetaTitle from '/src/components/meta-title.svelte'
   import { di } from '/src/di/di.default'
-  import { AuthBloc } from '/src/bloc/auth.bloc'
+  import { isDeviceOnline } from '/src/helpers/observable.helper'
+  import { unDestroy } from '/src/helpers/svelte.helper'
 
   const displayName = di(AuthBloc).displayName
+  const offlineCount = di(OfflineReportBloc).count
+  const error = di(OfflineReportBloc).error
+  const flushLoading = di(OfflineReportBloc).flushLoading
+  const flushEnd = offlineCount.pipe(
+    pairwise(),
+    map(([prev, next]) => {
+      if (next === 0 && prev !== 0) {
+        return true
+      }
+
+      return false
+    }),
+  )
+
+  function flushOffline() {
+    if (!$isDeviceOnline || $flushLoading) {
+      return
+    }
+
+    di(OfflineReportBloc).flushSubmit.next(true)
+  }
+
+  unDestroy(flushEnd, (status) => {
+    if (status) {
+      di(ToastBloc).success('تمامی گزارشات ارسال و ثبت شدند')
+    }
+  })
+
+  unDestroy(error, (err) => {
+    if (err) {
+      di(ToastBloc).error(err)
+    }
+  })
 </script>
 
 <MetaTitle titles="داشبورد" />
@@ -65,6 +103,37 @@
 </div>
 
 <div class="relative px-6 pt-6 flex flex-col gap-4 pb-6">
+  {#if $offlineCount}
+    <div
+      class="btn gray bg-white text-black dark:text-white dark:bg-[#30334e] dark:text-white py-6 icon justify-between shadow-lg shadow-orange-500/10 flex-col"
+      role="button"
+      tabindex={0}
+      use:Ripple
+      on:click={flushOffline}
+    >
+      <!-- <div class="me-2"><IconSync class="w-6 h-6" /></div> -->
+      <div class="flex flex-col gap-2 flex-auto text-center">
+        <div class="text-lg text-teal-500">ارسال گزارشات آفلاین</div>
+        <div class="text-xs text-gray-400 font-normal">
+          جهت ارسال گزارشات ذخیره شده به سرور کلیک کنید
+        </div>
+      </div>
+
+      {#if !$flushLoading}
+        <div class="chip ghost orange">{$offlineCount} گزارش</div>
+      {:else}
+        <div class="chip ghost orange flex items-center gap-2">
+          <Spinner class="w-3 h-3 mx-auto" />
+          <span>در حال ارسال گزارشات به سرور...</span>
+        </div>
+      {/if}
+
+      {#if !$isDeviceOnline}
+        <div class="chip orange">دستگاه به شبکه متصل نمیباشد</div>
+      {/if}
+    </div>
+  {/if}
+
   <a
     class="btn gray bg-white text-black dark:text-white dark:bg-[#30334e] dark:text-white py-6 icon justify-between shadow-lg"
     href="/panel/report"
@@ -79,6 +148,8 @@
   </a>
   <div
     class="btn gray bg-white text-black dark:text-white dark:bg-[#30334e] dark:text-white py-6 icon justify-between shadow-lg"
+    role="button"
+    tabindex={0}
     use:Ripple
   >
     <div class="me-2"><IconDocs class="w-6 h-6" /></div>
@@ -90,6 +161,8 @@
   </div>
   <div
     class="btn gray bg-white text-black dark:text-white dark:bg-[#30334e] dark:text-white py-6 icon justify-between shadow-lg"
+    role="button"
+    tabindex={0}
     use:Ripple
   >
     <div class="me-2"><IconUserPlus class="w-6 h-6" /></div>
@@ -98,19 +171,6 @@
       <div class="text-xs text-gray-400 font-normal">ایجاد خادم جدید درصورت عدم وجود</div>
     </div>
     <IconLeft class="w-4 h-4" />
-  </div>
-  <div
-    class="btn gray bg-white text-black dark:text-white dark:bg-[#30334e] dark:text-white py-6 icon justify-between shadow-lg"
-    use:Ripple
-  >
-    <div class="me-2"><IconSync class="w-6 h-6" /></div>
-    <div class="flex flex-col gap-2 flex-auto">
-      <div>ارسال گزارشات آفلاین</div>
-      <div class="text-xs text-gray-400 font-normal">ارسال گزارشات ذخیره شده به سرور</div>
-    </div>
-
-    <div class="chip ghost orange">بدون گزارش</div>
-    <!-- <div class="chip ghost indigo">۱۰ گزارش</div> -->
   </div>
 </div>
 

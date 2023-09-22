@@ -1,7 +1,7 @@
 <script lang="ts">
   import IconMoon from '~icons/heroicons/moon'
   import IconSun from '~icons/heroicons/sun'
-  import Ripple from '/src/actions/Ripple.action'
+  import Ripple from '/src/actions/ripple.action'
   import { ThemeBloc } from '/src/bloc/theme.bloc'
   import { di } from '/src/di/di.default'
 

@@ -1,8 +1,9 @@
-import { defer, from, map, shareReplay, startWith, switchMap, tap } from 'rxjs'
+import { defer, from, map, startWith, switchMap, tap } from 'rxjs'
 import { Bloc } from './bloc.default'
 import type { IKhadem } from '/src/entities/khadem.entity'
 import { api } from '/src/helpers/api.helper'
 import { loadCacheJsonIfAny } from '/src/helpers/cache.helper'
+import { shareIt } from '/src/helpers/observable.helper'
 
 export class DataBloc extends Bloc {
   inspectItems = defer(() => {
@@ -21,7 +22,7 @@ export class DataBloc extends Bloc {
         localStorage.setItem('inspectItems', JSON.stringify(item))
       }
     }),
-    shareReplay({ bufferSize: 1, refCount: false }),
+    shareIt(),
   )
 
   organs = defer(() => {
@@ -49,7 +50,7 @@ export class DataBloc extends Bloc {
         localStorage.setItem('organs', JSON.stringify(item))
       }
     }),
-    shareReplay({ bufferSize: 1, refCount: false }),
+    shareIt(),
   )
 
   person = defer(() => {
@@ -68,6 +69,6 @@ export class DataBloc extends Bloc {
         localStorage.setItem('person', JSON.stringify(item))
       }
     }),
-    shareReplay({ bufferSize: 1, refCount: false }),
+    shareIt(),
   )
 }

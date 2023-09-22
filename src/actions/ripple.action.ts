@@ -4,9 +4,16 @@ import { get } from '/src/di/di.default'
 
 const rippleCore = new Core()
 
-export default function Ripple(node: HTMLElement, mode: boolean | 'auto' = 'auto') {
+export default function Ripple(node: HTMLElement, isDark: boolean | 'auto' = 'auto') {
   function onClick(this: HTMLElement, event: Event) {
-    const finalMode = mode === 'auto' ? (get(ThemeBloc).isDark.value ? 'light' : 'dark') : mode
+    const finalMode =
+      isDark === 'auto'
+        ? get(ThemeBloc).isDark.value
+          ? 'light'
+          : 'dark'
+        : isDark
+        ? 'dark'
+        : 'light'
 
     rippleCore.create(event, finalMode)
   }

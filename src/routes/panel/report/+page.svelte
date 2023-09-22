@@ -1,20 +1,25 @@
 <script lang="ts">
+  import dayjs from 'dayjs'
   import { fade } from 'svelte/transition'
   import IconArrowLeft from '~icons/heroicons/arrow-left'
   import IconArrowRight from '~icons/heroicons/arrow-right'
   import IconSearch from '~icons/heroicons/magnifying-glass'
   import Ripple from '/src/actions/ripple.action'
+  import { DataBloc } from '/src/bloc/data.bloc'
+  import { OfflineReportBloc } from '/src/bloc/offline.report.bloc'
   import { ReportBloc } from '/src/bloc/report.bloc'
+  import { ToastBloc } from '/src/bloc/toast.bloc'
   import Checkbox from '/src/components/form/checkbox.svelte'
   import InputText from '/src/components/form/input-text.svelte'
   import Selectdown from '/src/components/form/selectdown.svelte'
   import { di, get } from '/src/di/di.default'
-  import { DataBloc } from '/src/bloc/data.bloc'
+  import { isDeviceOnline } from '/src/helpers/observable.helper'
+  import { unDestroy } from '/src/helpers/svelte.helper'
+  import Spinner from '/src/components/Spinner.svelte'
 
   const bloc = get(ReportBloc)
   const dataBloc = di(DataBloc)
 
-  const step = bloc.step$
   const organs = dataBloc.organs
   const management = bloc.management
   const office = bloc.office
@@ -25,8 +30,10 @@
   const persons = bloc.persons
   const canSelectPerson = bloc.canSelectPerson
   const inspectItems = dataBloc.inspectItems
-  const selectedOptions = bloc.selectedOptions$
-  const hasSelectedOptions = bloc.hasSelectedOptions$
+  const selectedOptions = bloc.selectedOptions
+  const hasSelectedOptions = bloc.hasSelectedOptions
+  const send = bloc.send
+  const sendLoading = bloc.sendLoading
 
   let optionsIndexChecked: { [key: number]: boolean } = {}
 
@@ -56,9 +63,62 @@
       return
     }
 
-    selectedPerson.next(undefined)
+    bloc.resetForNewReport()
     optionsIndexChecked = {}
   }
+
+  function buildInspectReport() {
+    if (!$management || !$office || !$post || !$selectedPerson) {
+      return
+    }
+
+    const time = dayjs().calendar('gregory').format('YYYY-MM-DD HH:mm')
+
+    return {
+      organ_management: +$management,
+      organ_office: +$office,
+      organ_post: +$post,
+      person: $selectedPerson.id,
+      time,
+    }
+  }
+
+  function onSubmit() {
+    const report = buildInspectReport()
+
+    if (!report) {
+      return
+    }
+
+    bloc.sendSubmit.next(report)
+  }
+
+  function storeOffline() {
+    const report = buildInspectReport()
+
+    if (!report) {
+      return
+    }
+
+    di(OfflineReportBloc).add.next(report)
+
+    di(ToastBloc).success('گزارش ذخیره شد')
+
+    bloc.resetForNewReport()
+    optionsIndexChecked = {}
+  }
+
+  unDestroy(send, (result) => {
+    if (result) {
+      di(ToastBloc).success(result)
+    }
+  })
+
+  unDestroy(bloc.error, (e) => {
+    if (e) {
+      di(ToastBloc).error(e.message)
+    }
+  })
 </script>
 
 {#if typeof $selectedPerson === 'undefined'}
@@ -174,6 +234,7 @@
                 on:change={onOptionChanges}
                 bind:checked={optionsIndexChecked[option.id]}
                 value={option.id}
+                disabled={$sendLoading}
               />
             </div>
           </label>
@@ -191,13 +252,30 @@
       </div>
     {:else}
       <div class="mt-6 px-4 flex items-center justify-between" in:fade|local>
-        <button type="button" class="btn indigo ghost opacity-50">
+        <button
+          type="button"
+          class="btn indigo"
+          class:ghost={$isDeviceOnline}
+          class:opacity-50={$isDeviceOnline}
+          on:click|preventDefault={storeOffline}
+        >
           <span> ذخیره برای ارسال آفلاین </span>
         </button>
 
-        <button type="button" class="btn indigo icon shrink-0">
+        <button
+          type="button"
+          class="btn indigo icon shrink-0"
+          class:loading={$sendLoading}
+          on:click|preventDefault={onSubmit}
+          disabled={!$isDeviceOnline}
+        >
           <span>ارسال اطلاعات</span>
-          <IconArrowLeft class="w-4 h-4" />
+
+          {#if $sendLoading}
+            <Spinner class="w-4 h-4 mx-auto" />
+          {:else}
+            <IconArrowLeft class="w-4 h-4" />
+          {/if}
         </button>
       </div>
     {/if}

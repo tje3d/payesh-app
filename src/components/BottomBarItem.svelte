@@ -1,10 +1,5 @@
 <script lang="ts">
-  import IconHomeSolid from '~icons/heroicons/home-solid'
-  import IconPlus from '~icons/heroicons/plus-circle'
-  import IconUser from '~icons/heroicons/user'
-  import LightSwitch from '/src/components/light-switch.svelte'
   import { page } from '$app/stores'
-  import Ripple from '/src/actions/ripple.action'
 
   export let href: string
   export let text: string

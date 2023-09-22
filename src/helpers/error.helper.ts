@@ -30,7 +30,7 @@ export function makeError(err: any) {
     }
 
     if (err.response.status >= 500) {
-      throw new ServerError('خطای سروری رخداده است', err.response.status)
+      return new ServerError('خطای سروری رخداده است', err.response.status)
     }
   }
 

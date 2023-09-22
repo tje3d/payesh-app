@@ -17,11 +17,11 @@
       متأسفیم، ما نتوانستیم صفحه مورد نظر شما را پیدا کنیم.
     </p>
     <div class="mt-10 flex items-center flex-col md:flex-row justify-center gap-x-2 gap-y-4">
-      <a href="#" class="btn indigo ghost icon" use:Ripple={'light'} on:click|preventDefault={back}>
+      <a href="#" class="btn indigo ghost icon" use:Ripple on:click|preventDefault={back}>
         <IconArrow class="w-4 h-4" />
         <span>بازگشت به صفحه قبل</span>
       </a>
-      <a href="/login" class="btn indigo" use:Ripple={'light'}>
+      <a href="/login" class="btn indigo" use:Ripple>
         <span>بازگشت به صفحه نخست </span>
       </a>
     </div>

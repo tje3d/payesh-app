@@ -1,25 +1,24 @@
 <script lang="ts">
   import IconCamera from '~icons/heroicons/camera'
-  import Ripple from '/src/actions/ripple.action'
-  import Switch from '/src/components/form/switch.svelte'
-  import { ThemeBloc } from '/src/bloc/theme.bloc'
-  import { di, get } from '/src/di/di.default'
   import IconLeft from '~icons/heroicons/chevron-left'
-  import IconMoon from '~icons/heroicons/moon'
   import IconPassword from '~icons/heroicons/finger-print'
+  import IconMoon from '~icons/heroicons/moon'
   import IconPower from '~icons/heroicons/power'
-  import { goto } from '$app/navigation'
   import { logout } from '/src/actions/logout.action'
+  import Ripple from '/src/actions/ripple.action'
   import { AuthBloc } from '/src/bloc/auth.bloc'
+  import { ThemeBloc } from '/src/bloc/theme.bloc'
+  import Switch from '/src/components/form/switch.svelte'
+  import { di, get } from '/src/di/di.default'
 
   const themeBloc = get(ThemeBloc)
-  const themeMode = themeBloc.mode$
+  const isDark = themeBloc.isDark
   const displayName = di(AuthBloc).displayName
 
-  let darkMode: boolean = $themeMode === 'dark'
+  let darkMode: boolean = $isDark
 
   function toggleTheme() {
-    themeBloc.mode$.next(darkMode ? 'dark' : 'light')
+    themeBloc.isDark.next(darkMode)
   }
 </script>
 

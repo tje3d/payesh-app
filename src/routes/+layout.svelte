@@ -11,8 +11,10 @@
   import { ThemeBloc } from '/src/bloc/theme.bloc'
   import { di } from '/src/di/di.default'
   import init from '/src/loaders/init.loaders'
+  import { OfflineReportBloc } from '/src/bloc/offline.report.bloc'
+  import ToastPrinter from '/src/components/ToastPrinter.svelte'
 
-  const blocs = [di(AuthBloc).init, di(ThemeBloc).init]
+  const blocs = [di(AuthBloc).init, di(ThemeBloc).init, di(OfflineReportBloc).init]
 
   blocs.forEach((sub) => unDestroy(sub))
 
@@ -32,5 +34,7 @@
 
   init()
 </script>
+
+<ToastPrinter />
 
 <slot />
