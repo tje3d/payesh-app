@@ -51,8 +51,6 @@ export class ReportBloc extends Bloc {
           ).pipe(
             switchMap((response) => from(response.json())),
             map((response: any) => {
-              this.step.next(0)
-
               return 'گزارش با موفقیت ثبت شد'
             }),
             catchError((err) => {

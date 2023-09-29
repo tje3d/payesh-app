@@ -56,8 +56,7 @@
   function back() {
     step.next(0)
     // bloc.resetForNewReport()
-    selectedOptions.next([])
-    optionsIndexChecked = {}
+    resetSelectedOptions()
   }
 
   function buildInspectReport() {
@@ -98,8 +97,7 @@
 
     di(ToastBloc).success('گزارش ذخیره شد')
 
-    selectedOptions.next([])
-    optionsIndexChecked = {}
+    resetSelectedOptions()
     step.next(0)
   }
 
@@ -109,12 +107,20 @@
     // step.next(1)
   }
 
+  function resetSelectedOptions() {
+    selectedOptions.next([])
+    optionsIndexChecked = {}
+  }
+
   onDestroy(() => {
     bloc.error.next(undefined)
   })
 
   unDestroy(send, (result) => {
     if (result) {
+      resetSelectedOptions()
+      step.next(0)
+
       di(ToastBloc).success(result)
     }
   })
