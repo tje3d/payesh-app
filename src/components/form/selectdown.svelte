@@ -1,7 +1,7 @@
 <script lang="ts">
   import { animationFrames, distinctUntilChanged, filter, map, switchMap, take, tap } from 'rxjs'
   import { createFloatingActions } from 'svelte-floating-ui'
-  import { flip, shift } from 'svelte-floating-ui/dom'
+  import { shift } from 'svelte-floating-ui/dom'
   import { scale } from 'svelte/transition'
   import IconChevDown from '~icons/heroicons/chevron-down'
   import IconSearch from '~icons/heroicons/magnifying-glass'
@@ -27,7 +27,7 @@
   const [eleRef, eleContent] = createFloatingActions({
     strategy: 'absolute',
     placement: 'bottom',
-    middleware: [flip(), shift()],
+    middleware: [shift()],
   })
 
   const searchText = new SvelteSubject<string | undefined>(undefined)
