@@ -1,18 +1,18 @@
 <script lang="ts">
+  import '/src/assets/css/app.scss'
+
   import { map, switchMap, take, timer } from 'rxjs'
+  import { AuthBloc } from '/src/bloc/auth.bloc'
+  import { OfflineReportBloc } from '/src/bloc/offline.report.bloc'
+  import { ThemeBloc } from '/src/bloc/theme.bloc'
+  import ToastPrinter from '/src/components/ToastPrinter.svelte'
+  import { di } from '/src/di/di.default'
   import {
     onServiceWorkerControllerChange,
     serviceWorkerRegistration,
   } from '/src/helpers/observable.helper'
   import { unDestroy } from '/src/helpers/svelte.helper'
-
-  import '/src/assets/css/app.scss'
-  import { AuthBloc } from '/src/bloc/auth.bloc'
-  import { ThemeBloc } from '/src/bloc/theme.bloc'
-  import { di } from '/src/di/di.default'
   import init from '/src/loaders/init.loaders'
-  import { OfflineReportBloc } from '/src/bloc/offline.report.bloc'
-  import ToastPrinter from '/src/components/ToastPrinter.svelte'
 
   const blocs = [di(AuthBloc).init, di(ThemeBloc).init, di(OfflineReportBloc).init]
 

@@ -1,21 +1,24 @@
 <script lang="ts">
   import dayjs from 'dayjs'
+  import { onMount } from 'svelte'
   import { fade } from 'svelte/transition'
   import IconArrowLeft from '~icons/heroicons/arrow-left'
   import IconArrowRight from '~icons/heroicons/arrow-right'
   import IconSearch from '~icons/heroicons/magnifying-glass'
+  import { focusTrap } from '/src/actions/focusTrap.action'
   import Ripple from '/src/actions/ripple.action'
   import { DataBloc } from '/src/bloc/data.bloc'
   import { OfflineReportBloc } from '/src/bloc/offline.report.bloc'
   import { ReportBloc } from '/src/bloc/report.bloc'
   import { ToastBloc } from '/src/bloc/toast.bloc'
+  import Spinner from '/src/components/Spinner.svelte'
   import Checkbox from '/src/components/form/checkbox.svelte'
   import InputText from '/src/components/form/input-text.svelte'
   import Selectdown from '/src/components/form/selectdown.svelte'
   import { di, get } from '/src/di/di.default'
+  import { addHash } from '/src/helpers/location.helper'
   import { isDeviceOnline } from '/src/helpers/observable.helper'
   import { unDestroy } from '/src/helpers/svelte.helper'
-  import Spinner from '/src/components/Spinner.svelte'
 
   const bloc = get(ReportBloc)
   const dataBloc = di(DataBloc)
@@ -108,6 +111,15 @@
     optionsIndexChecked = {}
   }
 
+  function addPerson() {
+    addHash('newPerson')
+    personsSearch.next(undefined)
+  }
+
+  onMount(() => {
+    personsSearch.next(undefined)
+  })
+
   unDestroy(send, (result) => {
     if (result) {
       di(ToastBloc).success(result)
@@ -122,11 +134,13 @@
 </script>
 
 {#if typeof $selectedPerson === 'undefined'}
-  <div class="flex flex-col gap-8 py-8">
+  <div class="flex flex-col gap-8 py-8" use:focusTrap>
     <div>
       <div class="px-4 mb-4 font-bold text-sm">اطلاعات سازمانی</div>
 
-      <div class="mx-4 bg-white dark:bg-[#30334e] shadow-sm rounded-lg p-4 flex flex-col gap-4">
+      <div
+        class="mx-4 bg-light-surface-2 dark:bg-dark-surface-2 shadow-md rounded-lg p-4 flex flex-col gap-4"
+      >
         <Selectdown
           bind:value={$management}
           label="انتخاب مدیریت"
@@ -152,7 +166,7 @@
       <div class:opacity-50={!$canSelectPerson} class:pointer-events-none={!$canSelectPerson}>
         <div class="px-4 mb-4 font-bold text-sm">انتخاب خادم</div>
 
-        <div class="mx-4 bg-white dark:bg-[#30334e] shadow-sm rounded-lg p-4">
+        <div class="mx-4 bg-light-surface-2 dark:bg-dark-surface-2 shadow-sm rounded-lg p-4">
           <InputText
             label="نام و نام خانوادگی یا کدخدمتی..."
             class="pe-12"
@@ -168,7 +182,9 @@
 
         {#if $persons.length === 0 && !$personsLoading}
           <div class="mx-4 mt-4">
-            <button type="button" class="btn indigo w-full">ثبت خادم جدید</button>
+            <button type="button" class="btn indigo w-full" on:click={addPerson}>
+              ثبت خادم جدید
+            </button>
           </div>
         {/if}
 
@@ -224,7 +240,7 @@
       {#if $inspectItems}
         {#each $inspectItems as option (option.id)}
           <label
-            class="btn font-normal text-sm rounded-lg cursor-pointer bg-white dark:bg-[#30334e] shadow-lg icon justify-between pe-2"
+            class="btn font-normal text-sm rounded-lg cursor-pointer bg-light-surface-2 dark:bg-dark-surface-2 shadow-lg icon justify-between pe-2"
             use:Ripple
           >
             <div>{option.title}</div>

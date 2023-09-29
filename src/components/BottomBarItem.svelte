@@ -9,7 +9,7 @@
 
 <a
   {href}
-  class="flex flex-col gap-1 items-center justify-center h-16 w-20"
+  class="flex flex-col gap-2 items-center justify-center h-20 w-20"
   class:text-gray-500={$page.route.id !== href}
   class:text-teal-600={$page.route.id === href}
 >

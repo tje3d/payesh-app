@@ -8,28 +8,20 @@ body {
 body {
   text-rendering: optimizeSpeed;
   font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  @apply select-none;
 }
 
 html.dark {
   color-scheme: dark;
 }
 
-html.dark,
-html.dark body,
-html.dark .body-bg {
-  background-color: #282a42;
-  color: #ececec;
-}
-
 html.light {
   color-scheme: light;
 }
 
-html.light,
-html.light body,
-html.light .body-bg {
-  background-color: #f7f7f9;
-  color: #222222;
+body {
+  @apply bg-light-surface dark:bg-dark-surface text-light-surface-text dark:text-dark-surface-text;
 }
 
 img {
@@ -47,4 +39,12 @@ input[type='password'] {
 
 .hide-border-t-notempty:not(:placeholder-shown) {
   @apply border-t-transparent;
+}
+
+button,
+textarea,
+input,
+select,
+a {
+  -webkit-tap-highlight-color: transparent;
 }

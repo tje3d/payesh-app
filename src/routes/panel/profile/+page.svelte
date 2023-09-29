@@ -40,7 +40,10 @@
   </div>
 
   <div class="mx-4 mt-8 flex flex-col gap-4">
-    <label class="block w-full bg-white dark:bg-[#30334e] rounded-lg p-4" use:Ripple>
+    <label
+      class="block w-full bg-light-surface-2 dark:bg-dark-surface-2 rounded-lg p-4 shadow-md"
+      use:Ripple
+    >
       <div class="flex justify-between items-center text-sm h-8">
         <div class="flex items-center">
           <div class="w-8"><IconMoon class="w-5 h-5" /></div>
@@ -51,7 +54,7 @@
     </label>
 
     <div
-      class="bg-white dark:bg-[#30334e] rounded-lg p-4"
+      class="bg-light-surface-2 dark:bg-dark-surface-2 rounded-lg p-4 shadow-md"
       role="button"
       aria-pressed="false"
       tabindex="0"
@@ -67,7 +70,7 @@
     </div>
 
     <div
-      class="bg-white dark:bg-[#30334e] rounded-lg p-4"
+      class="bg-light-surface-2 dark:bg-dark-surface-2 rounded-lg p-4 shadow-md"
       role="button"
       aria-pressed="false"
       tabindex="0"

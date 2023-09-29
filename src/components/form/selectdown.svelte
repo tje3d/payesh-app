@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { map, tap } from 'rxjs'
+  import { animationFrames, distinctUntilChanged, filter, map, switchMap, take, tap } from 'rxjs'
   import { createFloatingActions } from 'svelte-floating-ui'
   import { flip, shift } from 'svelte-floating-ui/dom'
   import { scale } from 'svelte/transition'
@@ -36,12 +36,11 @@
   const isEmpty = selectedTitle.pipe(map((val) => typeof val === 'undefined'))
 
   let ele: HTMLDivElement | undefined
-  let nativeSelect: HTMLSelectElement | undefined
+  let selectedIndex: undefined | number = undefined
+  let optionsContainer: HTMLDivElement | undefined
 
   function onFocus() {
     isFocus.next(true)
-
-    !disabled && showDropdown.next(true)
   }
 
   function onBlur() {
@@ -52,29 +51,28 @@
     showDropdown.next(false)
   }
 
-  function onSelect(opt: Option | number) {
+  function onSelect(index: number) {
     ele && ele.focus()
 
-    if (typeof opt === 'number') {
-      if (!options[opt]) {
-        return
-      }
-
-      opt = options[opt]
+    if (!options[index]) {
+      return
     }
 
-    selected.next(opt.value)
+    selected.next(options[index].value)
+    selectedIndex = index
     showDropdown.next(false)
   }
 
   function onArrowDown() {
     !disabled && showDropdown.next(true)
     hoverNextIndex()
+    goToHoverIndex()
   }
 
   function onArrowUp() {
     !disabled && showDropdown.next(true)
     hoverPrevIndex()
+    goToHoverIndex()
   }
 
   function hoverNextIndex() {
@@ -94,8 +92,35 @@
     hoverIndex.next(prev < 0 ? options.length - 1 : prev)
   }
 
+  function onEnter() {
+    if (!$showDropdown) {
+      showDropdown.next(true)
+      return
+    }
+
+    onSelect($hoverIndex)
+  }
+
+  function goToHoverIndex() {
+    if ($hoverIndex === -1 || !optionsContainer) {
+      return
+    }
+
+    const target = optionsContainer.querySelectorAll('div')[$hoverIndex]
+
+    if (target) {
+      if ('scrollIntoViewIfNeeded' in target) {
+        // @ts-ignore
+        target.scrollIntoViewIfNeeded()
+      } else {
+        target.scrollIntoView()
+      }
+    }
+  }
+
   unDestroy(
     showDropdown.pipe(
+      distinctUntilChanged(),
       tap((status) => {
         if (!status) {
           hoverIndex.next(-1)
@@ -105,6 +130,25 @@
   )
 
   unDestroy(selected, (item) => (value = item))
+
+  // Scroll to hover index or selected index
+  unDestroy(
+    showDropdown.pipe(
+      distinctUntilChanged(),
+      filter((status) => !!status),
+      switchMap(() => animationFrames().pipe(take(1))),
+    ),
+    () => {
+      if (optionsContainer && $selected) {
+        const idx = options.findIndex((item) => item.value === $selected)
+
+        if (idx !== -1) {
+          hoverIndex.next(idx)
+          goToHoverIndex()
+        }
+      }
+    },
+  )
 </script>
 
 <div class="relative" use:clickOutside={onClickOutSide}>
@@ -112,7 +156,7 @@
     <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
     <!-- svelte-ignore a11y-no-static-element-interactions -->
     <div
-      class={`h-full w-full rounded-[7px] border border-blue-gray-200 bg-transparent px-3 py-2.5 text-sm font-normal text-blue-gray-700 dark:text-blue-gray-200 outline outline-0 transition-all focus:border-2 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-0 flex items-center cursor-pointer ${
+      class={`selectdown h-full w-full rounded-[7px] border border-blue-gray-200 bg-transparent px-3 py-2.5 text-sm font-normal text-blue-gray-700 dark:text-blue-gray-200 outline outline-0 transition-all focus:border-2 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-0 flex items-center cursor-pointer ${
         $isEmpty
           ? 'border border-blue-gray-200 border-t-blue-gray-200 dark:border-gray-600 dark:border-t-gray-600'
           : 'border-t-transparent focus:border-t-transparent dark:focus:border-t-transparent'
@@ -127,7 +171,7 @@
       on:Space={() => !disabled && showDropdown.next(true)}
       on:Escape={() => showDropdown.next(false)}
       on:click={() => !disabled && showDropdown.next(true)}
-      on:Enter={() => onSelect($hoverIndex)}
+      on:Enter={onEnter}
       on:Tab={() => showDropdown.next(false)}
       on:ArrowDown={onArrowDown}
       on:ArrowUp={onArrowUp}
@@ -167,19 +211,21 @@
       class="absolute right-0 z-20 w-full py-2 mt-2 origin-top bg-white dark:bg-[#30334e] rounded-md shadow-[rgba(0,_0,_0,_0.25)_0px_25px_50px_-12px] max-h-[300px] overflow-auto"
       use:eleContent
       transition:scale|local={{ duration: 150, start: 0.9 }}
+      bind:this={optionsContainer}
     >
       {#each options as opt, i (opt.value)}
-        <button
+        <div
           class={`w-full text-start px-4 py-3 text-sm text-gray-600 capitalize transition-colors duration-300 transform dark:text-gray-300 ${
             $selected === opt.value ? 'bg-indigo-500/10 dark:bg-indigo-500/20' : ''
           } ${$hoverIndex === i ? 'bg-black/5 dark:bg-white/5' : ''}`}
-          on:click={() => onSelect(opt)}
+          on:click={() => onSelect(i)}
           on:pointerover={() => hoverIndex.next(i)}
+          role="button"
           tabindex="-1"
           use:Ripple
         >
           {opt.title}
-        </button>
+        </div>
       {/each}
     </div>
   {/if}

@@ -12,6 +12,7 @@
   import LightSwitch from '/src/components/light-switch.svelte'
   import MetaTitle from '/src/components/meta-title.svelte'
   import { di } from '/src/di/di.default'
+  import { addHash } from '/src/helpers/location.helper'
   import { isDeviceOnline } from '/src/helpers/observable.helper'
   import { unDestroy } from '/src/helpers/svelte.helper'
 
@@ -83,26 +84,28 @@
     </div>
   </div>
 
-  <div class="body-bg w-full h-10 rounded-t-xl absolute left-0 right-0 bottom-0 -mb-7" />
+  <div
+    class="bg-light-surface dark:bg-dark-surface w-full h-10 rounded-t-xl absolute left-0 right-0 bottom-0 -mb-7"
+  />
 </div>
 
 <div class="relative z-10 h-20 -mt-10 flex gap-4 px-6">
   <div
-    class="h-20 bg-white dark:bg-[#2f314c] rounded-lg flex-auto flex flex-col items-center justify-center gap-1 shadow-lg"
+    class="h-20 bg-light-surface-2 dark:bg-dark-surface-2 rounded-lg flex-auto flex flex-col items-center justify-center gap-1 shadow-lg"
   >
     <div class="font-bold text-xl text-teal-500">۳</div>
     <div class="text-xs text-gray-500 dark:text-gray-400">گزارشات امروز</div>
   </div>
 
   <div
-    class="h-20 bg-white dark:bg-[#2f314c] rounded-lg flex-auto flex flex-col items-center justify-center gap-1 shadow-lg"
+    class="h-20 bg-light-surface-2 dark:bg-dark-surface-2 rounded-lg flex-auto flex flex-col items-center justify-center gap-1 shadow-lg"
   >
     <div class="font-bold text-xl text-teal-500">۲۳۰</div>
     <div class="text-xs text-gray-500 dark:text-gray-400">کل گزارشات</div>
   </div>
 </div>
 
-<div class="relative px-6 pt-6 flex flex-col gap-4 pb-6">
+<div class="relative px-6 pt-4 flex flex-col gap-4 pb-6">
   {#if $offlineCount}
     <div
       class="btn gray bg-white text-black dark:text-white dark:bg-[#30334e] dark:text-white py-6 icon justify-between shadow-lg shadow-orange-500/10 flex-col"
@@ -135,7 +138,7 @@
   {/if}
 
   <a
-    class="btn gray bg-white text-black dark:text-white dark:bg-[#30334e] dark:text-white py-6 icon justify-between shadow-lg"
+    class="btn gray bg-light-surface-2 dark:bg-dark-surface-2 py-6 icon justify-between shadow-lg"
     href="/panel/report"
     use:Ripple
   >
@@ -147,7 +150,7 @@
     <IconLeft class="w-4 h-4" />
   </a>
   <div
-    class="btn gray bg-white text-black dark:text-white dark:bg-[#30334e] dark:text-white py-6 icon justify-between shadow-lg"
+    class="btn gray bg-light-surface-2 dark:bg-dark-surface-2 py-6 icon justify-between shadow-lg"
     role="button"
     tabindex={0}
     use:Ripple
@@ -160,22 +163,17 @@
     <IconLeft class="w-4 h-4" />
   </div>
   <div
-    class="btn gray bg-white text-black dark:text-white dark:bg-[#30334e] dark:text-white py-6 icon justify-between shadow-lg"
+    class="btn gray bg-light-surface-2 dark:bg-dark-surface-2 py-6 icon justify-between shadow-lg"
     role="button"
     tabindex={0}
+    on:click={() => addHash('newPerson')}
     use:Ripple
   >
     <div class="me-2"><IconUserPlus class="w-6 h-6" /></div>
     <div class="flex flex-col gap-2 flex-auto">
-      <div>ثبت خادم جدید</div>
+      <div>ثبت اطلاعات خادم جدید</div>
       <div class="text-xs text-gray-400 font-normal">ایجاد خادم جدید درصورت عدم وجود</div>
     </div>
     <IconLeft class="w-4 h-4" />
   </div>
 </div>
-
-<!-- <div class="grid gap-6 p-4">
-  <div class="btn indigo py-4 text-base">ثبت گزارش</div>
-  <div class="btn indigo py-4 text-base">گزارشات اخیر من</div>
-  <div class="btn indigo py-4 text-base">گزارش آفلاین</div>
-</div> -->
