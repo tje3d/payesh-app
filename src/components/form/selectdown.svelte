@@ -4,7 +4,10 @@
   import { flip, shift } from 'svelte-floating-ui/dom'
   import { scale } from 'svelte/transition'
   import IconChevDown from '~icons/heroicons/chevron-down'
+  import IconSearch from '~icons/heroicons/magnifying-glass'
+  import IconXMark from '~icons/heroicons/x-mark'
   import { clickOutside } from '/src/actions/click-outside.action'
+  import focus from '/src/actions/focus.action'
   import KeyboardEvents from '/src/actions/keyboard-events.action'
   import Ripple from '/src/actions/ripple.action'
   import { SvelteSubject } from '/src/bloc/bloc.default'
@@ -14,6 +17,7 @@
   export let options: Option[] = []
   export let label: string
   export let disabled: boolean = false
+  export let enableSearch: boolean | undefined = undefined
 
   interface Option {
     value: string | number | boolean
@@ -26,6 +30,7 @@
     middleware: [flip(), shift()],
   })
 
+  const searchText = new SvelteSubject<string | undefined>(undefined)
   const isFocus = new SvelteSubject<boolean>(false)
   const selected = new SvelteSubject<string | number | boolean | undefined>(value)
   const showDropdown = new SvelteSubject<boolean>(false)
@@ -34,10 +39,28 @@
   )
   const hoverIndex = new SvelteSubject<number>(-1)
   const isEmpty = selectedTitle.pipe(map((val) => typeof val === 'undefined'))
+  const filteredOptions = searchText.pipe(
+    map((search) => {
+      if (!search) {
+        return options
+      }
+
+      const regex = new RegExp(search, 'g')
+
+      return options.filter((item) => {
+        return regex.test(item.title) || (typeof item.value === 'string' && regex.test(item.value))
+      })
+    }),
+  )
 
   let ele: HTMLDivElement | undefined
   let selectedIndex: undefined | number = undefined
   let optionsContainer: HTMLDivElement | undefined
+  let hasSearch = enableSearch
+
+  $: {
+    hasSearch = enableSearch || (typeof enableSearch === 'undefined' && options.length >= 5)
+  }
 
   function onFocus() {
     isFocus.next(true)
@@ -116,6 +139,10 @@
         target.scrollIntoView()
       }
     }
+  }
+
+  function clearSearch() {
+    searchText.next(undefined)
   }
 
   unDestroy(
@@ -208,25 +235,64 @@
 
   {#if !disabled && $showDropdown}
     <div
-      class="absolute right-0 z-20 w-full py-2 mt-2 origin-top bg-white dark:bg-[#30334e] rounded-md shadow-[rgba(0,_0,_0,_0.25)_0px_25px_50px_-12px] max-h-[300px] overflow-auto"
+      class="absolute right-0 z-20 w-full pb-2 mt-2 origin-top bg-white dark:bg-[#30334e] rounded-md shadow-[rgba(0,_0,_0,_0.25)_0px_25px_50px_-12px]"
+      class:pt-14={hasSearch}
+      class:pt-2={!hasSearch}
       use:eleContent
       transition:scale|local={{ duration: 150, start: 0.9 }}
       bind:this={optionsContainer}
     >
-      {#each options as opt, i (opt.value)}
-        <div
-          class={`w-full text-start px-4 py-3 text-sm text-gray-600 capitalize transition-colors duration-300 transform dark:text-gray-300 ${
-            $selected === opt.value ? 'bg-indigo-500/10 dark:bg-indigo-500/20' : ''
-          } ${$hoverIndex === i ? 'bg-black/5 dark:bg-white/5' : ''}`}
-          on:click={() => onSelect(i)}
-          on:pointerover={() => hoverIndex.next(i)}
-          role="button"
-          tabindex="-1"
-          use:Ripple
-        >
-          {opt.title}
+      <!-- Search -->
+      {#if hasSearch}
+        <div class="px-2 h-12 overflow-hidden absolute top-2 right-0 left-0">
+          <div class="flex items-center bg-gray-100 dark:bg-white/10 rounded-full px-4">
+            <div
+              class="swap swap-rotate"
+              on:click={clearSearch}
+              class:pointer-events-none={!$searchText}
+              tabindex="-1"
+              role="button"
+            >
+              <input type="checkbox" checked={!!$searchText} />
+
+              <IconSearch class="swap-off w-5 h-5" />
+
+              <IconXMark class="swap-on w-5 h-5" />
+            </div>
+            <div class="flex-auto">
+              <input
+                type="text"
+                class="w-full bg-transparent py-3 outline-none ps-2 pe-1 text-sm"
+                placeholder="جستجو"
+                maxlength={150}
+                spellcheck={false}
+                bind:value={$searchText}
+                use:KeyboardEvents
+                on:Escape={clearSearch}
+                use:focus
+              />
+            </div>
+          </div>
         </div>
-      {/each}
+      {/if}
+      <!-- Search -->
+
+      <div class="max-h-[300px] overflow-auto">
+        {#each $filteredOptions as opt, i (opt.value)}
+          <div
+            class={`w-full text-start px-4 py-3 text-sm text-gray-600 capitalize transition-colors duration-300 transform dark:text-gray-300 ${
+              $selected === opt.value ? 'bg-indigo-500/10 dark:bg-indigo-500/20' : ''
+            } ${$hoverIndex === i ? 'bg-black/5 dark:bg-white/5' : ''}`}
+            on:click={() => onSelect(i)}
+            on:pointerover={() => hoverIndex.next(i)}
+            role="button"
+            tabindex="-1"
+            use:Ripple
+          >
+            {opt.title}
+          </div>
+        {/each}
+      </div>
     </div>
   {/if}
 </div>
