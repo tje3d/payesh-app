@@ -165,7 +165,7 @@
       <div class="bg-light-surface-2 dark:bg-dark-surface-2 rounded-lg shadow-md p-4">
         <button
           type="button"
-          class="rounded-lg h-14 px-4 flex flex-row items-center w-full text-start border"
+          class="rounded-lg h-14 px-3 flex flex-row items-center w-full text-start border"
           class:border-gray-200={!$selectedPerson}
           class:dark:border-gray-600={!$selectedPerson}
           class:border-gray-400={!!$selectedPerson}
