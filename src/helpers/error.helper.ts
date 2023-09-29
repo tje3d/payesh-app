@@ -26,7 +26,7 @@ export function makeError(err: any) {
       case 400:
       case 406:
         console.log('IMPLEMENT THIS')
-        return new MessageError('IMPLEMENT THIS')
+        return new MessageError('اطلاعات وارد شده ناقص است')
     }
 
     if (err.response.status >= 500) {
