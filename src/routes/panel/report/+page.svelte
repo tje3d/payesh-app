@@ -1,10 +1,10 @@
 <script lang="ts">
   import dayjs from 'dayjs'
-  import { onMount } from 'svelte'
+  import { onDestroy, onMount } from 'svelte'
   import { fade } from 'svelte/transition'
   import IconArrowLeft from '~icons/heroicons/arrow-left'
   import IconArrowRight from '~icons/heroicons/arrow-right'
-  import IconSearch from '~icons/heroicons/magnifying-glass'
+  import IconChevDown from '~icons/heroicons/chevron-down'
   import { focusTrap } from '/src/actions/focusTrap.action'
   import Ripple from '/src/actions/ripple.action'
   import { DataBloc } from '/src/bloc/data.bloc'
@@ -16,9 +16,12 @@
   import InputText from '/src/components/form/input-text.svelte'
   import Selectdown from '/src/components/form/selectdown.svelte'
   import { di, get } from '/src/di/di.default'
-  import { addHash } from '/src/helpers/location.helper'
+  import { addHash, removeHash } from '/src/helpers/location.helper'
   import { isDeviceOnline } from '/src/helpers/observable.helper'
   import { unDestroy } from '/src/helpers/svelte.helper'
+  import PopupContainer from '/src/components/PopupContainer.svelte'
+  import SelectPersonPopup from '/src/components/popup/SelectPersonPopup.svelte'
+  import type { IKhadem } from '/src/entities/khadem.entity'
 
   const bloc = get(ReportBloc)
   const dataBloc = di(DataBloc)
@@ -28,28 +31,17 @@
   const office = bloc.office
   const post = bloc.post
   const selectedPerson = bloc.selectedPerson
-  const personsSearch = bloc.personsSearch
-  const personsLoading = bloc.personsLoading
-  const persons = bloc.persons
-  const canSelectPerson = bloc.canSelectPerson
   const inspectItems = dataBloc.inspectItems
   const selectedOptions = bloc.selectedOptions
   const hasSelectedOptions = bloc.hasSelectedOptions
   const send = bloc.send
   const sendLoading = bloc.sendLoading
+  const step = bloc.step
 
   let optionsIndexChecked: { [key: number]: boolean } = {}
 
   if ($selectedOptions.length > 0) {
     $selectedOptions.forEach((id) => (optionsIndexChecked[id] = true))
-  }
-
-  function selectFirstSearchResult() {
-    if ($persons?.length !== 1) {
-      return
-    }
-
-    selectedPerson.next($persons?.[0])
   }
 
   function onOptionChanges(e: Event) {
@@ -61,12 +53,10 @@
     selectedOptions.next(newIds)
   }
 
-  function selectAnotherPerson() {
-    if ($hasSelectedOptions) {
-      return
-    }
-
-    bloc.resetForNewReport()
+  function back() {
+    step.next(0)
+    // bloc.resetForNewReport()
+    selectedOptions.next([])
     optionsIndexChecked = {}
   }
 
@@ -83,6 +73,7 @@
       organ_post: +$post,
       person: $selectedPerson.id,
       time,
+      items: $selectedOptions,
     }
   }
 
@@ -107,17 +98,19 @@
 
     di(ToastBloc).success('گزارش ذخیره شد')
 
-    bloc.resetForNewReport()
+    selectedOptions.next([])
     optionsIndexChecked = {}
+    step.next(0)
   }
 
-  function addPerson() {
-    addHash('newPerson')
-    personsSearch.next(undefined)
+  function onPersonSelect(e: CustomEvent<IKhadem>) {
+    selectedPerson.next(e.detail)
+    removeHash('selectPerson')
+    // step.next(1)
   }
 
-  onMount(() => {
-    personsSearch.next(undefined)
+  onDestroy(() => {
+    bloc.error.next(undefined)
   })
 
   unDestroy(send, (result) => {
@@ -131,9 +124,13 @@
       di(ToastBloc).error(e.message)
     }
   })
+
+  unDestroy(step, () => {
+    bloc.error.next(undefined)
+  })
 </script>
 
-{#if typeof $selectedPerson === 'undefined'}
+{#if $step === 0}
   <div class="flex flex-col gap-8 py-8" use:focusTrap>
     <div>
       <div class="px-4 mb-4 font-bold text-sm">اطلاعات سازمانی</div>
@@ -162,66 +159,67 @@
       </div>
     </div>
 
-    {#if $canSelectPerson}
-      <div class:opacity-50={!$canSelectPerson} class:pointer-events-none={!$canSelectPerson}>
-        <div class="px-4 mb-4 font-bold text-sm">انتخاب خادم</div>
+    <div class="px-4">
+      <div class="mb-4 font-bold text-sm">انتخاب خادم</div>
 
-        <div class="mx-4 bg-light-surface-2 dark:bg-dark-surface-2 shadow-sm rounded-lg p-4">
-          <InputText
-            label="نام و نام خانوادگی یا کدخدمتی..."
-            class="pe-12"
-            bind:value={$personsSearch}
-            on:Enter={selectFirstSearchResult}
-            focus={true}
-          >
-            <svelte:fragment slot="icon">
-              <IconSearch class="w-4 h-4" />
-            </svelte:fragment>
-          </InputText>
-        </div>
-
-        {#if $persons.length === 0 && !$personsLoading}
-          <div class="mx-4 mt-4">
-            <button type="button" class="btn indigo w-full" on:click={addPerson}>
-              ثبت خادم جدید
-            </button>
-          </div>
-        {/if}
-
-        {#each $persons as person, i (person.id)}
-          <div class="px-4 mt-4">
-            <div
-              class="btn font-normal gray bg-white dark:bg-white/5 shadow-none border dark:border-gray-700 icon cursor-pointer py-3 px-2"
-              use:Ripple
-              on:click={() => selectedPerson.next(person)}
-              role="button"
-              aria-pressed="true"
-              tabindex={0}
-            >
-              <div class="flex-auto flex items-center gap-2">
-                <div class="shrink-0">
-                  <img
-                    class="object-cover w-10 h-10 rounded-full bg-gray-100"
-                    alt="تصویر"
-                    src="https://placehold.co/40x40"
-                  />
-                </div>
-                <div>
-                  <div class="text-sm mb-1">{person.first_name} {person.last_name}</div>
-                  <div class="text-gray-500">{person.code}</div>
-                </div>
+      <div class="bg-light-surface-2 dark:bg-dark-surface-2 rounded-lg shadow-md p-4">
+        <button
+          type="button"
+          class="rounded-lg h-14 px-4 flex flex-row items-center w-full text-start border"
+          class:border-gray-200={!$selectedPerson}
+          class:dark:border-gray-600={!$selectedPerson}
+          class:border-gray-400={!!$selectedPerson}
+          use:Ripple
+          on:click={() => addHash('selectPerson')}
+        >
+          {#if $selectedPerson}
+            <div class="flex-auto">
+              <div>
+                {$selectedPerson.first_name}
+                {$selectedPerson.last_name}
               </div>
-              <IconArrowLeft class="w-4 h-4 me-2" />
+
+              <div class="text-xs text-gray-500">
+                {$selectedPerson.code}
+              </div>
             </div>
+          {:else}
+            <div class="flex-auto text-sm text-gray-500">لطفا یک خادم انتخاب کنید</div>
+          {/if}
+
+          <div>
+            <IconChevDown class="w-4 h-4" />
           </div>
-        {/each}
+        </button>
       </div>
-    {/if}
+    </div>
+
+    <div class="px-4 flex items-center justify-between">
+      <button
+        type="button"
+        class="btn indigo icon shrink-0"
+        disabled={!$selectedPerson || !$management || !$post || !$office}
+        on:click|preventDefault={() => step.next(1)}
+      >
+        <span>مرحله بعد</span>
+
+        {#if $sendLoading}
+          <Spinner class="w-4 h-4 mx-auto" />
+        {:else}
+          <IconArrowLeft class="w-4 h-4" />
+        {/if}
+      </button>
+    </div>
   </div>
-{:else}
+{:else if $step === 1 && $selectedPerson}
   <div class="py-8">
     <!-- info -->
-    <div class="rounded-lg bg-white shadow-sm mx-4 p-4 flex gap-4 items-center dark:bg-[#30334e]">
+    <div
+      class="rounded-lg shadow-sm mx-4 p-4 flex gap-4 items-center bg-light-surface-2 dark:bg-dark-surface-2"
+      on:click={() => addHash('selectPerson')}
+      role="button"
+      tabindex="-1"
+    >
       <div>
         <img class="rounded-full w-20 h-20" alt="تصویر" src="https://placehold.co/80x80" />
       </div>
@@ -261,9 +259,9 @@
 
     {#if !$hasSelectedOptions}
       <div class="mt-6 px-4 flex justify-center" in:fade|local>
-        <button type="button" class="btn pink icon" on:click={selectAnotherPerson}>
+        <button type="button" class="btn ghost gray icon" on:click={back}>
           <IconArrowRight class="w-4 h-4" />
-          <span>انتخاب مجدد خادم</span>
+          <span>بازگشت</span>
         </button>
       </div>
     {:else}
@@ -297,3 +295,7 @@
     {/if}
   </div>
 {/if}
+
+<PopupContainer key="selectPerson" let:close>
+  <SelectPersonPopup {close} on:select={onPersonSelect} />
+</PopupContainer>

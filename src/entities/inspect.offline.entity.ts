@@ -6,6 +6,7 @@ export default class InspectOffline implements IInspectOffline {
   organ_post: number
   person: number
   time: string
+  items: number[]
   // @TODO: REMOVE THIS
   user: number = 2
 
@@ -15,6 +16,7 @@ export default class InspectOffline implements IInspectOffline {
     this.organ_post = opt.organ_post
     this.person = opt.person
     this.time = opt.time
+    this.items = opt.items
   }
 }
 
@@ -24,6 +26,7 @@ export const InspectOfflineSchema = z.object({
   organ_post: z.number().positive(),
   person: z.number().positive(),
   time: z.string(),
+  items: z.number().array(),
 })
 
 export type IInspectOffline = typeof InspectOfflineSchema._type

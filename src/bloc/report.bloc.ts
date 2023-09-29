@@ -1,19 +1,6 @@
-import {
-  Subject,
-  catchError,
-  combineLatest,
-  distinctUntilChanged,
-  finalize,
-  from,
-  map,
-  of,
-  switchMap,
-  tap,
-} from 'rxjs'
+import { Subject, catchError, from, map, of, switchMap, tap } from 'rxjs'
 import type { z } from 'zod'
 import { Bloc, SvelteSubject } from './bloc.default'
-import { DataBloc } from '/src/bloc/data.bloc'
-import { di } from '/src/di/di.default'
 import { InspectNewSchema, type IInspectNew } from '/src/entities/inspect.new.entity'
 import type { IKhadem } from '/src/entities/khadem.entity'
 import { api } from '/src/helpers/api.helper'
@@ -30,48 +17,10 @@ export class ReportBloc extends Bloc {
   office = new SvelteSubject<string | undefined>(undefined)
   post = new SvelteSubject<string | undefined>(undefined)
   selectedPerson = new SvelteSubject<IKhadem | undefined>(undefined)
-  canSelectPerson = combineLatest([this.management, this.office, this.post]).pipe(
-    map(([t, b, p]) => {
-      if (typeof t === 'undefined' || typeof b === 'undefined' || typeof p === 'undefined') {
-        return false
-      }
-
-      return true
-    }),
-    distinctUntilChanged(),
-  )
   selectedOptions = new SvelteSubject<number[]>([])
   hasSelectedOptions = this.selectedOptions.pipe(map((items) => items.length !== 0))
 
-  personsSearch = new SvelteSubject<string | undefined>(undefined)
-  personsLoading = new SvelteSubject<boolean>(false)
-  persons = this.personsSearch.pipe(
-    switchMap((search) => {
-      this.personsLoading.next(false)
-
-      return di(DataBloc).person.pipe(
-        map((persons) => {
-          if (!search) {
-            return persons?.slice(0, 9) || []
-          }
-
-          const regExp = new RegExp(search, 'ig')
-          return (
-            persons
-              ?.filter((item) => {
-                return (
-                  regExp.test(item.code) ||
-                  regExp.test(item.first_name) ||
-                  regExp.test(item.last_name)
-                )
-              })
-              .slice(0, 9) || []
-          )
-        }),
-        tap(() => this.personsLoading.next(false)),
-      )
-    }),
-  )
+  step = new SvelteSubject<number>(0)
 
   // ─── Send ────────────────────────────────────────────────────────────────────
 
@@ -102,7 +51,7 @@ export class ReportBloc extends Bloc {
           ).pipe(
             switchMap((response) => from(response.json())),
             map((response: any) => {
-              this.selectedPerson.next(undefined)
+              this.step.next(0)
 
               return 'گزارش با موفقیت ثبت شد'
             }),
@@ -111,18 +60,11 @@ export class ReportBloc extends Bloc {
 
               return of(undefined)
             }),
-            finalize(() => this.sendLoading.next(false)),
+            tap(() => this.sendLoading.next(false)),
           )
         }),
       )
     }),
     shareIt(),
   )
-
-  // ─── Helpers ─────────────────────────────────────────────────────────
-
-  resetForNewReport() {
-    this.selectedPerson.next(undefined)
-    this.selectedOptions.next([])
-  }
 }
