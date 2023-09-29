@@ -10,6 +10,7 @@
   import { ThemeBloc } from '/src/bloc/theme.bloc'
   import Switch from '/src/components/form/switch.svelte'
   import { di, get } from '/src/di/di.default'
+  import MetaTitle from '/src/components/meta-title.svelte'
 
   const themeBloc = get(ThemeBloc)
   const isDark = themeBloc.isDark
@@ -21,6 +22,8 @@
     themeBloc.isDark.next(darkMode)
   }
 </script>
+
+<MetaTitle titles="حساب کاربری" />
 
 <div class="py-8">
   <div class="flex flex-col items-center justify-center gap-2">

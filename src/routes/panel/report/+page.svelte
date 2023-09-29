@@ -1,6 +1,6 @@
 <script lang="ts">
   import dayjs from 'dayjs'
-  import { onDestroy, onMount } from 'svelte'
+  import { onDestroy } from 'svelte'
   import { fade } from 'svelte/transition'
   import IconArrowLeft from '~icons/heroicons/arrow-left'
   import IconArrowRight from '~icons/heroicons/arrow-right'
@@ -11,17 +11,17 @@
   import { OfflineReportBloc } from '/src/bloc/offline.report.bloc'
   import { ReportBloc } from '/src/bloc/report.bloc'
   import { ToastBloc } from '/src/bloc/toast.bloc'
+  import PopupContainer from '/src/components/PopupContainer.svelte'
   import Spinner from '/src/components/Spinner.svelte'
   import Checkbox from '/src/components/form/checkbox.svelte'
-  import InputText from '/src/components/form/input-text.svelte'
   import Selectdown from '/src/components/form/selectdown.svelte'
+  import MetaTitle from '/src/components/meta-title.svelte'
+  import SelectPersonPopup from '/src/components/popup/SelectPersonPopup.svelte'
   import { di, get } from '/src/di/di.default'
+  import type { IKhadem } from '/src/entities/khadem.entity'
   import { addHash, removeHash } from '/src/helpers/location.helper'
   import { isDeviceOnline } from '/src/helpers/observable.helper'
   import { unDestroy } from '/src/helpers/svelte.helper'
-  import PopupContainer from '/src/components/PopupContainer.svelte'
-  import SelectPersonPopup from '/src/components/popup/SelectPersonPopup.svelte'
-  import type { IKhadem } from '/src/entities/khadem.entity'
 
   const bloc = get(ReportBloc)
   const dataBloc = di(DataBloc)
@@ -129,6 +129,8 @@
     bloc.error.next(undefined)
   })
 </script>
+
+<MetaTitle titles="ثبت گزارش" />
 
 {#if $step === 0}
   <div class="flex flex-col gap-8 py-8" use:focusTrap>
