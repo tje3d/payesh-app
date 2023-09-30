@@ -12,6 +12,7 @@
   import Ripple from '/src/actions/ripple.action'
   import { SvelteSubject } from '/src/bloc/bloc.default'
   import { unDestroy } from '/src/helpers/svelte.helper'
+  import { shareIt } from '/src/helpers/observable.helper'
 
   export let value: string | boolean | number | undefined = undefined
   export let options: Option[] = []
@@ -51,6 +52,7 @@
         return regex.test(item.title) || (typeof item.value === 'string' && regex.test(item.value))
       })
     }),
+    shareIt(),
   )
 
   let ele: HTMLDivElement | undefined
@@ -77,11 +79,11 @@
   function onSelect(index: number) {
     ele && ele.focus()
 
-    if (!options[index]) {
+    if (!$filteredOptions[index]) {
       return
     }
 
-    selected.next(options[index].value)
+    selected.next($filteredOptions[index].value)
     selectedIndex = index
     showDropdown.next(false)
   }
