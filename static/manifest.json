@@ -1,7 +1,7 @@
 {
   "screenshots": [
     {
-      "src": "https://payesh.vercel.app",
+      "src": "https://payesh.mercurial.ir",
       "sizes": "2880x1800",
       "type": "image/png"
     }
@@ -29,7 +29,7 @@
   "description": "Payesh App",
   "dir": "rtl",
   "lang": "fa",
-  "start_url": "/",
+  "start_url": "/panel/dashboard",
   "scope": "/",
   "prefer_related_applications": false,
   "display_override": ["window-control-overlay", "standalone"]
