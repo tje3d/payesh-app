@@ -27,7 +27,7 @@
   )
 
   function close() {
-    removeHash(key)
+    history.back()
   }
 </script>
 
