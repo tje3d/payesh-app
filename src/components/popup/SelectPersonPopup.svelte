@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { createEventDispatcher, onDestroy, onMount } from 'svelte'
+  import { createEventDispatcher, onDestroy } from 'svelte'
   import IconArrowLeft from '~icons/heroicons/arrow-left'
   import IconSearch from '~icons/heroicons/magnifying-glass'
   import IconXMark from '~icons/heroicons/x-mark'
@@ -39,9 +39,9 @@
   })
 </script>
 
-<div class="h-full w-full pt-28">
+<div class="pt-28">
   <div
-    class="absolute top-0 right-0 left-0 z-10 px-4 py-2 flex flex-col bg-light-surface-2 dark:bg-dark-surface-2 gap-2"
+    class="fixed top-0 right-0 left-0 z-10 px-4 py-2 flex flex-col bg-light-surface-2 dark:bg-dark-surface-2 gap-2"
   >
     <div class="flex items-center">
       <div class="flex-auto">انتخاب خادم</div>
@@ -85,7 +85,7 @@
     <!-- Search -->
   </div>
 
-  <div class="h-full overflow-auto p-4">
+  <div class="p-4">
     {#if $persons.length === 0 && $personsLoading}
       <div class="mt-4 flex justify-center">
         <Spinner class="w-6 h-6" />

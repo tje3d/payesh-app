@@ -1,4 +1,4 @@
-import { fromEvent, map, startWith } from 'rxjs'
+import { distinctUntilChanged, fromEvent, map, startWith } from 'rxjs'
 import { shareIt } from '/src/helpers/observable.helper'
 
 export const locationHash = fromEvent(window, 'hashchange')
@@ -24,7 +24,9 @@ export const locationHashObj = locationHash.pipe(
 )
 
 export function watchHash(hash: string) {
-  return locationHashObj.pipe(map((result) => !!result[hash])).pipe(shareIt())
+  return locationHashObj
+    .pipe(map((result) => !!result[hash]))
+    .pipe(distinctUntilChanged(), shareIt())
 }
 
 export function addHash(key: string) {

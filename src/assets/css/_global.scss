@@ -1,6 +1,6 @@
 html,
 body {
-  @apply h-screen overflow-x-hidden;
+  @apply h-full overflow-x-hidden overscroll-none;
   font-family: VazirFA;
   font-weight: 300;
 }

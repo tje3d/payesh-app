@@ -1,7 +1,7 @@
 <script lang="ts">
   import { distinctUntilChanged, fromEvent, map, startWith } from 'rxjs'
   import { fly } from 'svelte/transition'
-  import { addHash, removeHash, watchHash } from '/src/helpers/location.helper'
+  import { watchHash } from '/src/helpers/location.helper'
 
   export let key: string
   export let baseZIndex = 30
@@ -34,7 +34,7 @@
 {#if $visible}
   <div
     transition:fly|local={{ duration: 300, opacity: 1, y: $height }}
-    class="fixed inset-0 bg-light-surface dark:bg-dark-surface overflow-hidden popindex"
+    class="fixed inset-0 bg-light-surface dark:bg-dark-surface overflow-auto overscroll-contain popindex"
     style={`z-index: ${$zIndex}`}
   >
     <slot {close} />
