@@ -12,15 +12,16 @@
   import { di, get } from '/src/di/di.default'
   import { unDestroy } from '/src/helpers/svelte.helper'
 
-  const bloc = get(LoginBloc)
+  const bloc = new LoginBloc()
   const isLoggedIn = di(AuthBloc).isLoggedIn$
 
-  const loading = bloc.loginLoading$
-  const messageError = bloc.messageError
-  const formError = bloc.formError
-  const login = bloc.login$
+  const login = bloc.login
+  const loading = login.loading
+  const messageError = login.messageError
+  const formError = login.formError
+  const request = login.request
 
-  let form: typeof LoginBloc.loginSchema._type = {
+  let form: typeof login.schema._type = {
     rememberMe: true,
     username: '',
     password: '',
@@ -31,10 +32,10 @@
       return
     }
 
-    bloc.loginSubmit$.next(form)
+    login.submit.next(form)
   }
 
-  unDestroy(login)
+  unDestroy(request)
 
   unDestroy(isLoggedIn, (login) => {
     if (login) {
