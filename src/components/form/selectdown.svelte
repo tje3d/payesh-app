@@ -1,5 +1,14 @@
 <script lang="ts">
-  import { animationFrames, distinctUntilChanged, filter, map, switchMap, take, tap } from 'rxjs'
+  import {
+    animationFrames,
+    combineLatest,
+    distinctUntilChanged,
+    filter,
+    map,
+    switchMap,
+    take,
+    tap,
+  } from 'rxjs'
   import { createFloatingActions } from 'svelte-floating-ui'
   import { shift } from 'svelte-floating-ui/dom'
   import { scale } from 'svelte/transition'
@@ -11,8 +20,8 @@
   import KeyboardEvents from '/src/actions/keyboard-events.action'
   import Ripple from '/src/actions/ripple.action'
   import { SvelteSubject } from '/src/bloc/bloc.default'
-  import { unDestroy } from '/src/helpers/svelte.helper'
   import { shareIt } from '/src/helpers/observable.helper'
+  import { unDestroy } from '/src/helpers/svelte.helper'
 
   export let value: string | boolean | number | undefined = undefined
   export let options: Option[] = []
@@ -31,37 +40,60 @@
     middleware: [shift()],
   })
 
+  const list$ = new SvelteSubject<Option[]>([])
+  const enableSearch$ = new SvelteSubject<boolean | undefined>(enableSearch)
   const searchText = new SvelteSubject<string | undefined>(undefined)
   const isFocus = new SvelteSubject<boolean>(false)
   const selected = new SvelteSubject<string | number | boolean | undefined>(value)
   const showDropdown = new SvelteSubject<boolean>(false)
-  const selectedTitle = selected.pipe(
-    map((selected) => options.find((opt) => opt.value === selected)?.title),
+  const selectedTitle = combineLatest([selected, list$]).pipe(
+    map(([selected, opts]) => opts.find((opt) => opt.value === selected)?.title),
   )
   const hoverIndex = new SvelteSubject<number>(-1)
   const isEmpty = selectedTitle.pipe(map((val) => typeof val === 'undefined'))
   const filteredOptions = searchText.pipe(
-    map((search) => {
+    switchMap((search) => {
       if (!search) {
-        return options
+        return list$
       }
 
       const regex = new RegExp(search, 'g')
 
-      return options.filter((item) => {
-        return regex.test(item.title) || (typeof item.value === 'string' && regex.test(item.value))
-      })
+      return list$.pipe(
+        map((list) => {
+          return list.filter((item) => {
+            return (
+              regex.test(item.title) || (typeof item.value === 'string' && regex.test(item.value))
+            )
+          })
+        }),
+      )
     }),
+    shareIt(),
+  )
+
+  const hasSearch = combineLatest([enableSearch$.pipe(distinctUntilChanged()), list$]).pipe(
+    map(([enable, list]) => {
+      if (enable) {
+        return true
+      }
+
+      return list.length > 5
+    }),
+    distinctUntilChanged(),
     shareIt(),
   )
 
   let ele: HTMLDivElement | undefined
   let selectedIndex: undefined | number = undefined
   let optionsContainer: HTMLDivElement | undefined
-  let hasSearch = enableSearch
 
   $: {
-    hasSearch = enableSearch || (typeof enableSearch === 'undefined' && options.length >= 5)
+    enableSearch$.next(enableSearch)
+  }
+
+  $: {
+    list$.next(options)
   }
 
   function onFocus() {
@@ -103,7 +135,7 @@
   function hoverNextIndex() {
     const next = $hoverIndex + 1
 
-    hoverIndex.next(next > options.length - 1 ? 0 : next)
+    hoverIndex.next(next > $list$.length - 1 ? 0 : next)
   }
 
   function hoverPrevIndex() {
@@ -114,7 +146,7 @@
 
     const prev = $hoverIndex - 1
 
-    hoverIndex.next(prev < 0 ? options.length - 1 : prev)
+    hoverIndex.next(prev < 0 ? $list$.length - 1 : prev)
   }
 
   function onEnter() {
@@ -166,10 +198,11 @@
       distinctUntilChanged(),
       filter((status) => !!status),
       switchMap(() => animationFrames().pipe(take(1))),
+      switchMap(() => list$),
     ),
-    () => {
+    (listOptions) => {
       if (optionsContainer && $selected) {
-        const idx = options.findIndex((item) => item.value === $selected)
+        const idx = listOptions.findIndex((item) => item.value === $selected)
 
         if (idx !== -1) {
           hoverIndex.next(idx)
@@ -178,6 +211,12 @@
       }
     },
   )
+
+  unDestroy(showDropdown.pipe(distinctUntilChanged()), (status) => {
+    if (!status) {
+      searchText.next(undefined)
+    }
+  })
 </script>
 
 <div class="relative" use:clickOutside={onClickOutSide}>
@@ -238,14 +277,14 @@
   {#if !disabled && $showDropdown}
     <div
       class="absolute right-0 z-20 w-full pb-2 mt-2 origin-top bg-white dark:bg-[#30334e] rounded-md shadow-[rgba(0,_0,_0,_0.25)_0px_25px_50px_-12px]"
-      class:pt-14={hasSearch}
-      class:pt-2={!hasSearch}
+      class:pt-14={$hasSearch}
+      class:pt-2={!$hasSearch}
       use:eleContent
       transition:scale|local={{ duration: 150, start: 0.9 }}
       bind:this={optionsContainer}
     >
       <!-- Search -->
-      {#if hasSearch}
+      {#if $hasSearch}
         <div class="px-2 h-12 overflow-hidden absolute top-2 right-0 left-0">
           <div class="flex items-center bg-gray-100 dark:bg-white/10 rounded-full px-4">
             <div
