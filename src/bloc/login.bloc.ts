@@ -4,11 +4,11 @@ import z from 'zod'
 import { Bloc } from './bloc.default'
 import { AuthBloc } from '/src/bloc/auth.bloc'
 import { di } from '/src/di/di.default'
-import { apiCall } from '/src/helpers/bloc.helper'
+import { apiSend } from '/src/helpers/bloc.helper'
 import { MessageError } from '/src/lib/Errors'
 
 export class LoginBloc extends Bloc {
-  login = apiCall({
+  login = apiSend({
     schema: z.object({
       rememberMe: z.boolean(),
       username: z.string().nonempty(),

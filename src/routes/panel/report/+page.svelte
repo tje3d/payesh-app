@@ -26,17 +26,19 @@
   const bloc = get(ReportBloc)
   const dataBloc = di(DataBloc)
 
-  const organs = dataBloc.organs
   const management = bloc.management
   const office = bloc.office
   const post = bloc.post
   const selectedPerson = bloc.selectedPerson
-  const inspectItems = dataBloc.inspectItems
   const selectedOptions = bloc.selectedOptions
   const hasSelectedOptions = bloc.hasSelectedOptions
-  const send = bloc.send
-  const sendLoading = bloc.sendLoading
+  const send = bloc.send.request
+  const sendLoading = bloc.send.loading
   const step = bloc.step
+
+  const inspectItems = dataBloc.inspectItems.request
+  const organsLoading = dataBloc.organs.loading
+  const organs = dataBloc.organs.request
 
   let optionsIndexChecked: { [key: number]: boolean } = {}
 
@@ -83,7 +85,7 @@
       return
     }
 
-    bloc.sendSubmit.next(report)
+    bloc.send.submit.next(report)
   }
 
   function storeOffline() {
@@ -113,7 +115,7 @@
   }
 
   onDestroy(() => {
-    bloc.error.next(undefined)
+    bloc.send.error.next(undefined)
   })
 
   unDestroy(send, (result) => {
@@ -125,14 +127,14 @@
     }
   })
 
-  unDestroy(bloc.error, (e) => {
+  unDestroy(bloc.send.error, (e) => {
     if (e) {
       di(ToastBloc).error(e.message)
     }
   })
 
   unDestroy(step, () => {
-    bloc.error.next(undefined)
+    bloc.send.error.next(undefined)
   })
 </script>
 
@@ -146,24 +148,28 @@
       <div
         class="mx-4 bg-light-surface-2 dark:bg-dark-surface-2 shadow-md rounded-lg p-4 flex flex-col gap-4"
       >
-        <Selectdown
-          bind:value={$management}
-          label="انتخاب مدیریت"
-          options={$organs?.managements.map((item) => ({ value: item.id, title: item.title })) ||
-            []}
-        />
+        {#if !$organs && $organsLoading}
+          <div class="flex justify-center"><Spinner class="w-6 h-6" /></div>
+        {:else}
+          <Selectdown
+            bind:value={$management}
+            label="انتخاب مدیریت"
+            options={$organs?.managements.map((item) => ({ value: item.id, title: item.title })) ||
+              []}
+          />
 
-        <Selectdown
-          bind:value={$office}
-          label="انتخاب اداره"
-          options={$organs?.offices.map((item) => ({ value: item.id, title: item.title })) || []}
-        />
+          <Selectdown
+            bind:value={$office}
+            label="انتخاب اداره"
+            options={$organs?.offices.map((item) => ({ value: item.id, title: item.title })) || []}
+          />
 
-        <Selectdown
-          bind:value={$post}
-          label="انتخاب پست"
-          options={$organs?.posts.map((item) => ({ value: item.id, title: item.title })) || []}
-        />
+          <Selectdown
+            bind:value={$post}
+            label="انتخاب پست"
+            options={$organs?.posts.map((item) => ({ value: item.id, title: item.title })) || []}
+          />
+        {/if}
       </div>
     </div>
 

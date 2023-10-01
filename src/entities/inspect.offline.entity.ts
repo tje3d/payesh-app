@@ -7,8 +7,6 @@ export default class InspectOffline implements IInspectOffline {
   person: number
   time: string
   items: number[]
-  // @TODO: REMOVE THIS
-  user: number = 2
 
   constructor(opt: IInspectOffline) {
     this.organ_management = opt.organ_management

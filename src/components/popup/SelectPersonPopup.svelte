@@ -17,12 +17,12 @@
   const dispatcher = createEventDispatcher()
   const bloc = di(PersonSelect)
 
-  const personsSearch = bloc.personsSearch
-  const personsLoading = bloc.personsLoading
-  const persons = bloc.persons
+  const search = bloc.search
+  const loading = bloc.persons.loading
+  const filtered = bloc.filtered
 
   function clearSearch() {
-    personsSearch.next(undefined)
+    search.next(undefined)
   }
 
   function addPerson() {
@@ -34,8 +34,7 @@
   }
 
   onDestroy(() => {
-    bloc.personsSearch.next(undefined)
-    bloc.error.next(undefined)
+    bloc.search.next(undefined)
   })
 </script>
 
@@ -57,11 +56,11 @@
         <div
           class="swap swap-rotate"
           on:click={clearSearch}
-          class:pointer-events-none={!$personsSearch}
+          class:pointer-events-none={!$search}
           tabindex="-1"
           role="button"
         >
-          <input type="checkbox" checked={!!$personsSearch} />
+          <input type="checkbox" checked={!!$search} />
 
           <IconSearch class="swap-off w-5 h-5" />
 
@@ -74,7 +73,7 @@
             placeholder="نام و نام خانوادگی یا کدخدمتی..."
             maxlength={150}
             spellcheck={false}
-            bind:value={$personsSearch}
+            bind:value={$search}
             use:KeyboardEvents
             on:Escape={clearSearch}
             use:focus
@@ -86,20 +85,20 @@
   </div>
 
   <div class="p-4">
-    {#if $persons.length === 0 && $personsLoading}
+    {#if $filtered.length === 0 && $loading}
       <div class="mt-4 flex justify-center">
         <Spinner class="w-6 h-6" />
       </div>
     {/if}
 
-    {#if $persons.length === 0 && !$personsLoading}
+    {#if $filtered.length === 0 && !$loading}
       <button type="button" class="btn indigo w-full text-sm" on:click={addPerson}>
         ثبت خادم جدید
       </button>
     {/if}
 
     <div class="flex flex-col gap-4">
-      {#each $persons as person, i (person.id)}
+      {#each $filtered as person, i (person.id)}
         <div
           class="btn font-normal gray bg-white dark:bg-white/5 shadow-none border dark:border-gray-700 icon cursor-pointer py-3 px-2 text-base"
           use:Ripple

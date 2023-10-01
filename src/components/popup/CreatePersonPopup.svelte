@@ -1,25 +1,22 @@
 <script lang="ts">
   import IconArrowLeft from '~icons/heroicons/arrow-left'
-  import Spinner from '/src/components/Spinner.svelte'
-  import InputText from '/src/components/form/input-text.svelte'
   import { PersonCreateBloc } from '/src/bloc/person.create.bloc'
-  import { onDestroy } from 'svelte'
-  import MetaTitle from '/src/components/meta-title.svelte'
-  import { unDestroy } from '/src/helpers/svelte.helper'
-  import WarningAlert from '/src/components/alerts/WarningAlert.svelte'
-  import { di } from '/src/di/di.default'
   import { ToastBloc } from '/src/bloc/toast.bloc'
+  import Spinner from '/src/components/Spinner.svelte'
+  import WarningAlert from '/src/components/alerts/WarningAlert.svelte'
+  import InputText from '/src/components/form/input-text.svelte'
+  import { di } from '/src/di/di.default'
+  import { unDestroy } from '/src/helpers/svelte.helper'
 
   export let close: () => void
 
   const bloc = new PersonCreateBloc()
 
-  const loading = bloc.createLoading
-  const messageError = bloc.messageError
-  const formError = bloc.formError
-  const create = bloc.create
+  const loading = bloc.create.loading
+  const messageError = bloc.create.messageError
+  const formError = bloc.create.formError
 
-  let form: typeof PersonCreateBloc.createSchema._type = {
+  let form: typeof bloc.create.schema._type = {
     first_name: '',
     last_name: '',
     code: '',
@@ -30,17 +27,15 @@
       return
     }
 
-    bloc.createSubmit.next(form)
+    bloc.create.submit.next(form)
   }
 
-  unDestroy(create, (result) => {
+  unDestroy(bloc.create.request, (result) => {
     if (result) {
       di(ToastBloc).success(result)
       close()
     }
   })
-
-  unDestroy(create)
 </script>
 
 <form on:submit|preventDefault={submit}>

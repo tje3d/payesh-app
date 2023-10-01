@@ -7,8 +7,6 @@ export default class InspectNew implements IInspectNew {
   person: number
   time: string
   items: number[]
-  // @TODO: REMOVE THIS
-  user: number = 2
 
   constructor(opt: IInspectNew) {
     this.organ_management = opt.organ_management
