@@ -92,12 +92,6 @@ export function apiLoad<Output>({
   apiParams: Parameters<typeof api>
   cache?: CacheConfig
 }) {
-  let startCache: undefined | Output
-
-  if (cache) {
-    startCache = loadCache(cache)
-  }
-
   const error = new SvelteSubject<z.ZodError | ApiErrors | undefined>(undefined)
   const messageError = filterMessageError(error)
   const formError = filterFormError(error)
@@ -105,6 +99,12 @@ export function apiLoad<Output>({
   const loading = new SvelteSubject<boolean>(false)
 
   const request = defer(() => {
+    let startCache: undefined | Output
+
+    if (cache) {
+      startCache = loadCache(cache)
+    }
+
     loading.next(true)
 
     return api(...apiParams).pipe(
