@@ -24,7 +24,11 @@ export class ThemeBloc extends Bloc {
           this.sub(this.isDark.pipe(distinctUntilChanged()), (isDark) => {
             localStorage.setItem('isDark', isDark + '')
 
-            document.documentElement.className = isDark ? 'dark' : 'light'
+            const newMode = isDark ? 'dark' : 'light'
+            const oppositeMode = newMode === 'dark' ? 'light' : 'dark'
+
+            document.documentElement.classList.remove(oppositeMode)
+            document.documentElement.classList.add(newMode)
           })
 
           this.sub(this.onPreferChange, (event) => {
