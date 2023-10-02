@@ -12,7 +12,7 @@ export class ReportBloc extends Bloc {
   selectedOptions = new SvelteSubject<number[]>([])
   hasSelectedOptions = this.selectedOptions.pipe(map((items) => items.length !== 0))
 
-  step = new SvelteSubject<number>(0)
+  step = new SvelteSubject<number>(1)
 
   send = apiSend({
     apiParams: ['/1/inspect', { method: 'post' }],

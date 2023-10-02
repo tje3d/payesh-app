@@ -11,6 +11,10 @@ declare global {
   interface ZodFieldError {
     [key: string]: string[] | undefined
   }
+
+  interface Document {
+    startViewTransition?: (callback: () => Promise<unknown>) => void
+  }
 }
 
 export {}
