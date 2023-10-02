@@ -13,11 +13,15 @@
   function onPersonSelect(e: CustomEvent<IKhadem>) {
     selectedPerson.next(e.detail)
     removeHash('selectPerson')
-    // step.next(1)
   }
 
   onNavigate((nav) => {
     if (!document.startViewTransition) return
+
+    // Ignore initial routing
+    if (nav.from?.route.id === '/panel/report') {
+      return
+    }
 
     if (!nav.to?.route.id?.startsWith('/panel/report')) {
       return
@@ -34,3 +38,15 @@
 <PopupContainer key="selectPerson" let:close>
   <SelectPersonPopup {close} on:select={onPersonSelect} />
 </PopupContainer>
+
+<style>
+  :global(:root::view-transition-new(person-info):only-child) {
+    animation-duration: 0s;
+  }
+
+  :global(.vt-person-info) {
+    view-transition-name: person-info;
+    contain: layout;
+    width: fit-content;
+  }
+</style>

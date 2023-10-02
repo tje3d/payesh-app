@@ -21,9 +21,7 @@
   const post = bloc.post
   const selectedPerson = bloc.selectedPerson
   const selectedOptions = bloc.selectedOptions
-  const send = bloc.send.request
   const sendLoading = bloc.send.loading
-  const step = bloc.step
 
   const organsLoading = dataBloc.organs.loading
   const organs = dataBloc.organs.request
@@ -34,6 +32,7 @@
 
   onMount(() => {
     bloc.step.next(1)
+    selectedOptions.next([])
   })
 
   onDestroy(() => {

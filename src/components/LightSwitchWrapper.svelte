@@ -1,0 +1,64 @@
+<script lang="ts">
+  import { goto, onNavigate } from '$app/navigation'
+  import { BehaviorSubject } from 'rxjs'
+  import { ThemeBloc } from '/src/bloc/theme.bloc'
+  import { di } from '/src/di/di.default'
+  import { routeId } from '/src/helpers/observable.helper'
+
+  const onClick = new BehaviorSubject<MouseEvent | null>(null)
+
+  function toggleMode(event: PointerEvent | MouseEvent) {
+    document.documentElement.classList.add('theme-transition')
+    onClick.next(event)
+
+    requestAnimationFrame(() => {
+      goto($routeId!)
+      di(ThemeBloc).toggle()
+
+      requestAnimationFrame(() => {
+        document.documentElement.classList.remove('theme-transition')
+      })
+    })
+  }
+
+  onNavigate((nav) => {
+    if (!document.startViewTransition) return
+
+    if (nav.from?.route.id !== nav.to?.route.id) {
+      return
+    }
+
+    return new Promise(async (fulfil) => {
+      const transition = document.startViewTransition!(() => new Promise(fulfil as any))
+
+      await transition.ready
+
+      const lastClick = onClick.value
+
+      // Get the click position, or fallback to the middle of the screen
+      const x = lastClick?.clientX ?? innerWidth / 2
+      const y = lastClick?.clientY ?? innerHeight / 2
+      // Get the distance to the furthest corner
+      const endRadius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y))
+
+      // Animate the root's new view
+      document.documentElement.animate(
+        {
+          clipPath: [`circle(0 at ${x}px ${y}px)`, `circle(${endRadius}px at ${x}px ${y}px)`],
+        },
+        {
+          duration: 300,
+          easing: 'ease-out',
+          // Specify which pseudo-element to animate
+          pseudoElement: '::view-transition-new(root)',
+        },
+      )
+
+      // animateFromMiddle(transition)
+
+      await transition.updateCallbackDone
+    })
+  })
+</script>
+
+<slot {toggleMode} />

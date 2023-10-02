@@ -48,3 +48,7 @@ select,
 a {
   -webkit-tap-highlight-color: transparent;
 }
+
+html.theme-transition * {
+  transition: all linear 0.01s;
+}

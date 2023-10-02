@@ -9,18 +9,13 @@
   import { AuthBloc } from '/src/bloc/auth.bloc'
   import { ThemeBloc } from '/src/bloc/theme.bloc'
   import Switch from '/src/components/form/switch.svelte'
-  import { di, get } from '/src/di/di.default'
   import MetaTitle from '/src/components/meta-title.svelte'
+  import { di, get } from '/src/di/di.default'
+  import LightSwitchWrapper from '/src/components/LightSwitchWrapper.svelte'
 
   const themeBloc = get(ThemeBloc)
   const isDark = themeBloc.isDark
   const displayName = di(AuthBloc).displayName
-
-  let darkMode: boolean = $isDark
-
-  function toggleTheme() {
-    themeBloc.isDark.next(darkMode)
-  }
 </script>
 
 <MetaTitle titles="حساب کاربری" />
@@ -43,18 +38,23 @@
   </div>
 
   <div class="mx-4 mt-8 flex flex-col gap-4">
-    <label
-      class="block w-full bg-light-surface-2 dark:bg-dark-surface-2 rounded-lg p-4 shadow-md"
-      use:Ripple
-    >
-      <div class="flex justify-between items-center text-sm h-8">
-        <div class="flex items-center">
-          <div class="w-8"><IconMoon class="w-5 h-5" /></div>
-          <div>حالت تاریک</div>
+    <LightSwitchWrapper let:toggleMode>
+      <div
+        class="block w-full bg-light-surface-2 dark:bg-dark-surface-2 rounded-lg p-4 shadow-md"
+        use:Ripple
+        role="button"
+        tabindex="-1"
+        on:click|preventDefault|stopPropagation={toggleMode}
+      >
+        <div class="flex justify-between items-center text-sm h-8">
+          <div class="flex items-center">
+            <div class="w-8"><IconMoon class="w-5 h-5" /></div>
+            <div>حالت تاریک</div>
+          </div>
+          <Switch bind:checked={$isDark} />
         </div>
-        <Switch bind:checked={darkMode} on:change={toggleTheme} />
       </div>
-    </label>
+    </LightSwitchWrapper>
 
     <div
       class="bg-light-surface-2 dark:bg-dark-surface-2 rounded-lg p-4 shadow-md"

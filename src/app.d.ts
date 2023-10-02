@@ -13,7 +13,10 @@ declare global {
   }
 
   interface Document {
-    startViewTransition?: (callback: () => Promise<unknown>) => void
+    startViewTransition?: (callback: () => Promise<unknown>) => {
+      ready: Promise<any>
+      updateCallbackDone: Promise<any>
+    }
   }
 }
 

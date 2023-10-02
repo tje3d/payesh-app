@@ -2,7 +2,7 @@
   import { goto } from '$app/navigation'
   import dayjs from 'dayjs'
   import { onDestroy, onMount } from 'svelte'
-  import { fade } from 'svelte/transition'
+  import { fade, fly } from 'svelte/transition'
   import IconArrowLeft from '~icons/heroicons/arrow-left'
   import IconArrowRight from '~icons/heroicons/arrow-right'
   import { focusTrap } from '/src/actions/focusTrap.action'
@@ -17,6 +17,7 @@
   import { di, get } from '/src/di/di.default'
   import { addHash } from '/src/helpers/location.helper'
   import { isDeviceOnline } from '/src/helpers/observable.helper'
+  import { restoreScroll } from '/src/helpers/scroll.helper'
   import { unDestroy } from '/src/helpers/svelte.helper'
 
   const bloc = get(ReportBloc)
@@ -92,7 +93,7 @@
     di(ToastBloc).success('گزارش ذخیره شد')
 
     resetSelectedOptions()
-    step.next(0)
+    goto('/panel/report/step1')
   }
 
   function resetSelectedOptions() {
@@ -102,17 +103,20 @@
 
   onMount(() => {
     bloc.step.next(2)
+
+    if (!$selectedPerson) {
+      back()
+    }
   })
 
   onDestroy(() => {
     bloc.send.error.next(undefined)
-    resetSelectedOptions()
   })
 
   unDestroy(send, (result) => {
     if (result) {
       resetSelectedOptions()
-      step.next(0)
+      goto('/panel/report/step1')
 
       di(ToastBloc).success(result)
     }
@@ -123,6 +127,8 @@
       di(ToastBloc).error(e.message)
     }
   })
+
+  unDestroy(restoreScroll(location.pathname))
 </script>
 
 <MetaTitle titles={['ثبت گزارش', 'موارد']} />
@@ -186,13 +192,14 @@
         </button>
       </div>
     {:else}
-      <div class="mt-6 px-4 flex items-center justify-between" in:fade|local>
+      <div class="mt-6 px-4 flex items-center justify-between">
         <button
           type="button"
           class="btn indigo"
           class:ghost={$isDeviceOnline}
           class:opacity-50={$isDeviceOnline}
           on:click|preventDefault={storeOffline}
+          in:fly|local={{ x: 20 }}
         >
           <span> ذخیره برای ارسال آفلاین </span>
         </button>
@@ -203,6 +210,7 @@
           class:loading={$sendLoading}
           on:click|preventDefault={onSubmit}
           disabled={!$isDeviceOnline}
+          in:fly|local={{ x: -20 }}
         >
           <span>ارسال اطلاعات</span>
 
