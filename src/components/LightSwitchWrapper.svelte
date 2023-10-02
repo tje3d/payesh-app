@@ -47,7 +47,7 @@
           clipPath: [`circle(0 at ${x}px ${y}px)`, `circle(${endRadius}px at ${x}px ${y}px)`],
         },
         {
-          duration: 300,
+          duration: 1000,
           easing: 'ease-out',
           // Specify which pseudo-element to animate
           pseudoElement: '::view-transition-new(root)',
