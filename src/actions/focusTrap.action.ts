@@ -1,6 +1,6 @@
 export function focusTrap(node: HTMLElement, enabled: boolean = true) {
   const elemWhitelist =
-    'a[href], button, .selectdown, input, textarea, select, details, [tabindex]:not([tabindex="-1"])'
+    'a[href], button:not(:disabled), .selectdown, input:not(:disabled), textarea:not(:disabled), select:not(:disabled), details, [tabindex]:not([tabindex="-1"])'
   let elemFirst: HTMLElement
   let elemLast: HTMLElement
 
