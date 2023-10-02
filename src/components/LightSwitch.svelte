@@ -1,7 +1,6 @@
 <script lang="ts">
   import IconMoon from '~icons/heroicons/moon'
   import IconSun from '~icons/heroicons/sun'
-  import Ripple from '/src/actions/ripple.action'
   import { ThemeBloc } from '/src/bloc/theme.bloc'
   import LightSwitchWrapper from '/src/components/LightSwitchWrapper.svelte'
   import { di } from '/src/di/di.default'
@@ -10,7 +9,7 @@
 </script>
 
 <LightSwitchWrapper let:toggleMode>
-  <button type="button" class="btn gray circle ghost circle" use:Ripple on:click={toggleMode}>
+  <button type="button" class="btn gray circle ghost circle" on:click={toggleMode}>
     <div class="swap swap-rotate">
       <input type="checkbox" checked={$isDark} />
 

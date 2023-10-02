@@ -8,10 +8,10 @@
   import Ripple from '/src/actions/ripple.action'
   import { AuthBloc } from '/src/bloc/auth.bloc'
   import { ThemeBloc } from '/src/bloc/theme.bloc'
+  import LightSwitchWrapper from '/src/components/LightSwitchWrapper.svelte'
   import Switch from '/src/components/form/switch.svelte'
   import MetaTitle from '/src/components/meta-title.svelte'
   import { di, get } from '/src/di/di.default'
-  import LightSwitchWrapper from '/src/components/LightSwitchWrapper.svelte'
 
   const themeBloc = get(ThemeBloc)
   const isDark = themeBloc.isDark
@@ -41,7 +41,6 @@
     <LightSwitchWrapper let:toggleMode>
       <div
         class="block w-full bg-light-surface-2 dark:bg-dark-surface-2 rounded-lg p-4 shadow-md"
-        use:Ripple
         role="button"
         tabindex="-1"
         on:click|preventDefault|stopPropagation={toggleMode}
