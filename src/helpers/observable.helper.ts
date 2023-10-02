@@ -1,9 +1,11 @@
+import { page } from '$app/stores'
 import {
   EMPTY,
   Observable,
   Subject,
   combineLatest,
   defer,
+  distinctUntilChanged,
   from,
   fromEvent,
   map,
@@ -57,3 +59,13 @@ export const isDeviceOnline = combineLatest([
   }),
   shareIt(),
 )
+
+export const routeId = new Observable<string | null>((observer) => {
+  const sub = page.subscribe((result) => {
+    observer.next(result.route.id)
+  })
+
+  return () => {
+    sub()
+  }
+}).pipe(distinctUntilChanged(), shareIt())
