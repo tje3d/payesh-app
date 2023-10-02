@@ -4,6 +4,7 @@
     combineLatest,
     distinctUntilChanged,
     filter,
+    fromEvent,
     map,
     switchMap,
     take,
@@ -135,7 +136,7 @@
   function hoverNextIndex() {
     const next = $hoverIndex + 1
 
-    hoverIndex.next(next > $list$.length - 1 ? 0 : next)
+    hoverIndex.next(next > $filteredOptions.length - 1 ? 0 : next)
   }
 
   function hoverPrevIndex() {
@@ -146,7 +147,7 @@
 
     const prev = $hoverIndex - 1
 
-    hoverIndex.next(prev < 0 ? $list$.length - 1 : prev)
+    hoverIndex.next(prev < 0 ? $filteredOptions.length - 1 : prev)
   }
 
   function onEnter() {
@@ -166,18 +167,24 @@
     const target = optionsContainer.querySelectorAll('div')[$hoverIndex]
 
     if (target) {
-      if ('scrollIntoViewIfNeeded' in target) {
-        // @ts-ignore
-        target.scrollIntoViewIfNeeded()
-      } else {
-        target.scrollIntoView()
-      }
+      target.scrollIntoView()
     }
   }
 
   function clearSearch() {
     searchText.next(undefined)
   }
+
+  // @ts-ignore
+  unDestroy(fromEvent(document.body, 'keydown'), (e: KeyboardEvent) => {
+    if (disabled || !$showDropdown) {
+      return
+    }
+
+    if (e.code === 'Tab') {
+      e.preventDefault()
+    }
+  })
 
   unDestroy(
     showDropdown.pipe(
@@ -216,6 +223,11 @@
     if (!status) {
       searchText.next(undefined)
     }
+  })
+
+  // Reset hover index on search
+  unDestroy(searchText, () => {
+    hoverIndex.next(0)
   })
 </script>
 
@@ -309,8 +321,11 @@
                 spellcheck={false}
                 bind:value={$searchText}
                 use:KeyboardEvents
-                on:Escape={clearSearch}
                 use:focus
+                on:Escape={() => showDropdown.next(false)}
+                on:Enter={onEnter}
+                on:ArrowDown={onArrowDown}
+                on:ArrowUp={onArrowUp}
               />
             </div>
           </div>
