@@ -41,7 +41,7 @@
 
 <style>
   :global(:root::view-transition-new(person-info):only-child) {
-    animation-duration: 0s;
+    animation: none;
   }
 
   :global(.vt-person-info) {
