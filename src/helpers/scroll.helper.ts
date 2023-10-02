@@ -8,7 +8,6 @@ export function getScrollPos(key: string) {
 
 export function storeScrollPos(key: string, value: number) {
   scrollPositions[key] = value
-  console.log(key, value)
 }
 
 export function restoreScroll(key: string, node?: HTMLElement) {
@@ -18,7 +17,6 @@ export function restoreScroll(key: string, node?: HTMLElement) {
     animationFrames()
       .pipe(take(1))
       .subscribe(() => {
-        // console.log(key, getScrollPos(key), scrollPositions[key])
         target.scrollTop = getScrollPos(key)
       })
 
