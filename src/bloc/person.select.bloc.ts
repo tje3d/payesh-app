@@ -10,7 +10,7 @@ export class PersonSelect extends Bloc {
   filtered = combineLatest([this.persons.request, this.search]).pipe(
     map(([persons, search]) => {
       if (!search) {
-        return persons?.slice(0, 9) || []
+        return persons || []
       }
 
       const regExp = new RegExp(search, 'ig')
