@@ -180,6 +180,10 @@
             </div>
           </label>
         {/each}
+      {:else}
+        <div class="flex items-center justify-center">
+          <Spinner class="w-5 h-5" />
+        </div>
       {/if}
     </div>
     <!-- options -->
