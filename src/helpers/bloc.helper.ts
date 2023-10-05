@@ -1,6 +1,8 @@
 import {
+  Observable,
   Subject,
   catchError,
+  combineLatest,
   defer,
   from,
   of,
@@ -8,6 +10,7 @@ import {
   startWith,
   switchMap,
   tap,
+  timer,
   type MonoTypeOperatorFunction,
 } from 'rxjs'
 import type z from 'zod'
@@ -87,21 +90,30 @@ export function apiLoad<Output>({
   pipe,
   apiParams,
   cache,
+  before,
+  autoReload,
 }: {
   pipe?: MonoTypeOperatorFunction<Output | undefined>
   apiParams: Parameters<typeof api>
   cache?: CacheConfig
+  before?: Observable<any>
+  autoReload?: number
 }) {
   const error = new SvelteSubject<z.ZodError | ApiErrors | undefined>(undefined)
   const messageError = filterMessageError(error)
   const formError = filterFormError(error)
 
   const loading = new SvelteSubject<boolean>(false)
-  const reload = new Subject<boolean>()
+  const reload = new SvelteSubject<boolean>(true)
 
-  const request = reload
+  const startObs = combineLatest([
+    before || of(true),
+    autoReload && autoReload !== -1 ? timer(0, autoReload) : timer(0, 60 * 1000),
+    reload,
+  ])
+
+  const request = startObs
     .pipe(
-      startWith(true),
       switchMap(() => {
         return defer(() => {
           let startCache: undefined | Output
