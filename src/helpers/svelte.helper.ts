@@ -1,3 +1,5 @@
+import { navigating } from '$app/stores'
+import type { Navigation } from '@sveltejs/kit'
 import { Observable, Subject, defer, type Observer } from 'rxjs'
 import { take } from 'rxjs/operators'
 import { onDestroy, onMount } from 'svelte'
@@ -29,3 +31,15 @@ export function unDestroy<T>(
     sub.unsubscribe()
   })
 }
+
+export const navigating$ = defer(() => {
+  return new Observable<Navigation | null>((observer) => {
+    const sub = navigating.subscribe((result) => {
+      observer.next(result)
+    })
+
+    return () => {
+      sub()
+    }
+  })
+})

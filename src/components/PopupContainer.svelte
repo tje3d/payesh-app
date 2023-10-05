@@ -1,7 +1,7 @@
 <script lang="ts">
   import { distinctUntilChanged, fromEvent, map, startWith } from 'rxjs'
   import { fly } from 'svelte/transition'
-  import { watchHash } from '/src/helpers/location.helper'
+  import { removeHash, watchHash } from '/src/helpers/location.helper'
 
   export let key: string
   export let baseZIndex = 30
@@ -27,7 +27,7 @@
   )
 
   function close() {
-    history.back()
+    removeHash(key)
   }
 </script>
 

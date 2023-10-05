@@ -5,5 +5,7 @@
 
   const bloc = get(ReportBloc)
 
-  goto('/panel/report/step' + bloc.step.getValue())
+  goto('/panel/report/step' + bloc.step.getValue(), {
+    replaceState: true,
+  })
 </script>

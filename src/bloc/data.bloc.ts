@@ -1,4 +1,7 @@
+import { startWith } from 'rxjs'
 import { Bloc } from './bloc.default'
+import { ReportBloc } from '/src/bloc/report.bloc'
+import { di } from '/src/di/di.default'
 import type { IKhadem } from '/src/entities/khadem.entity'
 import { apiLoad } from '/src/helpers/bloc.helper'
 
@@ -36,5 +39,6 @@ export class DataBloc extends Bloc {
   >({
     apiParams: ['/1/stat_reports'],
     cache: 'stat_reports',
+    before: di(ReportBloc).send.request.pipe(startWith(true)),
   })
 }
