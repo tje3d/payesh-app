@@ -18,6 +18,8 @@
 
   blocs.forEach((sub) => unDestroy(sub))
 
+  const isAuthReady = di(AuthBloc).init
+
   unDestroy(onServiceWorkerControllerChange.pipe(take(1)), () => {
     console.log('🎉🎉 Application Updated Successful 🎉🎉')
     location.reload()
@@ -37,4 +39,6 @@
 
 <ToastPrinter />
 
-<slot />
+{#if $isAuthReady}
+  <slot />
+{/if}

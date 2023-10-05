@@ -6,6 +6,7 @@ export class AuthBloc extends Bloc {
   token = new SvelteSubject<string | undefined>(undefined)
   user = new SvelteSubject<AuthUser | undefined>(undefined)
 
+  ready = new SvelteSubject<boolean>(false)
   isLoggedIn$ = this.token.pipe(map((token) => !!token)).pipe(distinctUntilChanged())
 
   displayName = combineLatest([this.user, this.token]).pipe(
@@ -47,6 +48,9 @@ export class AuthBloc extends Bloc {
           if (token && typeof token === 'string') {
             this.token.next(token)
           }
+
+          // We are ready lets go
+          this.ready.next(true)
 
           this.sub(this.token, (token) => {
             if (token) {
