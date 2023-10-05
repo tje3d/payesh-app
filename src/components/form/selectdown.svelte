@@ -175,6 +175,10 @@
     searchText.next(undefined)
   }
 
+  function toggleShowDropdown() {
+    showDropdown.next(!$showDropdown)
+  }
+
   // @ts-ignore
   unDestroy(fromEvent(document.body, 'keydown'), (e: KeyboardEvent) => {
     if (disabled || !$showDropdown) {
@@ -250,7 +254,7 @@
       use:KeyboardEvents
       on:Space={() => !disabled && showDropdown.next(true)}
       on:Escape={() => showDropdown.next(false)}
-      on:click={() => !disabled && showDropdown.next(true)}
+      on:click={() => !disabled && toggleShowDropdown()}
       on:Enter={onEnter}
       on:Tab={() => showDropdown.next(false)}
       on:ArrowDown={onArrowDown}
