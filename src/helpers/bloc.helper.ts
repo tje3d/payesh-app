@@ -97,41 +97,49 @@ export function apiLoad<Output>({
   const formError = filterFormError(error)
 
   const loading = new SvelteSubject<boolean>(false)
+  const reload = new Subject<boolean>()
 
-  const request = defer(() => {
-    let startCache: undefined | Output
+  const request = reload
+    .pipe(
+      startWith(true),
+      switchMap(() => {
+        return defer(() => {
+          let startCache: undefined | Output
 
-    if (cache) {
-      startCache = loadCache(cache)
-    }
+          if (cache) {
+            startCache = loadCache(cache)
+          }
 
-    loading.next(true)
+          loading.next(true)
 
-    return api(...apiParams).pipe(
-      switchMap((data) => {
-        if (data.headers.get('Content-Type') === 'application/json') {
-          return from(data.json<Output>())
-        }
+          return api(...apiParams).pipe(
+            switchMap((data) => {
+              if (data.headers.get('Content-Type') === 'application/json') {
+                return from(data.json<Output>())
+              }
 
-        return from(data.text() as Promise<Output>)
+              return from(data.text() as Promise<Output>)
+            }),
+            tap(() => loading.next(false)),
+            tap((data) => {
+              if (!cache) {
+                return
+              }
+
+              saveCache(cache, data)
+            }),
+            startWith(startCache),
+            catchError((err) => {
+              error.next(makeError(err))
+
+              return of(undefined)
+            }),
+            pipe || rxPipe(),
+          )
+        })
       }),
-      tap(() => loading.next(false)),
-      tap((data) => {
-        if (!cache) {
-          return
-        }
-
-        saveCache(cache, data)
-      }),
-      startWith(startCache),
-      catchError((err) => {
-        error.next(makeError(err))
-
-        return of(undefined)
-      }),
-      pipe || rxPipe(),
     )
-  }).pipe(shareIt())
+    .pipe(shareIt())
 
   return {
     error,
@@ -139,5 +147,6 @@ export function apiLoad<Output>({
     messageError,
     loading,
     request,
+    reload,
   }
 }
