@@ -17,7 +17,6 @@
   import { di } from '/src/di/di.default'
   import { addHash } from '/src/helpers/location.helper'
   import { isDeviceOnline } from '/src/helpers/observable.helper'
-  import { restoreScroll } from '/src/helpers/scroll.helper'
   import { unDestroy } from '/src/helpers/svelte.helper'
 
   const bloc = di(ReportBloc)
@@ -127,8 +126,6 @@
       di(ToastBloc).error(e.message)
     }
   })
-
-  unDestroy(restoreScroll(location.pathname))
 </script>
 
 <MetaTitle titles={['ثبت گزارش', 'موارد']} />
