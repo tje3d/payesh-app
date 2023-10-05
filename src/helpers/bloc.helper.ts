@@ -113,17 +113,14 @@ export function apiLoad<Output>({
   ])
 
   const request = defer(() => {
+    let startCache: undefined | Output
+
+    if (cache) {
+      startCache = loadCache(cache)
+    }
+
     return startObs.pipe(
-      startWith(true),
       switchMap(() => {
-        let startCache: undefined | Output
-
-        if (cache) {
-          startCache = loadCache(cache)
-        }
-
-        loading.next(true)
-
         return api(...apiParams).pipe(
           switchMap((data) => {
             if (data.headers.get('Content-Type') === 'application/json') {
@@ -140,7 +137,6 @@ export function apiLoad<Output>({
 
             saveCache(cache, data)
           }),
-          startWith(startCache),
           catchError((err) => {
             error.next(makeError(err))
 
@@ -149,8 +145,9 @@ export function apiLoad<Output>({
           pipe || rxPipe(),
         )
       }),
+      startWith(startCache),
     )
-  }).pipe(startWith(undefined), shareIt())
+  }).pipe(shareIt())
 
   return {
     error,
