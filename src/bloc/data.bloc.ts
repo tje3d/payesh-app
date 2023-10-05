@@ -24,4 +24,17 @@ export class DataBloc extends Bloc {
     apiParams: ['/1/person'],
     cache: 'person',
   })
+
+  inspectStatOverview = apiLoad<
+    | {
+        today: number
+        yesterday: number
+        last_week: number
+        last_month: number
+      }
+    | undefined
+  >({
+    apiParams: ['/1/stat_reports'],
+    cache: 'stat_reports',
+  })
 }

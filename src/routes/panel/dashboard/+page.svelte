@@ -15,10 +15,11 @@
   import { addHash } from '/src/helpers/location.helper'
   import { isDeviceOnline } from '/src/helpers/observable.helper'
   import { unDestroy } from '/src/helpers/svelte.helper'
+  import { DataBloc } from '/src/bloc/data.bloc'
 
   const displayName = di(AuthBloc).displayName
   const offlineCount = di(OfflineReportBloc).count
-  const error = di(OfflineReportBloc).error
+  const flushError = di(OfflineReportBloc).error
   const flushLoading = di(OfflineReportBloc).flushLoading
   const flushEnd = offlineCount.pipe(
     pairwise(),
@@ -30,6 +31,8 @@
       return false
     }),
   )
+  const inspectStatLoading = di(DataBloc).inspectStatOverview.loading
+  const inspectStat = di(DataBloc).inspectStatOverview.request
 
   function flushOffline() {
     if (!$isDeviceOnline || $flushLoading) {
@@ -45,7 +48,7 @@
     }
   })
 
-  unDestroy(error, (err) => {
+  unDestroy(flushError, (err) => {
     if (err) {
       di(ToastBloc).error(err)
     }
@@ -93,15 +96,23 @@
   <div
     class="h-20 bg-light-surface-2 dark:bg-dark-surface-2 rounded-lg flex-auto flex flex-col items-center justify-center gap-1 shadow-lg"
   >
-    <div class="font-bold text-xl text-teal-500">۳</div>
+    {#if $inspectStatLoading && !$inspectStat}
+      <Spinner class="w-5 h-5 mb-2" />
+    {:else if $inspectStat}
+      <div class="font-bold text-xl text-teal-500">{$inspectStat.today}</div>
+    {/if}
     <div class="text-xs text-gray-500 dark:text-gray-400">گزارشات امروز</div>
   </div>
 
   <div
     class="h-20 bg-light-surface-2 dark:bg-dark-surface-2 rounded-lg flex-auto flex flex-col items-center justify-center gap-1 shadow-lg"
   >
-    <div class="font-bold text-xl text-teal-500">۲۳۰</div>
-    <div class="text-xs text-gray-500 dark:text-gray-400">کل گزارشات</div>
+    {#if $inspectStatLoading && !$inspectStat}
+      <Spinner class="w-5 h-5 mb-2" />
+    {:else if $inspectStat}
+      <div class="font-bold text-xl text-teal-500">{$inspectStat.last_month}</div>
+    {/if}
+    <div class="text-xs text-gray-500 dark:text-gray-400">گزارشات این ماه</div>
   </div>
 </div>
 
