@@ -112,46 +112,45 @@ export function apiLoad<Output>({
     reload,
   ])
 
-  const request = startObs
-    .pipe(
+  const request = defer(() => {
+    return startObs.pipe(
+      startWith(true),
       switchMap(() => {
-        return defer(() => {
-          let startCache: undefined | Output
+        let startCache: undefined | Output
 
-          if (cache) {
-            startCache = loadCache(cache)
-          }
+        if (cache) {
+          startCache = loadCache(cache)
+        }
 
-          loading.next(true)
+        loading.next(true)
 
-          return api(...apiParams).pipe(
-            switchMap((data) => {
-              if (data.headers.get('Content-Type') === 'application/json') {
-                return from(data.json<Output>())
-              }
+        return api(...apiParams).pipe(
+          switchMap((data) => {
+            if (data.headers.get('Content-Type') === 'application/json') {
+              return from(data.json<Output>())
+            }
 
-              return from(data.text() as Promise<Output>)
-            }),
-            tap(() => loading.next(false)),
-            tap((data) => {
-              if (!cache) {
-                return
-              }
+            return from(data.text() as Promise<Output>)
+          }),
+          tap(() => loading.next(false)),
+          tap((data) => {
+            if (!cache) {
+              return
+            }
 
-              saveCache(cache, data)
-            }),
-            startWith(startCache),
-            catchError((err) => {
-              error.next(makeError(err))
+            saveCache(cache, data)
+          }),
+          startWith(startCache),
+          catchError((err) => {
+            error.next(makeError(err))
 
-              return of(undefined)
-            }),
-            pipe || rxPipe(),
-          )
-        })
+            return of(undefined)
+          }),
+          pipe || rxPipe(),
+        )
       }),
     )
-    .pipe(shareIt())
+  }).pipe(startWith(undefined), shareIt())
 
   return {
     error,
