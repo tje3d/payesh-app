@@ -8,7 +8,6 @@
   import IconUserSolid from '~icons/heroicons/user-solid'
   import { AuthBloc } from '/src/bloc/auth.bloc'
   import BottomBarItem from '/src/components/BottomBarItem.svelte'
-  import PanelPopups from '/src/components/PanelPopups.svelte'
   import { di } from '/src/di/di.default'
   import { unDestroy } from '/src/helpers/svelte.helper'
 
@@ -42,5 +41,3 @@
     iconActive={IconUserSolid}
   />
 </div>
-
-<PanelPopups />

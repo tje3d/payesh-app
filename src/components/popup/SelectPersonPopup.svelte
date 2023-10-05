@@ -7,7 +7,9 @@
   import KeyboardEvents from '/src/actions/keyboard-events.action'
   import Ripple from '/src/actions/ripple.action'
   import { PersonSelect } from '/src/bloc/person.select.bloc'
+  import PopupContainer from '/src/components/PopupContainer.svelte'
   import Spinner from '/src/components/Spinner.svelte'
+  import CreatePersonPopup from '/src/components/popup/CreatePersonPopup.svelte'
   import { di } from '/src/di/di.default'
   import type { IKhadem } from '/src/entities/khadem.entity'
   import { addHash } from '/src/helpers/location.helper'
@@ -126,3 +128,7 @@
     </div>
   </div>
 </div>
+
+<PopupContainer key="newPerson" let:close>
+  <CreatePersonPopup {close} on:created={(e) => select(e.detail)} />
+</PopupContainer>

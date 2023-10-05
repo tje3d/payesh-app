@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { createEventDispatcher } from 'svelte'
   import IconArrowLeft from '~icons/heroicons/arrow-left'
   import { PersonCreateBloc } from '/src/bloc/person.create.bloc'
   import { ToastBloc } from '/src/bloc/toast.bloc'
@@ -10,6 +11,7 @@
 
   export let close: () => void
 
+  const dispatcher = createEventDispatcher()
   const bloc = new PersonCreateBloc()
 
   const loading = bloc.create.loading
@@ -32,7 +34,8 @@
 
   unDestroy(bloc.create.request, (result) => {
     if (result) {
-      di(ToastBloc).success(result)
+      di(ToastBloc).success(result.message)
+      dispatcher('created', result.khadem)
       close()
     }
   })

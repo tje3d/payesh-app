@@ -1,10 +1,17 @@
 import { goto } from '$app/navigation'
-import { distinctUntilChanged, map, take } from 'rxjs'
+import { combineLatest, distinctUntilChanged, fromEvent, map, startWith, take } from 'rxjs'
 import { shareIt } from '/src/helpers/observable.helper'
 import { navigating$ } from '/src/helpers/svelte.helper'
 
-export const locationHash = navigating$
-  .pipe(map(() => new URLSearchParams(location.hash.slice(1))))
+export const locationHash = combineLatest([
+  navigating$,
+  fromEvent(window, 'hashchange').pipe(startWith(undefined)),
+])
+  .pipe(
+    map(() => location.hash),
+    distinctUntilChanged(),
+  )
+  .pipe(map((hash) => new URLSearchParams(hash.slice(1))))
   .pipe(shareIt())
 
 export const locationHashObj = locationHash.pipe(

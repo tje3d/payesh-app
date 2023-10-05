@@ -6,16 +6,18 @@
   import IconUserPlus from '~icons/heroicons/user-plus'
   import Ripple from '/src/actions/ripple.action'
   import { AuthBloc } from '/src/bloc/auth.bloc'
+  import { DataBloc } from '/src/bloc/data.bloc'
   import { OfflineReportBloc } from '/src/bloc/offline.report.bloc'
   import { ToastBloc } from '/src/bloc/toast.bloc'
   import LightSwitch from '/src/components/LightSwitch.svelte'
+  import PopupContainer from '/src/components/PopupContainer.svelte'
   import Spinner from '/src/components/Spinner.svelte'
   import MetaTitle from '/src/components/meta-title.svelte'
+  import CreatePersonPopup from '/src/components/popup/CreatePersonPopup.svelte'
   import { di } from '/src/di/di.default'
   import { addHash } from '/src/helpers/location.helper'
   import { isDeviceOnline } from '/src/helpers/observable.helper'
   import { unDestroy } from '/src/helpers/svelte.helper'
-  import { DataBloc } from '/src/bloc/data.bloc'
 
   const displayName = di(AuthBloc).displayName
   const offlineCount = di(OfflineReportBloc).count
@@ -188,3 +190,7 @@
     <IconLeft class="w-4 h-4" />
   </div>
 </div>
+
+<PopupContainer key="newPerson" let:close>
+  <CreatePersonPopup {close} />
+</PopupContainer>
