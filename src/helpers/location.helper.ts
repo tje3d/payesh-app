@@ -45,7 +45,7 @@ export function removeHash(key: string) {
         replaceState: true,
       })
     } else {
-      location.hash = newHash
+      goto('#' + newHash)
     }
   })
 }
