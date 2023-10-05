@@ -27,6 +27,10 @@
       return
     }
 
+    if (nav.to?.route.id === nav.from?.route.id) {
+      return
+    }
+
     return new Promise((fulfil) => {
       document.startViewTransition!(() => new Promise(fulfil as any))
     })
