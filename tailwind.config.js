@@ -6,10 +6,10 @@ export default {
   theme: {
     extend: {
       colors: {
-        'light-surface': '#f7f7f9',
-        'dark-surface': '#0f172a',
+        'light-surface': '#f1f5f9',
+        'dark-surface': '#111827',
         'light-surface-2': '#ffffff',
-        'dark-surface-2': '#121d35',
+        'dark-surface-2': '#1e293b',
         'light-surface-text': '#222222',
         'dark-surface-text': '#9ca3af',
       },

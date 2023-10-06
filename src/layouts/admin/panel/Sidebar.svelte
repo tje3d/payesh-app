@@ -1,6 +1,6 @@
 <script lang="ts">
   import { afterNavigate } from '$app/navigation'
-  import { fly, slide } from 'svelte/transition'
+  import { fade, fly, slide } from 'svelte/transition'
   import IconChevronDown from '~icons/heroicons/chevron-down'
   import IconChevronRight from '~icons/heroicons/chevron-right'
   import type { SidebarItem } from '/src/assets/data/sidebar.data'
@@ -45,18 +45,19 @@
   })
 </script>
 
-{#if $isOpen}
+{#if $isOpen && $isMobile}
   <div
     class="bg-black bg-opacity-50 fixed top-0 right-0 bottom-0 left-0 z-[19] md:hidden"
     on:click={onBackdropClick}
     role="button"
     tabindex="-1"
+    transition:fade|local
   />
 {/if}
 
 {#if $isOpen}
   <div
-    class="sidebar fixed top-0 bottom-0 w-72 bg-[#3830a3] dark:bg-[#131d35] flex flex-col z-[20]"
+    class="sidebar fixed top-0 bottom-0 w-72 bg-gray-900 flex flex-col z-[20]"
     transition:fly|local={{ x: 288, opacity: 1 }}
   >
     <!-- Header - Start -->
@@ -79,7 +80,7 @@
             <li class="pt-6" />
 
             <li class="py-3 px-4 text-xs mx-3 item-sidebar-title">
-              <span class="font-bold text-[#17b8a6] uppercase">{item.text}</span>
+              <span class="font-bold text-[#818cf8] uppercase">{item.text}</span>
             </li>
           {:else}
             <li class="mb-1">
