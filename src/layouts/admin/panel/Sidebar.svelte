@@ -47,7 +47,7 @@
 
 {#if $isOpen}
   <div
-    class="bg-black bg-opacity-50 fixed top-0 right-0 bottom-0 left-0 z-[149] md:hidden"
+    class="bg-black bg-opacity-50 fixed top-0 right-0 bottom-0 left-0 z-[19] md:hidden"
     on:click={onBackdropClick}
     role="button"
     tabindex="-1"
