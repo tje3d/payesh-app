@@ -121,6 +121,8 @@ export function apiLoad<Output>({
 
     return startObs.pipe(
       switchMap(() => {
+        loading.next(true)
+
         return api(...apiParams).pipe(
           switchMap((data) => {
             if (data.headers.get('Content-Type') === 'application/json') {
@@ -140,7 +142,7 @@ export function apiLoad<Output>({
           catchError((err) => {
             error.next(makeError(err))
 
-            return of(undefined)
+            return of(startCache)
           }),
           pipe || rxPipe(),
         )
