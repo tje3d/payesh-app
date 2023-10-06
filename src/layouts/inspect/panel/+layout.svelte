@@ -13,7 +13,7 @@
 </div>
 
 <div
-  class="fixed right-0 bottom-0 left-0 z-10 bg-white dark:bg-[#2c2f47] flex justify-between items-center px-6 h-20 rounded-t-2xl shadow-[0_35px_60px_-10px_rgba(0,0,0,0.9)]"
+  class="fixed right-0 bottom-0 left-0 z-10 bg-light-surface-2 dark:bg-dark-surface-2 flex justify-between items-center px-6 h-20 rounded-t-2xl shadow-[0_35px_60px_-10px_rgba(0,0,0,0.9)] text-light-surface-text dark:text-dark-surface-text"
 >
   <BottomBarItem
     href="/panel/dashboard"

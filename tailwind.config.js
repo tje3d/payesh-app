@@ -7,11 +7,11 @@ export default {
     extend: {
       colors: {
         'light-surface': '#f7f7f9',
-        'dark-surface': '#282a42',
+        'dark-surface': '#0f172a',
         'light-surface-2': '#ffffff',
-        'dark-surface-2': '#2f314c',
+        'dark-surface-2': '#121d35',
         'light-surface-text': '#222222',
-        'dark-surface-text': '#ececec',
+        'dark-surface-text': '#9ca3af',
       },
     },
   },
