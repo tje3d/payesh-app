@@ -58,13 +58,14 @@
       return
     }
 
-    const time = dayjs().calendar('gregory').format('YYYY-MM-DD HH:mm')
+    const [date, time] = dayjs().calendar('gregory').format('YYYY-MM-DD HH:mm:ss').split(' ')
 
     return {
       organ_management: +$management,
       organ_office: +$office,
       organ_post: +$post,
       person: $selectedPerson.id,
+      date,
       time,
       items: $selectedOptions,
     }

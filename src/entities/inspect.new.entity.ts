@@ -5,6 +5,7 @@ export default class InspectNew implements IInspectNew {
   organ_office: number
   organ_post: number
   person: number
+  date: string
   time: string
   items: number[]
 
@@ -13,6 +14,7 @@ export default class InspectNew implements IInspectNew {
     this.organ_office = opt.organ_office
     this.organ_post = opt.organ_post
     this.person = opt.person
+    this.date = opt.date
     this.time = opt.time
     this.items = opt.items
   }
@@ -23,6 +25,7 @@ export const InspectNewSchema = z.object({
   organ_office: z.number().positive(),
   organ_post: z.number().positive(),
   person: z.number().positive(),
+  date: z.string(),
   time: z.string(),
   items: z.number().array(),
 })

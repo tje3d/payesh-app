@@ -16,7 +16,7 @@ import {
   tap,
 } from 'rxjs'
 import { Bloc, SvelteSubject } from './bloc.default'
-import type { IInspectOffline } from '/src/entities/inspect.offline.entity'
+import type { IInspectNew } from '/src/entities/inspect.new.entity'
 import { api } from '/src/helpers/api.helper'
 import { loadCacheJsonIfAny } from '/src/helpers/cache.helper'
 import { onStorage, shareIt } from '/src/helpers/observable.helper'
@@ -27,13 +27,13 @@ export class OfflineReportBloc extends Bloc {
   storageKey: string = 'offlineReports'
 
   items = defer(() => {
-    const start: IInspectOffline[] = loadCacheJsonIfAny(this.storageKey) || []
+    const start: IInspectNew[] = loadCacheJsonIfAny(this.storageKey) || []
 
     return onStorage.pipe(
       startWith(null),
       map((key) => {
         if (key !== null && key === this.storageKey) {
-          return (loadCacheJsonIfAny(this.storageKey) as IInspectOffline[] | null) || []
+          return (loadCacheJsonIfAny(this.storageKey) as IInspectNew[] | null) || []
         }
 
         return start
@@ -46,7 +46,7 @@ export class OfflineReportBloc extends Bloc {
     shareIt(),
   )
 
-  add = new Subject<IInspectOffline>()
+  add = new Subject<IInspectNew>()
 
   init: Observable<boolean>
 
@@ -87,7 +87,7 @@ export class OfflineReportBloc extends Bloc {
             tap((result) => {
               // ─── Remove Items ────
 
-              let output: (IInspectOffline | undefined)[] = fullItems
+              let output: (IInspectNew | undefined)[] = fullItems
               let hasAny = false
 
               result.forEach((index) => {
