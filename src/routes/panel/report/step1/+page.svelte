@@ -120,7 +120,7 @@
   <div class="px-4 flex items-center justify-between">
     <button
       type="button"
-      class="btn indigo icon shrink-0"
+      class="btn primary icon shrink-0"
       disabled={!$selectedPerson || !$management || !$post || !$office}
       on:click|preventDefault={nextStep}
     >

@@ -197,7 +197,9 @@
       <div class="mt-6 px-4 flex items-center justify-between">
         <button
           type="button"
-          class="btn indigo"
+          class="btn"
+          class:primary={!$isDeviceOnline}
+          class:gray={$isDeviceOnline}
           class:ghost={$isDeviceOnline}
           class:opacity-50={$isDeviceOnline}
           on:click|preventDefault={storeOffline}
@@ -208,7 +210,9 @@
 
         <button
           type="button"
-          class="btn indigo icon shrink-0"
+          class="btn icon shrink-0"
+          class:primary={$isDeviceOnline}
+          class:gray={!$isDeviceOnline}
           class:loading={$sendLoading}
           on:click|preventDefault={onSubmit}
           disabled={!$isDeviceOnline}

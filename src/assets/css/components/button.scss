@@ -36,6 +36,10 @@
     @apply bg-pink-500 shadow-pink-500/20 hover:shadow-pink-500/40 text-white;
   }
 
+  &.primary {
+    @apply bg-primary shadow-primary/20 hover:shadow-primary/40 text-white;
+  }
+
   &.indigo {
     @apply bg-indigo-500 shadow-indigo-500/20 hover:shadow-indigo-500/40 text-white;
   }

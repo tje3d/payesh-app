@@ -132,6 +132,12 @@ export function apiLoad<Output>({
             return from(data.text() as Promise<Output>)
           }),
           tap(() => loading.next(false)),
+          catchError((err) => {
+            error.next(makeError(err))
+
+            return of(startCache)
+          }),
+          pipe || rxPipe(),
           tap((data) => {
             if (!cache) {
               return
@@ -139,12 +145,6 @@ export function apiLoad<Output>({
 
             saveCache(cache, data)
           }),
-          catchError((err) => {
-            error.next(makeError(err))
-
-            return of(startCache)
-          }),
-          pipe || rxPipe(),
         )
       }),
       startWith(startCache),

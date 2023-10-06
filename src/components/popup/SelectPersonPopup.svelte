@@ -94,7 +94,7 @@
     {/if}
 
     {#if $filtered.length === 0 && !$loading}
-      <button type="button" class="btn indigo w-full text-sm" on:click={addPerson}>
+      <button type="button" class="btn primary w-full text-sm" on:click={addPerson}>
         ثبت خادم جدید
       </button>
     {/if}

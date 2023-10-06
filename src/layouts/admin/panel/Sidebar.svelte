@@ -57,7 +57,7 @@
 
 {#if $isOpen}
   <div
-    class="sidebar fixed top-0 bottom-0 w-72 bg-gray-900 flex flex-col z-[20]"
+    class="sidebar fixed top-0 bottom-0 w-72 bg-gray-900 flex flex-col z-[20] border-l border-white/10"
     transition:fly|local={{ x: 288, opacity: 1 }}
   >
     <!-- Header - Start -->
@@ -80,7 +80,7 @@
             <li class="pt-6" />
 
             <li class="py-3 px-4 text-xs mx-3 item-sidebar-title">
-              <span class="font-bold text-[#818cf8] uppercase">{item.text}</span>
+              <span class="font-bold text-primary uppercase">{item.text}</span>
             </li>
           {:else}
             <li class="mb-1">

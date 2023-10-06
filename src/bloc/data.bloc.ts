@@ -1,4 +1,13 @@
-import { debounceTime, distinctUntilChanged, fromEvent, map, startWith } from 'rxjs'
+import {
+  debounceTime,
+  distinctUntilChanged,
+  fromEvent,
+  map,
+  of,
+  pipe,
+  startWith,
+  switchMap,
+} from 'rxjs'
 import { Bloc } from './bloc.default'
 import { ReportBloc } from '/src/bloc/report.bloc'
 import { di } from '/src/di/di.default'
@@ -41,6 +50,24 @@ export class DataBloc extends Bloc {
     apiParams: ['/1/stat_reports'],
     cache: 'stat_reports',
     before: di(ReportBloc).send.request.pipe(startWith(true)),
+  })
+
+  reportDetails = apiLoad<{ title: string; false: number; true: number }[]>({
+    apiParams: ['/1/report_by_details'],
+    cache: 'report_by_details',
+    pipe: pipe(
+      switchMap((result: any[] | undefined) => {
+        return of(
+          result?.map((item) => {
+            return {
+              title: item.item.title,
+              false: item.false + item.null,
+              true: item.true,
+            }
+          }),
+        )
+      }),
+    ),
   })
 
   hasFocus = fromEvent(window, 'focus').pipe(startWith(true), shareIt())

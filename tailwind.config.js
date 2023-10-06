@@ -12,6 +12,7 @@ export default {
         'dark-surface-2': '#1e293b',
         'light-surface-text': '#222222',
         'dark-surface-text': '#9ca3af',
+        primary: '#17b8a6',
       },
     },
   },

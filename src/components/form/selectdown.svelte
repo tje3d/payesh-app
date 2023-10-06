@@ -240,7 +240,7 @@
     <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
     <!-- svelte-ignore a11y-no-static-element-interactions -->
     <div
-      class={`selectdown h-full w-full rounded-[7px] border border-blue-gray-200 bg-transparent px-3 py-2.5 text-sm font-normal text-blue-gray-700 dark:text-blue-gray-200 outline outline-0 transition-all focus:border-2 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-0 flex items-center cursor-pointer ${
+      class={`selectdown h-full w-full rounded-[7px] border border-blue-gray-200 bg-transparent px-3 py-2.5 text-sm font-normal text-blue-gray-700 dark:text-blue-gray-200 outline outline-0 transition-all focus:border-2 focus:border-primary dark:focus:border-primary focus:outline-0 flex items-center cursor-pointer ${
         $isEmpty
           ? 'border border-blue-gray-200 border-t-blue-gray-200 dark:border-gray-600 dark:border-t-gray-600'
           : 'border-t-transparent focus:border-t-transparent dark:focus:border-t-transparent'
@@ -276,9 +276,9 @@
         $isEmpty ? 'text-sm text-gray-500 before:border-transparent after:border-transparent' : ''
       } ${
         $isFocus
-          ? 'text-[11px] text-blue-500 before:border-t-2 before:border-r-2 after:border-t-2 after:border-l-2'
+          ? 'text-[11px] text-primary before:border-t-2 before:border-r-2 after:border-t-2 after:border-l-2'
           : ''
-      } ${$isFocus && !$isEmpty ? 'before:!border-blue-500 after:!border-blue-500' : ''} ${
+      } ${$isFocus && !$isEmpty ? 'before:!border-primary after:!border-primary' : ''} ${
         disabled
           ? 'text-transparent before:border-transparent after:border-transparent text-gray-500'
           : ''
