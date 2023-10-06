@@ -16,7 +16,7 @@
 </script>
 
 {#if $isLoggedIn}
-  {#await import(`/src/layouts/${$layout}/panel/+layout.svelte`) then c}
+  {#await import(`../../layouts/${$layout}/panel/+layout.svelte`) then c}
     <svelte:component this={c.default}>
       <slot />
     </svelte:component>
