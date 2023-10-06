@@ -7,7 +7,7 @@ export class AuthBloc extends Bloc {
   user = new SvelteSubject<AuthUser | undefined>(undefined)
 
   ready = new SvelteSubject<boolean>(false)
-  isLoggedIn$ = this.token.pipe(map((token) => !!token)).pipe(distinctUntilChanged())
+  isLoggedIn = this.token.pipe(map((token) => !!token)).pipe(distinctUntilChanged())
 
   displayName = combineLatest([this.user, this.token]).pipe(
     map(([user, token]) => {
@@ -20,16 +20,6 @@ export class AuthBloc extends Bloc {
       }
 
       return `${user.name}`
-    }),
-  )
-
-  initialRoute$ = this.user.pipe(
-    map((user) => {
-      if (!user) {
-        return '/login'
-      }
-
-      return '/panel'
     }),
   )
 

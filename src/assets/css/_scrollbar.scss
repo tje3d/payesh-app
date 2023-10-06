@@ -1,0 +1,50 @@
+@media screen and (min-width: 960px) {
+  ::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  html.light ::-webkit-scrollbar-thumb {
+    background: #665ee9;
+    border-radius: 20px;
+  }
+
+  html.dark ::-webkit-scrollbar-thumb {
+    background: #1f3159;
+    border-radius: 20px;
+  }
+
+  html.light ::-webkit-scrollbar-thumb:hover {
+    background: #716ae9;
+  }
+
+  html.dark ::-webkit-scrollbar-thumb:hover {
+    background: #284074;
+  }
+
+  html.light {
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: #665ee9 transparent;
+
+      &:hover {
+        scrollbar-color: #716ae9 transparent;
+      }
+    }
+  }
+
+  html.dark {
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: #1f3159 transparent;
+
+      &:hover {
+        scrollbar-color: #284074 transparent;
+      }
+    }
+  }
+}

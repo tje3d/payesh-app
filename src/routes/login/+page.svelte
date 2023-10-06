@@ -13,7 +13,7 @@
   import { unDestroy } from '/src/helpers/svelte.helper'
 
   const bloc = new LoginBloc()
-  const isLoggedIn = di(AuthBloc).isLoggedIn$
+  const isLoggedIn = di(AuthBloc).isLoggedIn
 
   const login = bloc.login
   const loading = login.loading

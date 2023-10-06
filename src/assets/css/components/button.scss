@@ -45,6 +45,6 @@
   }
 
   &.circle {
-    @apply flex items-center justify-center rounded-full p-3;
+    @apply flex items-center justify-center rounded-full p-3 aspect-square;
   }
 }
