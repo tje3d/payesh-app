@@ -37,6 +37,7 @@
   "dependencies": {
     "@iconify-json/heroicons": "^1.1.12",
     "dayjs": "^1.11.10",
+    "echarts": "^5.4.3",
     "jalaali-js": "^1.2.6",
     "jalaliday": "^2.3.0",
     "ky": "^1.0.1",
