@@ -1,5 +1,6 @@
 <script lang="ts">
   import { afterNavigate } from '$app/navigation'
+  import { onDestroy } from 'svelte'
   import { fade, fly, slide } from 'svelte/transition'
   import IconChevronDown from '~icons/heroicons/chevron-down'
   import IconChevronRight from '~icons/heroicons/chevron-right'
@@ -41,6 +42,10 @@
   })
 
   afterNavigate(() => {
+    sidebarBloc.resetManual()
+  })
+
+  onDestroy(() => {
     sidebarBloc.resetManual()
   })
 </script>
