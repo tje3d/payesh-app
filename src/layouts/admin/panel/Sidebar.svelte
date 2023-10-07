@@ -67,7 +67,7 @@
   >
     <!-- Header - Start -->
     {#if !$isMobile}
-      <a href="/panel" class="flex items-center h-20 p-6 pb-0">
+      <a href="/panel/dashboard" class="flex items-center h-20 p-6 pb-0">
         <img
           src="/images/logo.png"
           class="invert w-16 mx-auto max-h-full object-contain"

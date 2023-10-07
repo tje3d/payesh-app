@@ -1,5 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher, onDestroy } from 'svelte'
+  import { fly, slide } from 'svelte/transition'
   import IconArrowLeft from '~icons/heroicons/arrow-left'
   import IconSearch from '~icons/heroicons/magnifying-glass'
   import IconXMark from '~icons/heroicons/x-mark'
@@ -13,6 +14,7 @@
   import { di } from '/src/di/di.default'
   import type { IKhadem } from '/src/entities/khadem.entity'
   import { addHash } from '/src/helpers/location.helper'
+  import { flip } from 'svelte/animate'
 
   export let close: () => void
 
@@ -88,13 +90,18 @@
 
   <div class="p-4">
     {#if $filtered.length === 0 && $loading}
-      <div class="mt-4 flex justify-center">
+      <div transition:slide|local class="mb-4 flex justify-center">
         <Spinner class="w-6 h-6" />
       </div>
     {/if}
 
-    {#if $filtered.length === 0 && !$loading}
-      <button type="button" class="btn primary w-full text-sm" on:click={addPerson}>
+    {#if $filtered.length === 0 && $search}
+      <button
+        in:fly|local={{ y: -10 }}
+        type="button"
+        class="btn primary w-full text-sm"
+        on:click={addPerson}
+      >
         ثبت خادم جدید
       </button>
     {/if}
@@ -102,6 +109,7 @@
     <div class="flex flex-col gap-4">
       {#each $filtered as person, i (person.id)}
         <div
+          animate:flip={{ duration: 300 }}
           class="btn font-normal gray bg-white dark:bg-white/5 shadow-none border dark:border-gray-700 icon cursor-pointer py-3 px-2 text-base"
           use:Ripple
           on:click={() => select(person)}
