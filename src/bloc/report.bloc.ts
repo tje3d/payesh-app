@@ -7,6 +7,7 @@ import { apiSend } from '/src/helpers/bloc.helper'
 export class ReportBloc extends Bloc {
   management = new SvelteSubject<number | undefined>(undefined)
   office = new SvelteSubject<number | undefined>(undefined)
+  file = new SvelteSubject<File | undefined>(undefined)
   post = new SvelteSubject<number | undefined>(undefined)
   selectedPerson = new SvelteSubject<IKhadem | undefined>(undefined)
   selectedOptions = new SvelteSubject<number[]>([])
