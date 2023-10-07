@@ -77,12 +77,12 @@
       },
       series: [
         {
-          name: 'دارد',
+          name: 'ندارد',
           type: 'bar',
           data: result.map((item) => item.true),
         },
         {
-          name: 'ندارد',
+          name: 'دارد',
           type: 'bar',
           data: result.map((item) => item.false),
         },
