@@ -1,61 +1,69 @@
 .chip {
-	@apply relative inline-block select-none whitespace-nowrap rounded-lg py-2 px-3.5 align-baseline text-xs font-bold uppercase leading-none;
+  @apply relative inline-block select-none whitespace-nowrap rounded-lg py-2 px-3.5 align-baseline text-xs font-bold uppercase leading-none;
 
-	&.blue {
-		@apply bg-blue-500 text-white;
-	}
+  &.primary {
+    @apply bg-primary text-white;
+  }
 
-	&.indigo {
-		@apply bg-indigo-500 text-white;
-	}
+  &.blue {
+    @apply bg-blue-500 text-white;
+  }
 
-	&.green {
-		@apply bg-green-500 text-white;
-	}
+  &.indigo {
+    @apply bg-indigo-500 text-white;
+  }
 
-	&.teal {
-		@apply bg-teal-500 text-white;
-	}
+  &.green {
+    @apply bg-green-500 text-white;
+  }
 
-	&.orange {
-		@apply bg-orange-500 text-white;
-	}
+  &.teal {
+    @apply bg-teal-500 text-white;
+  }
 
-	&.gray {
-		@apply bg-gray-500 text-white;
-	}
+  &.orange {
+    @apply bg-orange-500 text-white;
+  }
 
-	&.red {
-		@apply bg-red-500 text-white;
-	}
+  &.gray {
+    @apply bg-gray-500 text-white;
+  }
 
-	&.ghost {
-		&.blue {
-			@apply bg-blue-500/10 text-blue-500;
-		}
+  &.red {
+    @apply bg-red-500 text-white;
+  }
 
-		&.indigo {
-			@apply bg-indigo-500/10 text-indigo-500;
-		}
+  &.ghost {
+    &.primary {
+      @apply bg-primary/10 text-primary;
+    }
 
-		&.green {
-			@apply bg-green-500/10 text-green-500;
-		}
+    &.blue {
+      @apply bg-blue-500/10 text-blue-500;
+    }
 
-		&.teal {
-			@apply bg-teal-500/10 text-teal-500;
-		}
+    &.indigo {
+      @apply bg-indigo-500/10 text-indigo-500;
+    }
 
-		&.orange {
-			@apply bg-orange-500/10 text-orange-500;
-		}
+    &.green {
+      @apply bg-green-500/10 text-green-500;
+    }
 
-		&.gray {
-			@apply bg-gray-600/10 text-gray-600;
-		}
+    &.teal {
+      @apply bg-teal-500/10 text-teal-500;
+    }
 
-		&.red {
-			@apply bg-red-500/10 text-red-500;
-		}
-	}
+    &.orange {
+      @apply bg-orange-500/10 text-orange-500;
+    }
+
+    &.gray {
+      @apply bg-gray-600/10 text-gray-600;
+    }
+
+    &.red {
+      @apply bg-red-500/10 text-red-500;
+    }
+  }
 }

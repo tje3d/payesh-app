@@ -11,6 +11,14 @@
   &.ghost {
     @apply shadow-none;
 
+    &.primary {
+      @apply bg-transparent hover:bg-primary/10 active:bg-primary/20 text-inherit;
+    }
+
+    &.red {
+      @apply bg-transparent hover:bg-rose-500/10 active:bg-rose-500/20 text-inherit;
+    }
+
     &.pink {
       @apply bg-transparent hover:bg-pink-500/10 active:bg-pink-500/20 text-inherit;
     }
@@ -38,6 +46,10 @@
 
   &.primary {
     @apply bg-primary shadow-primary/20 hover:shadow-primary/40 text-white;
+  }
+
+  &.red {
+    @apply bg-rose-500 shadow-rose-500/20 hover:shadow-rose-500/40 text-white;
   }
 
   &.indigo {
