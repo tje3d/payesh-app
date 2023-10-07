@@ -1,12 +1,11 @@
 <script lang="ts">
   import { goto } from '$app/navigation'
   import dayjs from 'dayjs'
+  import { combineLatestAll, from, map, switchMap, take } from 'rxjs'
   import { onDestroy, onMount } from 'svelte'
-  import { fade, fly } from 'svelte/transition'
   import IconArrowLeft from '~icons/heroicons/arrow-left'
-  import IconArrowRight from '~icons/heroicons/arrow-right'
-  import IconTrash from '~icons/heroicons/trash'
   import IconUpload from '~icons/heroicons/cloud-arrow-up'
+  import IconTrash from '~icons/heroicons/trash'
   import IconX from '~icons/heroicons/x-mark'
   import { focusTrap } from '/src/actions/focusTrap.action'
   import Ripple from '/src/actions/ripple.action'
@@ -18,12 +17,10 @@
   import Checkbox from '/src/components/form/checkbox.svelte'
   import MetaTitle from '/src/components/meta-title.svelte'
   import { di } from '/src/di/di.default'
+  import { imagePreview, pickFile, resizeImage } from '/src/helpers/file.helper'
   import { addHash } from '/src/helpers/location.helper'
   import { isDeviceOnline } from '/src/helpers/observable.helper'
   import { unDestroy } from '/src/helpers/svelte.helper'
-  import { imagePreview, pickFile, resizeImage } from '/src/helpers/file.helper'
-  import { Observable, combineLatestAll, from, map, switchMap, take } from 'rxjs'
-  import { SvelteSubject } from '/src/bloc/bloc.default'
 
   const bloc = di(ReportBloc)
   const dataBloc = di(DataBloc)
@@ -34,7 +31,6 @@
   const post = bloc.post
   const selectedPerson = bloc.selectedPerson
   const selectedOptions = bloc.selectedOptions
-  const hasSelectedOptions = bloc.hasSelectedOptions
   const send = bloc.send.request
   const sendLoading = bloc.send.loading
   const step = bloc.step
@@ -259,47 +255,36 @@
       </div>
     </div>
 
-    {#if !$hasSelectedOptions}
-      <div class="mt-6 px-4 flex justify-center" in:fade|local>
-        <button type="button" class="btn ghost gray icon" on:click={back}>
-          <IconArrowRight class="w-4 h-4" />
-          <span>بازگشت</span>
-        </button>
-      </div>
-    {:else}
-      <div class="mt-6 px-4 flex items-center justify-between">
-        <button
-          type="button"
-          class="btn"
-          class:primary={!$isDeviceOnline}
-          class:gray={$isDeviceOnline}
-          class:ghost={$isDeviceOnline}
-          class:opacity-50={$isDeviceOnline}
-          on:click|preventDefault={storeOffline}
-          in:fly|local={{ x: 20 }}
-        >
-          <span> ذخیره برای ارسال آفلاین </span>
-        </button>
+    <div class="mt-6 px-4 flex items-center justify-between">
+      <button
+        type="button"
+        class="btn"
+        class:primary={!$isDeviceOnline}
+        class:gray={$isDeviceOnline}
+        class:ghost={$isDeviceOnline}
+        class:opacity-50={$isDeviceOnline}
+        on:click|preventDefault={storeOffline}
+      >
+        <span> ذخیره برای ارسال آفلاین </span>
+      </button>
 
-        <button
-          type="button"
-          class="btn icon shrink-0"
-          class:primary={$isDeviceOnline}
-          class:gray={!$isDeviceOnline}
-          class:loading={$sendLoading}
-          on:click|preventDefault={onSubmit}
-          disabled={!$isDeviceOnline}
-          in:fly|local={{ x: -20 }}
-        >
-          <span>ارسال اطلاعات</span>
+      <button
+        type="button"
+        class="btn icon shrink-0"
+        class:primary={$isDeviceOnline}
+        class:gray={!$isDeviceOnline}
+        class:loading={$sendLoading}
+        on:click|preventDefault={onSubmit}
+        disabled={!$isDeviceOnline}
+      >
+        <span>ارسال اطلاعات</span>
 
-          {#if $sendLoading}
-            <Spinner class="w-4 h-4 mx-auto" />
-          {:else}
-            <IconArrowLeft class="w-4 h-4" />
-          {/if}
-        </button>
-      </div>
-    {/if}
+        {#if $sendLoading}
+          <Spinner class="w-4 h-4 mx-auto" />
+        {:else}
+          <IconArrowLeft class="w-4 h-4" />
+        {/if}
+      </button>
+    </div>
   </div>
 {/if}
