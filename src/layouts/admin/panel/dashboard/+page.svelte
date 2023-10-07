@@ -1,6 +1,6 @@
 <script lang="ts">
   import * as echarts from 'echarts'
-  import { combineLatest, pairwise, startWith, switchMap } from 'rxjs'
+  import { combineLatest, delay, pairwise, startWith, switchMap } from 'rxjs'
   import { onDestroy } from 'svelte'
   import IconArrowLeft from '~icons/heroicons/arrow-left'
   import { DataBloc } from '/src/bloc/data.bloc'
@@ -13,6 +13,7 @@
   const reportDetails = di(DataBloc).reportDetails.request
   const resize = di(DataBloc).resize
   const isDark = di(ThemeBloc).isDark
+  const isMobile = di(DataBloc).isMobile
 
   let chartTarget: HTMLDivElement | undefined
   let theChart: echarts.ECharts | undefined
@@ -30,6 +31,11 @@
     ),
   )
 
+  // Make sure transitions ends
+  unDestroy(resize.pipe(delay(500)), () => {
+    theChart?.resize()
+  })
+
   unDestroy(start, ([result]) => {
     if (!result) {
       return
@@ -43,6 +49,7 @@
       title: {
         text: 'گزارش براساس گزینه‌ها',
         right: 0,
+        show: !$isMobile,
       },
       textStyle: {
         fontFamily: 'VazirFA',

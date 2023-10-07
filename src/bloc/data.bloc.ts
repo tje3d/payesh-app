@@ -61,7 +61,7 @@ export class DataBloc extends Bloc {
           result?.map((item) => {
             return {
               title: item.item.title,
-              false: item.false + item.null,
+              false: item.false,
               true: item.true,
             }
           }),
