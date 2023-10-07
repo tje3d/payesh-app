@@ -290,7 +290,7 @@
     </label>
   </div>
 
-  {#if !disabled && $showDropdown}
+  {#if !disabled && $showDropdown && $list$.length > 0}
     <div
       class="absolute right-0 z-20 w-full pb-2 mt-2 origin-top bg-white dark:bg-[#30334e] rounded-md shadow-[rgba(0,_0,_0,_0.25)_0px_25px_50px_-12px]"
       class:pt-14={$hasSearch}

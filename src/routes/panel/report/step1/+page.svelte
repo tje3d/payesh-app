@@ -12,6 +12,7 @@
   import MetaTitle from '/src/components/meta-title.svelte'
   import { di, get } from '/src/di/di.default'
   import { addHash } from '/src/helpers/location.helper'
+  import { map, switchMap } from 'rxjs'
 
   const bloc = get(ReportBloc)
   const dataBloc = di(DataBloc)
@@ -25,6 +26,38 @@
 
   const organsLoading = dataBloc.organs.loading
   const organs = dataBloc.organs.request
+
+  const officeList = management.pipe(
+    switchMap((manage) =>
+      organs.pipe(
+        map((organs) => {
+          if (!manage) {
+            return
+          }
+
+          return organs?.offices
+            .filter((item) => item.management_id === manage)
+            .map((item) => ({ value: item.id, title: item.title }))
+        }),
+      ),
+    ),
+  )
+
+  const postList = office.pipe(
+    switchMap((office) =>
+      organs.pipe(
+        map((organs) => {
+          if (!office) {
+            return
+          }
+
+          return organs?.posts
+            .filter((item) => item.office_id === office)
+            .map((item) => ({ value: item.id, title: item.title }))
+        }),
+      ),
+    ),
+  )
 
   function nextStep() {
     goto('/panel/report/step2')
@@ -59,17 +92,9 @@
             []}
         />
 
-        <Selectdown
-          bind:value={$office}
-          label="انتخاب اداره"
-          options={$organs?.offices.map((item) => ({ value: item.id, title: item.title })) || []}
-        />
+        <Selectdown bind:value={$office} label="انتخاب اداره" options={$officeList || []} />
 
-        <Selectdown
-          bind:value={$post}
-          label="انتخاب پست"
-          options={$organs?.posts.map((item) => ({ value: item.id, title: item.title })) || []}
-        />
+        <Selectdown bind:value={$post} label="انتخاب پست" options={$postList || []} />
       {/if}
     </div>
   </div>

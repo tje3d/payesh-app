@@ -5,9 +5,9 @@ import type { IKhadem } from '/src/entities/khadem.entity'
 import { apiSend } from '/src/helpers/bloc.helper'
 
 export class ReportBloc extends Bloc {
-  management = new SvelteSubject<string | undefined>(undefined)
-  office = new SvelteSubject<string | undefined>(undefined)
-  post = new SvelteSubject<string | undefined>(undefined)
+  management = new SvelteSubject<number | undefined>(undefined)
+  office = new SvelteSubject<number | undefined>(undefined)
+  post = new SvelteSubject<number | undefined>(undefined)
   selectedPerson = new SvelteSubject<IKhadem | undefined>(undefined)
   selectedOptions = new SvelteSubject<number[]>([])
   hasSelectedOptions = this.selectedOptions.pipe(map((items) => items.length !== 0))
