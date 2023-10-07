@@ -142,8 +142,6 @@ export class OfflineReportBloc extends Bloc {
 
           this.sub(addObservable, () => dev && console.log('Offline Item Added'))
 
-          this.sub(this.flush)
-
           !observer.closed && observer.next(true)
 
           return () => {

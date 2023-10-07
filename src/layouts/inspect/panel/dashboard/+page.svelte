@@ -63,6 +63,8 @@
       di(ToastBloc).error(err)
     }
   })
+
+  unDestroy(di(OfflineReportBloc).flush)
 </script>
 
 <MetaTitle titles="داشبورد" />
