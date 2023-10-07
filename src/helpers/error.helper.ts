@@ -34,7 +34,7 @@ export function makeError(err: any) {
     }
   }
 
-  console.error(err)
+  // if (err?.name === 'TimeoutError')
 
   return new Error(`ارتباط برقرار نشد`)
 }

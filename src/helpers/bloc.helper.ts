@@ -12,6 +12,7 @@ import {
   tap,
   timer,
   type MonoTypeOperatorFunction,
+  type OperatorFunction,
 } from 'rxjs'
 import type z from 'zod'
 import { SvelteSubject } from '/src/bloc/bloc.default'
@@ -26,11 +27,13 @@ export function apiSend<
   SchemaType = z.objectOutputType<T, z.ZodTypeAny, z.UnknownKeysParam>,
 >({
   schema,
+  catchErr,
   pipe,
   apiParams,
 }: {
   schema: z.ZodObject<T>
-  pipe: MonoTypeOperatorFunction<any>
+  catchErr?: OperatorFunction<any, any>
+  pipe?: OperatorFunction<any, any>
   apiParams: Parameters<typeof api>
 }) {
   const error = new SvelteSubject<z.ZodError | ApiErrors | undefined>(undefined)
@@ -61,12 +64,13 @@ export function apiSend<
           } as (typeof apiParams)[1])
 
           return from(api(...apiParams)).pipe(
-            pipe,
-            catchError((err) => {
-              error.next(makeError(err))
+            catchErr ||
+              catchError((err) => {
+                error.next(makeError(err))
 
-              return of(undefined)
-            }),
+                return of(undefined)
+              }),
+            pipe || rxPipe(),
             tap(() => loading.next(false)),
           )
         }),

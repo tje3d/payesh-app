@@ -41,6 +41,7 @@ export function fetchKy(url: Parameters<typeof ky>[0], options?: Parameters<type
         limit: Infinity,
         backoffLimit: 10000,
       },
+      timeout: 30000,
       signal: abort.signal,
     } as typeof options)
 
@@ -67,7 +68,7 @@ export function fetchKy(url: Parameters<typeof ky>[0], options?: Parameters<type
 }
 
 export function api(url: Parameters<typeof fetchKy>[0], options?: Parameters<typeof fetchKy>[1]) {
-  url = import.meta.env.VITE_API_URL + url + "/"
+  url = import.meta.env.VITE_API_URL + url + '/'
   const token = di(AuthBloc).token.value
 
   if (token) {
