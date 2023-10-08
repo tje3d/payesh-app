@@ -182,9 +182,9 @@
     <!-- info -->
 
     <div class="px-4 mb-4">
-      <div class="chip orange ghost">
+      <div class="chip orange ghost whitespace-normal">
         <strong>توجه:</strong>
-        متن راهنما در این محل قرار میگیرد
+        خواهشمند است موارد مربوط به عدم آراستگی را مشخص کنید
       </div>
     </div>
 
