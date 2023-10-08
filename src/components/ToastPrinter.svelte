@@ -12,7 +12,7 @@
 </script>
 
 {#if $item}
-  <div class="fixed z-[100] left-0 bottom-24 right-0 px-4">
+  <div class="fixed z-[100] left-0 bottom-24 right-0 px-4 pointer-events-none">
     <div
       in:scale|local={{ start: 0.8, duration: 150, easing: cubicInOut }}
       out:scale|local={{ start: 0.9, duration: 150, easing: cubicInOut }}

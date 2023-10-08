@@ -12,10 +12,10 @@ export class ToastBloc extends Bloc {
   // ─── Helpers ─────────────────────────────────────────────────────────
 
   error(message: string, time?: number) {
-    this.add.next({ message, time: time || 3, type: ToastTypes.ERROR })
+    this.add.next({ message, time: time || 2, type: ToastTypes.ERROR })
   }
 
   success(message: string, time?: number) {
-    this.add.next({ message, time: time || 3, type: ToastTypes.SUCCESS })
+    this.add.next({ message, time: time || 2, type: ToastTypes.SUCCESS })
   }
 }
