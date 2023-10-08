@@ -21,6 +21,7 @@
   import { addHash } from '/src/helpers/location.helper'
   import { isDeviceOnline } from '/src/helpers/observable.helper'
   import { unDestroy } from '/src/helpers/svelte.helper'
+  import { BottomBarBloc } from '/src/bloc/bottombar.bloc'
 
   const bloc = di(ReportBloc)
   const dataBloc = di(DataBloc)
@@ -129,10 +130,14 @@
     if (!$selectedPerson) {
       back()
     }
+
+    di(BottomBarBloc).backMode.next('/panel/report/step1')
   })
 
   onDestroy(() => {
     bloc.send.error.next(undefined)
+
+    di(BottomBarBloc).backMode.next(false)
   })
 
   unDestroy(send, (result) => {
@@ -158,7 +163,7 @@
   <div class="py-8 pb-8" use:focusTrap>
     <!-- info -->
     <div
-      class="mb-4 mx-4 rounded-lg shadow-sm bg-light-surface-2 dark:bg-dark-surface-2"
+      class="mb-4 mx-4 rounded-2xl shadow-sm bg-light-surface-2 dark:bg-dark-surface-2"
       on:click={() => addHash('selectPerson')}
       role="button"
       tabindex="-1"
@@ -189,11 +194,11 @@
     </div>
 
     <!-- options -->
-    <div class="px-4 mb-4 flex flex-col gap-4">
+    <div class="px-4 mb-4 grid grid-cols-2 gap-4">
       {#if $inspectItems}
         {#each $inspectItems as option (option.id)}
           <label
-            class="btn font-normal text-sm rounded-lg cursor-pointer bg-light-surface-2 dark:bg-dark-surface-2 shadow-lg icon justify-between pe-2"
+            class="btn font-normal text-sm rounded-2xl cursor-pointer bg-light-surface-2 dark:bg-dark-surface-2 shadow-sm icon justify-between pe-2"
             use:Ripple
           >
             <div>{option.title}</div>
@@ -233,14 +238,14 @@
       {/if}
 
       <div
-        class="flex flex-col items-center w-full p-4 mx-auto text-center bg-light-surface-2 dark:bg-dark-surface-2 border-2 border-gray-300 border-dashed dark:border-gray-700 rounded-xl cursor-pointer"
+        class="flex flex-col items-center w-full p-4 mx-auto text-center bg-light-surface-2 dark:bg-dark-surface-2 border-2 border-gray-300 border-dashed dark:border-gray-700 rounded-2xl cursor-pointer"
         role="button"
         tabindex="-1"
         on:click={chooseFile}
         use:Ripple
       >
         {#if $preview}
-          <img class="w-full aspect-square rounded-lg object-contain" src={$preview} alt="تصویر" />
+          <img class="w-full aspect-square rounded-2xl object-contain" src={$preview} alt="تصویر" />
         {:else}
           <IconUpload class="w-8 h-8" />
 
@@ -264,6 +269,7 @@
         class:ghost={$isDeviceOnline}
         class:opacity-50={$isDeviceOnline}
         on:click|preventDefault={storeOffline}
+        use:Ripple
       >
         <span> ذخیره برای ارسال آفلاین </span>
       </button>
@@ -276,6 +282,7 @@
         class:loading={$sendLoading}
         on:click|preventDefault={onSubmit}
         disabled={!$isDeviceOnline}
+        use:Ripple
       >
         <span>ارسال اطلاعات</span>
 

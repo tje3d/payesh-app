@@ -1,5 +1,6 @@
 <script lang="ts">
   import { goto } from '$app/navigation'
+  import { map, switchMap } from 'rxjs'
   import { onDestroy, onMount } from 'svelte'
   import IconArrowLeft from '~icons/heroicons/arrow-left'
   import IconChevDown from '~icons/heroicons/chevron-down'
@@ -12,7 +13,6 @@
   import MetaTitle from '/src/components/meta-title.svelte'
   import { di, get } from '/src/di/di.default'
   import { addHash } from '/src/helpers/location.helper'
-  import { map, switchMap } from 'rxjs'
 
   const bloc = get(ReportBloc)
   const dataBloc = di(DataBloc)
@@ -80,7 +80,7 @@
     <div class="px-4 mb-4 font-bold text-sm">اطلاعات سازمانی</div>
 
     <div
-      class="mx-4 bg-light-surface-2 dark:bg-dark-surface-2 shadow-md rounded-lg p-4 flex flex-col gap-4"
+      class="mx-4 bg-light-surface-2 dark:bg-dark-surface-2 rounded-2xl shadow-sm p-4 flex flex-col gap-4"
     >
       {#if !$organs && $organsLoading}
         <div class="flex justify-center"><Spinner class="w-6 h-6" /></div>
@@ -102,7 +102,7 @@
   <div class="px-4">
     <div class="mb-4 font-bold text-sm">انتخاب خادم</div>
 
-    <div class="bg-light-surface-2 dark:bg-dark-surface-2 rounded-lg shadow-md p-4">
+    <div class="bg-light-surface-2 dark:bg-dark-surface-2 rounded-2xl shadow-sm p-4">
       <button
         type="button"
         class="rounded-lg h-14 px-3 flex flex-row items-center w-full text-start border"
@@ -148,6 +148,7 @@
       class="btn primary icon shrink-0"
       disabled={!$selectedPerson || !$management || !$post || !$office}
       on:click|preventDefault={nextStep}
+      use:Ripple
     >
       <span>مرحله بعد</span>
 

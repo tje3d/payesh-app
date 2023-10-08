@@ -83,7 +83,7 @@
     </div>
 
     <div>
-      <button type="submit" class="btn indigo icon shrink-0" class:loading={$loading}>
+      <button type="submit" class="btn primary icon shrink-0" class:loading={$loading}>
         <span>ارسال اطلاعات</span>
 
         {#if $loading}

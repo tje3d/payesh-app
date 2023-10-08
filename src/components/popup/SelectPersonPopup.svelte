@@ -44,7 +44,7 @@
 
 <div class="pt-28">
   <div
-    class="fixed top-0 right-0 left-0 z-10 px-4 py-2 flex flex-col bg-light-surface-2 dark:bg-dark-surface-2 gap-2"
+    class="fixed top-0 right-0 left-0 z-10 px-4 py-2 flex flex-col bg-light-surface-2 dark:bg-dark-surface-2 gap-2 shadow-md"
   >
     <div class="flex items-center">
       <div class="flex-auto">انتخاب خادم</div>
@@ -110,7 +110,7 @@
       {#each $filtered as person, i (person.id)}
         <div
           animate:flip={{ duration: 300 }}
-          class="btn font-normal gray bg-white dark:bg-white/5 shadow-none border dark:border-gray-700 icon cursor-pointer py-3 px-2 text-base"
+          class="btn font-normal gray bg-white dark:bg-white/5 icon cursor-pointer py-3 px-2 text-base rounded-2xl shadow-sm"
           use:Ripple
           on:click={() => select(person)}
           role="button"
