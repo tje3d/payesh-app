@@ -18,11 +18,11 @@ export default function Ripple(node: HTMLElement, isDark: boolean | 'auto' = 'au
     rippleCore.create(event, finalMode)
   }
 
-  node.addEventListener('mousedown', onClick)
+  node.addEventListener('pointerdown', onClick)
 
   return {
     destroy() {
-      node.removeEventListener('mousedown', onClick)
+      node.removeEventListener('pointerdown', onClick)
     },
   }
 }
