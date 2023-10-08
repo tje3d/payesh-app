@@ -90,7 +90,7 @@
           {:else}
             <li class="mb-1">
               <a
-                class={`flex mx-3 items-center cursor-pointer justify-start py-2.5 px-4 text-sm hover:bg-white/10 rounded-lg select-none ${
+                class={`flex mx-3 items-center cursor-pointer justify-start py-2.5 px-4 text-sm hover:bg-white/10 rounded-2xl select-none transition-colors ${
                   $actives.includes(item) ? 'bg-white/10' : 'opacity-75 hover:opacity-100'
                 }`}
                 href={item.href}
@@ -127,7 +127,7 @@
                 {#each item.childs as child}
                   <li class="mb-1">
                     <a
-                      class={`flex mx-3 items-center justify-start py-2.5 px-4 pl-14 text-sm rounded-lg hover:bg-white/10 ${
+                      class={`flex mx-3 items-center justify-start py-2.5 px-4 pl-14 text-sm rounded-2xl hover:bg-white/10 ${
                         $actives.includes(child) ? 'bg-white/10' : 'opacity-75 hover:opacity-100'
                       }`}
                       href={child.href}
