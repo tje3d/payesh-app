@@ -41,11 +41,7 @@ input[type='password'] {
   @apply border-t-transparent;
 }
 
-button,
-textarea,
-input,
-select,
-a {
+* {
   -webkit-tap-highlight-color: transparent;
 }
 
