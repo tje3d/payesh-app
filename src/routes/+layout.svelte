@@ -25,7 +25,7 @@
     location.reload()
   })
 
-  unDestroy(
+  unDestroy<ServiceWorkerRegistration>(
     serviceWorkerRegistration.pipe(
       switchMap((register) => timer(0, 1000 * 20).pipe(map(() => register))),
     ),
