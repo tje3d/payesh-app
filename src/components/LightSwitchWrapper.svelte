@@ -20,7 +20,11 @@
   }
 
   async function startViewTransition() {
-    const transition = document.startViewTransition!(() => new Promise((resolve) => resolve(true)))
+    if (!document.startViewTransition) {
+      return
+    }
+
+    const transition = document.startViewTransition(() => new Promise((resolve) => resolve(true)))
 
     await transition.ready
 

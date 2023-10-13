@@ -3,6 +3,7 @@ import {
   EMPTY,
   Observable,
   Subject,
+  Subscription,
   combineLatest,
   defer,
   distinctUntilChanged,
@@ -26,24 +27,32 @@ export const onServiceWorkerControllerChange = defer(() => {
     return EMPTY
   }
 
+  if (!navigator.serviceWorker) {
+    return EMPTY
+  }
+
   return fromEvent(navigator.serviceWorker, 'controllerchange')
 }).pipe(shareIt())
 
 export const serviceWorkerRegistration = new Observable<ServiceWorkerRegistration>((observer) => {
-  const sub = timer(0, 1000)
-    .pipe(switchMap(() => from(navigator.serviceWorker.getRegistration())))
-    .subscribe((register) => {
-      if (register) {
-        if (!sub.closed) {
-          observer.next(register)
-        }
+  let sub: Subscription | undefined
 
-        sub.unsubscribe()
-      }
-    })
+  if (navigator.serviceWorker) {
+    sub = timer(0, 1000)
+      .pipe(switchMap(() => from(navigator.serviceWorker.getRegistration())))
+      .subscribe((register) => {
+        if (register) {
+          if (!sub?.closed) {
+            observer.next(register)
+          }
+
+          sub?.unsubscribe()
+        }
+      })
+  }
 
   return () => {
-    sub.unsubscribe()
+    sub?.unsubscribe()
   }
 }).pipe(shareIt())
 
