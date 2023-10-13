@@ -18,7 +18,7 @@
 
   blocs.forEach((sub) => unDestroy(sub))
 
-  const isAuthReady = di(AuthBloc).init
+  const isAuthReady = di(AuthBloc).ready
 
   unDestroy(onServiceWorkerControllerChange.pipe(take(1)), () => {
     console.log('🎉🎉 Application Updated Successful 🎉🎉')
