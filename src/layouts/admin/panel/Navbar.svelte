@@ -30,24 +30,24 @@
 </script>
 
 <div
-  class="flex items-center justify-between px-4 shadow-sm bg-light-surface-2 dark:bg-dark-surface dark:border-b border-b-white/10 dark:text-[#94a2b8] relative h-16"
+  class="relative flex h-16 items-center justify-between border-b-white/10 bg-light-surface-2 px-4 shadow-sm dark:border-b dark:bg-dark-surface dark:text-[#94a2b8]"
 >
   <div>
     <button tabindex="0" class="btn ghost gray circle" use:Ripple on:click={sidebarToggle}>
-      <IconMenu class="w-6 h-6" />
+      <IconMenu class="h-6 w-6" />
     </button>
   </div>
 
-  <div class="flex items-center gap-4 relative">
+  <div class="relative flex items-center gap-4">
     <LightSwitch />
 
     <button use:Ripple type="button" class="btn gray circle ghost circle" on:click={toggleLayout}>
       <div class="swap swap-rotate">
         <input type="checkbox" checked={$layout === 'inspect'} />
 
-        <Mobile class="swap-on fill-current w-6 h-6" />
+        <Mobile class="swap-on h-6 w-6 fill-current" />
 
-        <Pc class="swap-off fill-current w-6 h-6" />
+        <Pc class="swap-off h-6 w-6 fill-current" />
       </div>
     </button>
 
@@ -59,7 +59,7 @@
       on:click={() => showProfileMenu.next(true)}
     >
       <img
-        class="object-cover w-10 h-10 rounded-full bg-gray-100"
+        class="h-10 w-10 rounded-full bg-gray-100 object-cover"
         alt="تصویر"
         src="https://placehold.co/40x40"
       />

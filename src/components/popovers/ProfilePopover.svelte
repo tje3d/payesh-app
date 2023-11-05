@@ -19,11 +19,11 @@
 <Popover {origin} {content} on:outside>
   <a
     href="/panel/profile"
-    class="flex items-center p-4 text-sm text-gray-600 transition-colors duration-300 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#3e4264] dark:hover:text-white space-x-2 rtl:space-x-reverse"
+    class="flex transform items-center space-x-2 p-4 text-sm text-gray-600 transition-colors duration-300 hover:bg-gray-100 rtl:space-x-reverse dark:text-gray-300 dark:hover:bg-[#3e4264] dark:hover:text-white"
     on:click={close}
   >
     <img
-      class="flex-shrink-0 object-cover mx-1 rounded-full w-9 h-9"
+      class="mx-1 h-9 w-9 flex-shrink-0 rounded-full object-cover"
       src="https://images.unsplash.com/photo-1523779917675-b6ed3a42a561?ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8d29tYW4lMjBibHVlfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=face&w=500&q=200"
       alt="jane avatar"
     />
@@ -39,20 +39,20 @@
 
   <a
     href="/panel/profile"
-    class="flex items-center p-4 text-sm text-gray-600 capitalize transition-colors duration-300 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#3e4264] dark:hover:text-white space-x-2 rtl:space-x-reverse"
+    class="flex transform items-center space-x-2 p-4 text-sm capitalize text-gray-600 transition-colors duration-300 hover:bg-gray-100 rtl:space-x-reverse dark:text-gray-300 dark:hover:bg-[#3e4264] dark:hover:text-white"
     on:click={close}
   >
-    <IconUser class="fill-current w-5 h-5" />
+    <IconUser class="h-5 w-5 fill-current" />
 
     <span class="mx-1">ویرایش اطلاعات کاربری</span>
   </a>
 
   <a
     href="/panel/profile"
-    class="flex items-center p-4 text-sm text-gray-600 capitalize transition-colors duration-300 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#3e4264] dark:hover:text-white space-x-2 rtl:space-x-reverse"
+    class="flex transform items-center space-x-2 p-4 text-sm capitalize text-gray-600 transition-colors duration-300 hover:bg-gray-100 rtl:space-x-reverse dark:text-gray-300 dark:hover:bg-[#3e4264] dark:hover:text-white"
     on:click={close}
   >
-    <IconPassword class="fill-current w-5 h-5" />
+    <IconPassword class="h-5 w-5 fill-current" />
 
     <span class="mx-1">تغییر کلمه عبور</span>
   </a>
@@ -61,10 +61,10 @@
 
   <a
     href="#"
-    class="flex items-center p-4 text-sm text-gray-600 capitalize transition-colors duration-300 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#3e4264] dark:hover:text-white space-x-2 rtl:space-x-reverse"
+    class="flex transform items-center space-x-2 p-4 text-sm capitalize text-gray-600 transition-colors duration-300 hover:bg-gray-100 rtl:space-x-reverse dark:text-gray-300 dark:hover:bg-[#3e4264] dark:hover:text-white"
     use:logout
   >
-    <IconLogout class="fill-current w-5 h-5" />
+    <IconLogout class="h-5 w-5 fill-current" />
 
     <span class="mx-1">خروج</span>
   </a>

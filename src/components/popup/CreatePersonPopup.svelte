@@ -42,17 +42,17 @@
 </script>
 
 <form on:submit|preventDefault={submit}>
-  <div class="px-4 py-2 flex items-center bg-light-surface-2 dark:bg-dark-surface-2 gap-2">
+  <div class="flex items-center gap-2 bg-light-surface-2 px-4 py-2 dark:bg-dark-surface-2">
     <div class="flex-auto">ثبت اطلاعات خادم جدید</div>
 
     <button type="button" class="btn circle ghost gray" on:click={close}>
-      <IconArrowLeft class="w-5 h-5" />
+      <IconArrowLeft class="h-5 w-5" />
     </button>
   </div>
 
   <div class="flex flex-col gap-4 px-4 pt-4">
     <div
-      class="bg-light-surface-2 dark:bg-dark-surface-2 shadow-md rounded-lg p-4 flex flex-col gap-4"
+      class="flex flex-col gap-4 rounded-lg bg-light-surface-2 p-4 shadow-md dark:bg-dark-surface-2"
     >
       <div>
         <InputText
@@ -87,9 +87,9 @@
         <span>ارسال اطلاعات</span>
 
         {#if $loading}
-          <Spinner class="w-4 h-4 mx-auto" />
+          <Spinner class="mx-auto h-4 w-4" />
         {:else}
-          <IconArrowLeft class="w-4 h-4" />
+          <IconArrowLeft class="h-4 w-4" />
         {/if}
       </button>
     </div>

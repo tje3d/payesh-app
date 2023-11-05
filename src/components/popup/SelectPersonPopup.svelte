@@ -44,19 +44,19 @@
 
 <div class="pt-28">
   <div
-    class="fixed top-0 right-0 left-0 z-10 px-4 py-2 flex flex-col bg-light-surface-2 dark:bg-dark-surface-2 gap-2 shadow-md"
+    class="fixed left-0 right-0 top-0 z-10 flex flex-col gap-2 bg-light-surface-2 px-4 py-2 shadow-md dark:bg-dark-surface-2"
   >
     <div class="flex items-center">
       <div class="flex-auto">انتخاب خادم</div>
 
       <button class="btn circle ghost gray" on:click={close}>
-        <IconArrowLeft class="w-5 h-5" />
+        <IconArrowLeft class="h-5 w-5" />
       </button>
     </div>
 
     <!-- Search -->
     <div>
-      <div class="flex items-center bg-gray-100 dark:bg-white/10 rounded-full px-4">
+      <div class="flex items-center rounded-full bg-gray-100 px-4 dark:bg-white/10">
         <div
           class="swap swap-rotate"
           on:click={clearSearch}
@@ -66,14 +66,14 @@
         >
           <input type="checkbox" checked={!!$search} />
 
-          <IconSearch class="swap-off w-5 h-5" />
+          <IconSearch class="swap-off h-5 w-5" />
 
-          <IconXMark class="swap-on w-5 h-5" />
+          <IconXMark class="swap-on h-5 w-5" />
         </div>
         <div class="flex-auto">
           <input
             type="text"
-            class="w-full bg-transparent h-8 my-2 outline-none ps-2 pe-1"
+            class="my-2 h-8 w-full bg-transparent pe-1 ps-2 outline-none"
             placeholder="نام و نام خانوادگی یا کدخدمتی..."
             maxlength={150}
             spellcheck={false}
@@ -91,7 +91,7 @@
   <div class="p-4">
     {#if $filtered.length === 0 && $loading}
       <div transition:slide|local class="mb-4 flex justify-center">
-        <Spinner class="w-6 h-6" />
+        <Spinner class="h-6 w-6" />
       </div>
     {/if}
 
@@ -110,27 +110,27 @@
       {#each $filtered as person, i (person.id)}
         <div
           animate:flip={{ duration: 300 }}
-          class="btn font-normal gray bg-white dark:bg-white/5 icon cursor-pointer py-3 px-2 text-base rounded-2xl shadow-sm"
+          class="btn gray icon cursor-pointer rounded-2xl bg-white px-2 py-3 text-base font-normal shadow-sm dark:bg-white/5"
           use:Ripple
           on:click={() => select(person)}
           role="button"
           aria-pressed="true"
           tabindex={0}
         >
-          <div class="flex-auto flex items-center gap-2">
+          <div class="flex flex-auto items-center gap-2">
             <div class="shrink-0">
               <img
-                class="object-cover w-10 h-10 rounded-full bg-gray-100"
+                class="h-10 w-10 rounded-full bg-gray-100 object-cover"
                 alt="تصویر"
                 src="https://placehold.co/40x40"
               />
             </div>
             <div>
-              <div class="text-sm mb-1">{person.first_name} {person.last_name}</div>
+              <div class="mb-1 text-sm">{person.first_name} {person.last_name}</div>
               <div class="text-gray-500">{person.code}</div>
             </div>
           </div>
-          <IconArrowLeft class="w-4 h-4 me-2" />
+          <IconArrowLeft class="me-2 h-4 w-4" />
         </div>
       {/each}
     </div>

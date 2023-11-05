@@ -10,11 +10,11 @@
 
 {#if !hide}
   <div
-    class="flex w-full overflow-hidden bg-white dark:bg-[#30334e] rounded-lg shadow-md relative"
+    class="relative flex w-full overflow-hidden rounded-lg bg-white shadow-md dark:bg-[#30334e]"
     transition:slide|local
   >
     <div
-      class="flex items-center justify-center w-12 shrink-0"
+      class="flex w-12 shrink-0 items-center justify-center"
       class:bg-teal-500={type === 'success'}
       class:bg-red-500={type === 'error'}
       class:bg-orange-500={type === 'warning'}
@@ -22,7 +22,7 @@
       <slot name="icon" />
     </div>
 
-    <div class="px-4 py-2 -mx-3 text-start">
+    <div class="-mx-3 px-4 py-2 text-start">
       <div class="mx-3" class:pl-10={closable}>
         <span
           class="font-semibold"
@@ -42,7 +42,7 @@
     {#if closable}
       <div class="absolute end-2 top-1/2 -mt-5">
         <button type="button" class="btn gray circle ghost" on:click={() => (hide = true)}>
-          <IconX class="w-4 h-4" />
+          <IconX class="h-4 w-4" />
         </button>
       </div>
     {/if}

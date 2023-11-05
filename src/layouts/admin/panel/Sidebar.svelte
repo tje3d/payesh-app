@@ -52,7 +52,7 @@
 
 {#if $isOpen && $isMobile}
   <div
-    class="bg-black bg-opacity-50 fixed top-0 right-0 bottom-0 left-0 z-[19] md:hidden"
+    class="fixed bottom-0 left-0 right-0 top-0 z-[19] bg-black bg-opacity-50 md:hidden"
     on:click={onBackdropClick}
     role="button"
     tabindex="-1"
@@ -62,15 +62,15 @@
 
 {#if $isOpen}
   <div
-    class="sidebar fixed top-0 bottom-0 w-72 bg-gray-900 flex flex-col z-[20] border-l border-white/10"
+    class="sidebar fixed bottom-0 top-0 z-[20] flex w-72 flex-col border-l border-white/10 bg-gray-900"
     transition:fly|local={{ x: 288, opacity: 1 }}
   >
     <!-- Header - Start -->
     {#if !$isMobile}
-      <a href="/panel/dashboard" class="flex items-center h-20 p-6 pb-0">
+      <a href="/panel/dashboard" class="flex h-20 items-center p-6 pb-0">
         <img
           src="/images/logo.png"
-          class="invert w-16 mx-auto max-h-full object-contain"
+          class="mx-auto max-h-full w-16 object-contain invert"
           alt="Logo"
         />
       </a>
@@ -78,34 +78,34 @@
     <!-- Header - End -->
 
     <!-- Content - Start -->
-    <div class="flex-auto text-white overflow-auto">
+    <div class="flex-auto overflow-auto text-white">
       <ul>
         {#each $items as item, i (item)}
           {#if !item.href && !item.childs}
             <li class="pt-6" />
 
-            <li class="py-3 px-4 text-xs mx-3 item-sidebar-title">
-              <span class="font-bold text-primary uppercase">{item.text}</span>
+            <li class="item-sidebar-title mx-3 px-4 py-3 text-xs">
+              <span class="font-bold uppercase text-primary">{item.text}</span>
             </li>
           {:else}
             <li class="mb-1">
               <a
-                class={`flex mx-3 items-center cursor-pointer justify-start py-2.5 px-4 text-sm hover:bg-white/10 rounded-2xl select-none transition-colors ${
+                class={`mx-3 flex cursor-pointer select-none items-center justify-start rounded-2xl px-4 py-2.5 text-sm transition-colors hover:bg-white/10 ${
                   $actives.includes(item) ? 'bg-white/10' : 'opacity-75 hover:opacity-100'
                 }`}
                 href={item.href}
                 rel={item.childs ? 'external' : null}
                 on:click={item.childs ? () => onItemHasChildClick(item) : onItemClick}
               >
-                <svelte:component this={item.icon} class="h-6 w-6 ml-4" />
+                <svelte:component this={item.icon} class="ml-4 h-6 w-6" />
                 <span class="flex-auto">{item.text}</span>
 
                 {#if item.childs}
                   {#if $actives.includes(item)}
-                    <IconChevronDown class="w-4 h-4" />
+                    <IconChevronDown class="h-4 w-4" />
                   {:else}
                     <IconChevronRight
-                      class="w-4 h-4 transform rtl:rotate-180 rtl:rotate-z-[90deg]"
+                      class="rtl:rotate-z-[90deg] h-4 w-4 transform rtl:rotate-180"
                     />
                   {/if}
                 {/if}
@@ -127,7 +127,7 @@
                 {#each item.childs as child}
                   <li class="mb-1">
                     <a
-                      class={`flex mx-3 items-center justify-start py-2.5 px-4 pl-14 text-sm rounded-2xl hover:bg-white/10 ${
+                      class={`mx-3 flex items-center justify-start rounded-2xl px-4 py-2.5 pl-14 text-sm hover:bg-white/10 ${
                         $actives.includes(child) ? 'bg-white/10' : 'opacity-75 hover:opacity-100'
                       }`}
                       href={child.href}

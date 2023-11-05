@@ -13,9 +13,9 @@
     <div class="swap swap-rotate">
       <input type="checkbox" checked={$isDark} />
 
-      <IconSun class="swap-off fill-current w-6 h-6" />
+      <IconSun class="swap-off h-6 w-6 fill-current" />
 
-      <IconMoon class="swap-on fill-current w-6 h-6" />
+      <IconMoon class="swap-on h-6 w-6 fill-current" />
     </div>
   </button>
 </LightSwitchWrapper>

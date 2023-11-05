@@ -16,7 +16,7 @@
 </script>
 
 <div
-  class={`${width} mt-2 overflow-hidden bg-white rounded-lg shadow-[0_20px_50px_rgba(0,0,0,0.2)] dark:bg-[#30334e] ${
+  class={`${width} mt-2 overflow-hidden rounded-lg bg-white shadow-[0_20px_50px_rgba(0,0,0,0.2)] dark:bg-[#30334e] ${
     $$props.class || ''
   } ${origin || ''} z-50`}
   use:content

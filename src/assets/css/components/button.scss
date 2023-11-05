@@ -1,6 +1,6 @@
 .btn {
   -webkit-user-drag: none;
-  @apply rounded-lg py-3 px-6 text-xs font-bold uppercase shadow-md transition-all hover:shadow-lg focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none inline-block relative;
+  @apply relative inline-block rounded-lg px-6 py-3 text-xs font-bold uppercase shadow-md transition-all hover:shadow-lg focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none;
 
   &.loading {
     span {
@@ -12,23 +12,23 @@
     @apply shadow-none;
 
     &.primary {
-      @apply bg-transparent hover:bg-primary/10 active:bg-primary/20 text-inherit;
+      @apply bg-transparent text-inherit hover:bg-primary/10 active:bg-primary/20;
     }
 
     &.red {
-      @apply bg-transparent hover:bg-rose-500/10 active:bg-rose-500/20 text-inherit;
+      @apply bg-transparent text-inherit hover:bg-rose-500/10 active:bg-rose-500/20;
     }
 
     &.pink {
-      @apply bg-transparent hover:bg-pink-500/10 active:bg-pink-500/20 text-inherit;
+      @apply bg-transparent text-inherit hover:bg-pink-500/10 active:bg-pink-500/20;
     }
 
     &.indigo {
-      @apply bg-transparent hover:bg-indigo-500/10 active:bg-indigo-500/20 text-inherit;
+      @apply bg-transparent text-inherit hover:bg-indigo-500/10 active:bg-indigo-500/20;
     }
 
     &.blue {
-      @apply bg-transparent hover:bg-blue-500/10 active:bg-blue-500/20 text-inherit;
+      @apply bg-transparent text-inherit hover:bg-blue-500/10 active:bg-blue-500/20;
     }
 
     &.gray {
@@ -41,26 +41,26 @@
   }
 
   &.pink {
-    @apply bg-pink-500 shadow-pink-500/20 hover:shadow-pink-500/40 text-white;
+    @apply bg-pink-500 text-white shadow-pink-500/20 hover:shadow-pink-500/40;
   }
 
   &.primary {
-    @apply bg-primary shadow-primary/20 hover:shadow-primary/40 text-white;
+    @apply bg-primary text-white shadow-primary/20 hover:shadow-primary/40;
   }
 
   &.red {
-    @apply bg-rose-500 shadow-rose-500/20 hover:shadow-rose-500/40 text-white;
+    @apply bg-rose-500 text-white shadow-rose-500/20 hover:shadow-rose-500/40;
   }
 
   &.indigo {
-    @apply bg-indigo-500 shadow-indigo-500/20 hover:shadow-indigo-500/40 text-white;
+    @apply bg-indigo-500 text-white shadow-indigo-500/20 hover:shadow-indigo-500/40;
   }
 
   &.blue {
-    @apply bg-blue-500 shadow-blue-500/20 hover:shadow-blue-500/40 text-white;
+    @apply bg-blue-500 text-white shadow-blue-500/20 hover:shadow-blue-500/40;
   }
 
   &.circle {
-    @apply flex items-center justify-center rounded-full p-3 aspect-square;
+    @apply flex aspect-square items-center justify-center rounded-full p-3;
   }
 }

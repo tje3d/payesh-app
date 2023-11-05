@@ -71,33 +71,33 @@
 
 <div class="relative pb-5">
   <img
-    class="absolute top-0 right-0 bottom-0 left-0 object-cover w-full h-full bg-black"
+    class="absolute bottom-0 left-0 right-0 top-0 h-full w-full bg-black object-cover"
     src="/images/haram.jpg"
     alt="تصویر"
   />
 
-  <div class="absolute top-4 right-4 text-white z-10">
+  <div class="absolute right-4 top-4 z-10 text-white">
     <LightSwitch />
   </div>
 
-  <div class="absolute top-4 left-4 text-white z-10">
+  <div class="absolute left-4 top-4 z-10 text-white">
     <button use:Ripple type="button" class="btn gray circle ghost circle" on:click={toggleLayout}>
       <div class="swap swap-rotate">
         <input type="checkbox" checked={$layout === 'inspect'} />
 
-        <Mobile class="swap-on fill-current w-6 h-6" />
+        <Mobile class="swap-on h-6 w-6 fill-current" />
 
-        <Pc class="swap-off fill-current w-6 h-6" />
+        <Pc class="swap-off h-6 w-6 fill-current" />
       </div>
     </button>
   </div>
 
-  <div class="grid place-content-center pt-8 pb-10 relative text-white">
+  <div class="relative grid place-content-center pb-10 pt-8 text-white">
     <div class="flex flex-col items-center gap-2">
-      <div class="w-24 h-24">
+      <div class="h-24 w-24">
         <img
           src="/images/logo.png"
-          class="invert max-w-full max-h-full mx-auto"
+          class="mx-auto max-h-full max-w-full invert"
           alt="آستان قدس رضوی"
         />
       </div>
@@ -112,47 +112,47 @@
   </div>
 
   <div
-    class="bg-light-surface dark:bg-dark-surface w-full h-10 rounded-t-xl absolute left-0 right-0 bottom-0 -mb-7"
+    class="absolute bottom-0 left-0 right-0 -mb-7 h-10 w-full rounded-t-xl bg-light-surface dark:bg-dark-surface"
   />
 </div>
 
-<div class="relative z-10 h-20 -mt-10 flex gap-4 px-4">
+<div class="relative z-10 -mt-10 flex h-20 gap-4 px-4">
   <div
-    class="h-20 bg-light-surface-2 dark:bg-dark-surface-2 flex flex-col items-center justify-center gap-1 flex-auto rounded-2xl shadow-sm"
+    class="flex h-20 flex-auto flex-col items-center justify-center gap-1 rounded-2xl bg-light-surface-2 shadow-sm dark:bg-dark-surface-2"
   >
     {#if $inspectStatLoading && !$inspectStat}
-      <Spinner class="w-5 h-5 mb-2" />
+      <Spinner class="mb-2 h-5 w-5" />
     {:else if $inspectStat}
-      <div class="font-bold text-xl text-teal-500">{$inspectStat.today}</div>
+      <div class="text-xl font-bold text-teal-500">{$inspectStat.today}</div>
     {/if}
     <div class="text-xs text-gray-500 dark:text-gray-400">گزارشات امروز</div>
   </div>
 
   <div
-    class="h-20 bg-light-surface-2 dark:bg-dark-surface-2 flex flex-col items-center justify-center gap-1 flex-auto rounded-2xl shadow-sm"
+    class="flex h-20 flex-auto flex-col items-center justify-center gap-1 rounded-2xl bg-light-surface-2 shadow-sm dark:bg-dark-surface-2"
   >
     {#if $inspectStatLoading && !$inspectStat}
-      <Spinner class="w-5 h-5 mb-2" />
+      <Spinner class="mb-2 h-5 w-5" />
     {:else if $inspectStat}
-      <div class="font-bold text-xl text-teal-500">{$inspectStat.last_month}</div>
+      <div class="text-xl font-bold text-teal-500">{$inspectStat.last_month}</div>
     {/if}
     <div class="text-xs text-gray-500 dark:text-gray-400">گزارشات این ماه</div>
   </div>
 </div>
 
-<div class="relative px-4 pt-4 flex flex-col gap-4 pb-6">
+<div class="relative flex flex-col gap-4 px-4 pb-6 pt-4">
   {#if $offlineCount}
     <div
-      class="flex flex-col items-center gap-4 p-6 text-sm font-bold bg-light-surface-2 dark:bg-dark-surface-2 rounded-2xl shadow-sm"
+      class="flex flex-col items-center gap-4 rounded-2xl bg-light-surface-2 p-6 text-sm font-bold shadow-sm dark:bg-dark-surface-2"
       role="button"
       tabindex={0}
       use:Ripple
       on:click={flushOffline}
     >
       <!-- <div class="me-2"><IconSync class="w-6 h-6" /></div> -->
-      <div class="flex flex-col gap-2 flex-auto text-center">
+      <div class="flex flex-auto flex-col gap-2 text-center">
         <div class="text-lg text-teal-500">ارسال گزارشات آفلاین</div>
-        <div class="text-xs text-gray-400 font-normal">
+        <div class="text-xs font-normal text-gray-400">
           جهت ارسال گزارشات ذخیره شده به سرور کلیک کنید
         </div>
       </div>
@@ -161,7 +161,7 @@
         <div class="chip ghost orange">{$offlineCount} گزارش</div>
       {:else}
         <div class="chip ghost orange flex items-center gap-2">
-          <Spinner class="w-3 h-3 mx-auto" />
+          <Spinner class="mx-auto h-3 w-3" />
           <span>در حال ارسال گزارشات به سرور...</span>
         </div>
       {/if}
@@ -173,51 +173,51 @@
   {/if}
 
   <a
-    class="flex gap-4 items-center p-6 text-sm font-bold bg-light-surface-2 dark:bg-dark-surface-2 rounded-2xl shadow-sm"
+    class="flex items-center gap-4 rounded-2xl bg-light-surface-2 p-6 text-sm font-bold shadow-sm dark:bg-dark-surface-2"
     href="/panel/report"
     use:Ripple
   >
-    <div class="me-2"><IconAdd class="w-6 h-6" /></div>
-    <div class="flex flex-col gap-2 flex-auto">
+    <div class="me-2"><IconAdd class="h-6 w-6" /></div>
+    <div class="flex flex-auto flex-col gap-2">
       <div>ثبت گزارش جدید</div>
-      <div class="text-xs text-gray-400 dark:text-gray-600 font-normal">
+      <div class="text-xs font-normal text-gray-400 dark:text-gray-600">
         جهت ثبت گزارش جدید اینجا کلیک کنید
       </div>
     </div>
-    <IconLeft class="w-4 h-4" />
+    <IconLeft class="h-4 w-4" />
   </a>
 
   <div
-    class="flex gap-4 items-center p-6 text-sm font-bold bg-light-surface-2 dark:bg-dark-surface-2 rounded-2xl shadow-sm"
+    class="flex items-center gap-4 rounded-2xl bg-light-surface-2 p-6 text-sm font-bold shadow-sm dark:bg-dark-surface-2"
     role="button"
     tabindex={0}
     use:Ripple
   >
-    <div class="me-2"><IconDocs class="w-6 h-6" /></div>
-    <div class="flex flex-col gap-2 flex-auto">
+    <div class="me-2"><IconDocs class="h-6 w-6" /></div>
+    <div class="flex flex-auto flex-col gap-2">
       <div>گزارشات پیشین</div>
-      <div class="text-xs text-gray-400 dark:text-gray-600 font-normal">
+      <div class="text-xs font-normal text-gray-400 dark:text-gray-600">
         مشاهده یا ویرایش گزارشات پیشین
       </div>
     </div>
-    <IconLeft class="w-4 h-4" />
+    <IconLeft class="h-4 w-4" />
   </div>
 
   <div
-    class="flex gap-4 items-center p-6 text-sm font-bold bg-light-surface-2 dark:bg-dark-surface-2 rounded-2xl shadow-sm"
+    class="flex items-center gap-4 rounded-2xl bg-light-surface-2 p-6 text-sm font-bold shadow-sm dark:bg-dark-surface-2"
     role="button"
     tabindex={0}
     on:click={() => addHash('newPerson')}
     use:Ripple
   >
-    <div class="me-2"><IconUserPlus class="w-6 h-6" /></div>
-    <div class="flex flex-col gap-2 flex-auto">
+    <div class="me-2"><IconUserPlus class="h-6 w-6" /></div>
+    <div class="flex flex-auto flex-col gap-2">
       <div>ثبت اطلاعات خادم جدید</div>
-      <div class="text-xs text-gray-400 dark:text-gray-600 font-normal">
+      <div class="text-xs font-normal text-gray-400 dark:text-gray-600">
         ایجاد خادم جدید درصورت عدم وجود
       </div>
     </div>
-    <IconLeft class="w-4 h-4" />
+    <IconLeft class="h-4 w-4" />
   </div>
 </div>
 

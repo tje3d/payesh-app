@@ -15,6 +15,7 @@
 
   const themeBloc = get(ThemeBloc)
   const isDark = themeBloc.isDark
+
   const displayName = di(AuthBloc).displayName
 </script>
 
@@ -23,31 +24,31 @@
 <div class="py-8">
   <div class="flex flex-col items-center justify-center gap-2">
     <div class="relative">
-      <img class="w-24 h-24 rounded-full" src="https://placehold.co/96x96" alt="تصویر" />
+      <img class="h-24 w-24 rounded-full" src="https://placehold.co/96x96" alt="تصویر" />
 
       <div
-        class="absolute right-0 bottom-0 w-8 h-8 rounded-full bg-blue-500 grid place-content-center text-white cursor-pointer"
+        class="absolute bottom-0 right-0 grid h-8 w-8 cursor-pointer place-content-center rounded-full bg-blue-500 text-white"
       >
-        <IconCamera class="w-4 h-4" />
+        <IconCamera class="h-4 w-4" />
       </div>
     </div>
-    <div class="flex flex-col gap-1 justify-center text-center">
+    <div class="flex flex-col justify-center gap-1 text-center">
       <div>{$displayName}</div>
-      <div class="text-xs text-gray-500 font-sans">tje3d@yahoo.com</div>
+      <div class="font-sans text-xs text-gray-500">tje3d@yahoo.com</div>
     </div>
   </div>
 
   <div class="mx-4 mt-8 flex flex-col gap-4">
     <LightSwitchWrapper let:toggleMode>
       <div
-        class="block w-full bg-light-surface-2 dark:bg-dark-surface-2 rounded-2xl p-4 shadow-sm"
+        class="block w-full rounded-2xl bg-light-surface-2 p-4 shadow-sm dark:bg-dark-surface-2"
         role="button"
         tabindex="-1"
         on:click|preventDefault|stopPropagation={toggleMode}
       >
-        <div class="flex justify-between items-center text-sm h-8">
+        <div class="flex h-8 items-center justify-between text-sm">
           <div class="flex items-center">
-            <div class="w-8"><IconMoon class="w-5 h-5" /></div>
+            <div class="w-8"><IconMoon class="h-5 w-5" /></div>
             <div>حالت تاریک</div>
           </div>
           <Switch bind:checked={$isDark} />
@@ -56,32 +57,32 @@
     </LightSwitchWrapper>
 
     <div
-      class="bg-light-surface-2 dark:bg-dark-surface-2 rounded-2xl p-4 shadow-sm"
+      class="rounded-2xl bg-light-surface-2 p-4 shadow-sm dark:bg-dark-surface-2"
       role="button"
       aria-pressed="false"
       tabindex="0"
       use:Ripple
     >
-      <div class="flex justify-between items-center text-sm h-8">
+      <div class="flex h-8 items-center justify-between text-sm">
         <div class="flex items-center">
-          <div class="w-8"><IconPassword class="w-5 h-5" /></div>
+          <div class="w-8"><IconPassword class="h-5 w-5" /></div>
           <div>تغییر کلمه عبور</div>
         </div>
-        <IconLeft class="w-4 h-4" />
+        <IconLeft class="h-4 w-4" />
       </div>
     </div>
 
     <div
-      class="bg-light-surface-2 dark:bg-dark-surface-2 rounded-2xl p-4 shadow-sm"
+      class="rounded-2xl bg-light-surface-2 p-4 shadow-sm dark:bg-dark-surface-2"
       role="button"
       aria-pressed="false"
       tabindex="0"
       use:Ripple
       use:logout
     >
-      <div class="flex justify-between items-center text-sm h-8 text-rose-500">
+      <div class="flex h-8 items-center justify-between text-sm text-rose-500">
         <div class="flex items-center">
-          <div class="w-8"><IconPower class="w-5 h-5" /></div>
+          <div class="w-8"><IconPower class="h-5 w-5" /></div>
           <div>خروج</div>
         </div>
       </div>

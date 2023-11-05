@@ -12,7 +12,10 @@ export class TooManyError {
 }
 
 export class ServerError {
-  constructor(public message: string, public code: number) {}
+  constructor(
+    public message: string,
+    public code: number,
+  ) {}
 }
 
 export class MessageError extends Error {}

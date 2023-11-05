@@ -77,13 +77,13 @@
 
 <div class="flex flex-col gap-8 py-8" use:focusTrap>
   <div>
-    <div class="px-4 mb-4 font-bold text-sm">اطلاعات سازمانی</div>
+    <div class="mb-4 px-4 text-sm font-bold">اطلاعات سازمانی</div>
 
     <div
-      class="mx-4 bg-light-surface-2 dark:bg-dark-surface-2 rounded-2xl shadow-sm p-4 flex flex-col gap-4"
+      class="mx-4 flex flex-col gap-4 rounded-2xl bg-light-surface-2 p-4 shadow-sm dark:bg-dark-surface-2"
     >
       {#if !$organs && $organsLoading}
-        <div class="flex justify-center"><Spinner class="w-6 h-6" /></div>
+        <div class="flex justify-center"><Spinner class="h-6 w-6" /></div>
       {:else}
         <Selectdown
           bind:value={$management}
@@ -100,12 +100,12 @@
   </div>
 
   <div class="px-4">
-    <div class="mb-4 font-bold text-sm">انتخاب خادم</div>
+    <div class="mb-4 text-sm font-bold">انتخاب خادم</div>
 
-    <div class="bg-light-surface-2 dark:bg-dark-surface-2 rounded-2xl shadow-sm p-4">
+    <div class="rounded-2xl bg-light-surface-2 p-4 shadow-sm dark:bg-dark-surface-2">
       <button
         type="button"
-        class="rounded-lg h-14 px-3 flex flex-row items-center w-full text-start border"
+        class="flex h-14 w-full flex-row items-center rounded-lg border px-3 text-start"
         class:border-gray-200={!$selectedPerson}
         class:dark:border-gray-600={!$selectedPerson}
         class:border-gray-400={!!$selectedPerson}
@@ -114,9 +114,9 @@
       >
         {#if $selectedPerson}
           <div class="flex-auto">
-            <div class="flex items-center gap-3 vt-person-info">
+            <div class="vt-person-info flex items-center gap-3">
               <div>
-                <img class="rounded-full w-10 h-10" alt="تصویر" src="https://placehold.co/80x80" />
+                <img class="h-10 w-10 rounded-full" alt="تصویر" src="https://placehold.co/80x80" />
               </div>
 
               <div>
@@ -136,13 +136,13 @@
         {/if}
 
         <div>
-          <IconChevDown class="w-4 h-4" />
+          <IconChevDown class="h-4 w-4" />
         </div>
       </button>
     </div>
   </div>
 
-  <div class="px-4 flex items-center justify-between">
+  <div class="flex items-center justify-between px-4">
     <button
       type="button"
       class="btn primary icon shrink-0"
@@ -153,9 +153,9 @@
       <span>مرحله بعد</span>
 
       {#if $sendLoading}
-        <Spinner class="w-4 h-4 mx-auto" />
+        <Spinner class="mx-auto h-4 w-4" />
       {:else}
-        <IconArrowLeft class="w-4 h-4" />
+        <IconArrowLeft class="h-4 w-4" />
       {/if}
     </button>
   </div>

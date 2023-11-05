@@ -163,14 +163,14 @@
   <div class="py-8 pb-8" use:focusTrap>
     <!-- info -->
     <div
-      class="mb-4 mx-4 rounded-2xl shadow-sm bg-light-surface-2 dark:bg-dark-surface-2"
+      class="mx-4 mb-4 rounded-2xl bg-light-surface-2 shadow-sm dark:bg-dark-surface-2"
       on:click={() => addHash('selectPerson')}
       role="button"
       tabindex="-1"
     >
-      <div class="flex gap-4 items-center p-4 vt-person-info">
+      <div class="vt-person-info flex items-center gap-4 p-4">
         <div>
-          <img class="rounded-full w-20 h-20" alt="تصویر" src="https://placehold.co/80x80" />
+          <img class="h-20 w-20 rounded-full" alt="تصویر" src="https://placehold.co/80x80" />
         </div>
         <div class="flex flex-col gap-1">
           <div>
@@ -186,7 +186,7 @@
     </div>
     <!-- info -->
 
-    <div class="px-4 mb-4">
+    <div class="mb-4 px-4">
       <div class="chip orange ghost whitespace-normal">
         <strong>توجه:</strong>
         خواهشمند است موارد مربوط به عدم آراستگی را مشخص کنید
@@ -194,11 +194,11 @@
     </div>
 
     <!-- options -->
-    <div class="px-4 mb-4 grid grid-cols-2 gap-4">
+    <div class="mb-4 grid grid-cols-2 gap-4 px-4">
       {#if $inspectItems}
         {#each $inspectItems as option (option.id)}
           <label
-            class="btn font-normal text-sm rounded-2xl cursor-pointer bg-light-surface-2 dark:bg-dark-surface-2 shadow-sm icon justify-between pe-2"
+            class="btn icon cursor-pointer justify-between rounded-2xl bg-light-surface-2 pe-2 text-sm font-normal shadow-sm dark:bg-dark-surface-2"
             use:Ripple
           >
             <div>{option.title}</div>
@@ -212,7 +212,7 @@
                 color="red"
               >
                 <svelte:fragment slot="icon">
-                  <IconX class="w-3.5 h-3.5" />
+                  <IconX class="h-3.5 w-3.5" />
                 </svelte:fragment>
               </Checkbox>
             </div>
@@ -220,34 +220,34 @@
         {/each}
       {:else}
         <div class="flex items-center justify-center">
-          <Spinner class="w-5 h-5" />
+          <Spinner class="h-5 w-5" />
         </div>
       {/if}
     </div>
     <!-- options -->
 
-    <div class="px-4 mb-4 relative max-w-xl mx-auto">
+    <div class="relative mx-auto mb-4 max-w-xl px-4">
       {#if $preview}
         <button
           class="btn circle red absolute left-8 top-4 z-10"
           type="button"
           on:click|preventDefault|stopPropagation={removeFile}
         >
-          <IconTrash class="w-4 h-4" />
+          <IconTrash class="h-4 w-4" />
         </button>
       {/if}
 
       <div
-        class="flex flex-col items-center w-full p-4 mx-auto text-center bg-light-surface-2 dark:bg-dark-surface-2 border-2 border-gray-300 border-dashed dark:border-gray-700 rounded-2xl cursor-pointer"
+        class="mx-auto flex w-full cursor-pointer flex-col items-center rounded-2xl border-2 border-dashed border-gray-300 bg-light-surface-2 p-4 text-center dark:border-gray-700 dark:bg-dark-surface-2"
         role="button"
         tabindex="-1"
         on:click={chooseFile}
         use:Ripple
       >
         {#if $preview}
-          <img class="w-full aspect-square rounded-2xl object-contain" src={$preview} alt="تصویر" />
+          <img class="aspect-square w-full rounded-2xl object-contain" src={$preview} alt="تصویر" />
         {:else}
-          <IconUpload class="w-8 h-8" />
+          <IconUpload class="h-8 w-8" />
 
           <h2 class="mt-1 font-medium tracking-wide text-gray-700 dark:text-gray-200">
             تصویر ضمیمه
@@ -260,7 +260,7 @@
       </div>
     </div>
 
-    <div class="mt-6 px-4 flex items-center justify-between">
+    <div class="mt-6 flex items-center justify-between px-4">
       <button
         type="button"
         class="btn"
@@ -287,9 +287,9 @@
         <span>ارسال اطلاعات</span>
 
         {#if $sendLoading}
-          <Spinner class="w-4 h-4 mx-auto" />
+          <Spinner class="mx-auto h-4 w-4" />
         {:else}
-          <IconArrowLeft class="w-4 h-4" />
+          <IconArrowLeft class="h-4 w-4" />
         {/if}
       </button>
     </div>

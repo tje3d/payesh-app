@@ -98,74 +98,74 @@
 <MetaTitle titles="داشبورد" />
 
 <div class="flex flex-col gap-6 py-6">
-  <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+  <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
     <div
-      class="bg-light-surface-2 dark:bg-dark-surface-2 rounded-2xl shadow-sm p-6 flex flex-col gap-4 items-center"
+      class="flex flex-col items-center gap-4 rounded-2xl bg-light-surface-2 p-6 shadow-sm dark:bg-dark-surface-2"
     >
-      <div class="font-bold w-full">گزارشات امروز</div>
+      <div class="w-full font-bold">گزارشات امروز</div>
 
-      <div class="text-green-500 font-bold text-center">
-        <div class="text-6xl -mb-2">{$statOverview?.today || 0}</div>
+      <div class="text-center font-bold text-green-500">
+        <div class="-mb-2 text-6xl">{$statOverview?.today || 0}</div>
         <div>گزارش</div>
       </div>
 
-      <a class="btn ghost gray flex gap-2 justify-center items-center opacity-75" href="#">
+      <a class="btn ghost gray flex items-center justify-center gap-2 opacity-75" href="#">
         مشاهده گزارشات
-        <IconArrowLeft class="w-3 h-3" />
+        <IconArrowLeft class="h-3 w-3" />
       </a>
     </div>
 
     <div
-      class="bg-light-surface-2 dark:bg-dark-surface-2 rounded-2xl shadow-sm p-6 flex flex-col gap-4 items-center"
+      class="flex flex-col items-center gap-4 rounded-2xl bg-light-surface-2 p-6 shadow-sm dark:bg-dark-surface-2"
     >
-      <div class="font-bold w-full">گزارشات دیروز</div>
+      <div class="w-full font-bold">گزارشات دیروز</div>
 
-      <div class="text-orange-500 font-bold text-center">
-        <div class="text-6xl -mb-2">{$statOverview?.yesterday || 0}</div>
+      <div class="text-center font-bold text-orange-500">
+        <div class="-mb-2 text-6xl">{$statOverview?.yesterday || 0}</div>
         <div>گزارش</div>
       </div>
 
-      <a class="btn ghost gray flex gap-2 justify-center items-center opacity-75" href="#">
+      <a class="btn ghost gray flex items-center justify-center gap-2 opacity-75" href="#">
         مشاهده گزارشات
-        <IconArrowLeft class="w-3 h-3" />
+        <IconArrowLeft class="h-3 w-3" />
       </a>
     </div>
 
     <div
-      class="bg-light-surface-2 dark:bg-dark-surface-2 rounded-2xl shadow-sm p-6 flex flex-col gap-4 items-center"
+      class="flex flex-col items-center gap-4 rounded-2xl bg-light-surface-2 p-6 shadow-sm dark:bg-dark-surface-2"
     >
-      <div class="font-bold w-full">گزارشات این هفته</div>
+      <div class="w-full font-bold">گزارشات این هفته</div>
 
-      <div class="text-red-500 font-bold text-center">
-        <div class="text-6xl -mb-2">{$statOverview?.last_week || 0}</div>
+      <div class="text-center font-bold text-red-500">
+        <div class="-mb-2 text-6xl">{$statOverview?.last_week || 0}</div>
         <div>گزارش</div>
       </div>
 
-      <a class="btn ghost gray flex gap-2 justify-center items-center opacity-75" href="#">
+      <a class="btn ghost gray flex items-center justify-center gap-2 opacity-75" href="#">
         مشاهده گزارشات
-        <IconArrowLeft class="w-3 h-3" />
+        <IconArrowLeft class="h-3 w-3" />
       </a>
     </div>
 
     <div
-      class="bg-light-surface-2 dark:bg-dark-surface-2 rounded-2xl shadow-sm p-6 flex flex-col gap-4 items-center"
+      class="flex flex-col items-center gap-4 rounded-2xl bg-light-surface-2 p-6 shadow-sm dark:bg-dark-surface-2"
     >
-      <div class="font-bold w-full">گزارشات این ماه</div>
+      <div class="w-full font-bold">گزارشات این ماه</div>
 
-      <div class="text-blue-500 font-bold text-center">
-        <div class="text-6xl -mb-2">{$statOverview?.last_month || 0}</div>
+      <div class="text-center font-bold text-blue-500">
+        <div class="-mb-2 text-6xl">{$statOverview?.last_month || 0}</div>
         <div>گزارش</div>
       </div>
 
-      <a class="btn ghost gray flex gap-2 justify-center items-center opacity-75" href="#">
+      <a class="btn ghost gray flex items-center justify-center gap-2 opacity-75" href="#">
         مشاهده گزارشات
-        <IconArrowLeft class="w-4 h-4" />
+        <IconArrowLeft class="h-4 w-4" />
       </a>
     </div>
   </div>
 
   <div>
-    <div class="bg-light-surface-2 dark:bg-dark-surface-2 rounded-2xl shadow-sm p-6" dir="ltr">
+    <div class="rounded-2xl bg-light-surface-2 p-6 shadow-sm dark:bg-dark-surface-2" dir="ltr">
       <div bind:this={chartTarget} style="width: 100%; height: 500px;" />
     </div>
   </div>

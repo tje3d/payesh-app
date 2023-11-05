@@ -12,22 +12,22 @@
 </script>
 
 {#if $item}
-  <div class="fixed z-[100] left-0 bottom-24 right-0 px-4 pointer-events-none">
+  <div class="pointer-events-none fixed bottom-24 left-0 right-0 z-[100] px-4">
     <div
       in:scale|local={{ start: 0.8, duration: 150, easing: cubicInOut }}
       out:scale|local={{ start: 0.9, duration: 150, easing: cubicInOut }}
-      class="text-black rounded-lg shadow-lg max-w-sm mx-auto flex flex-row items-center gap-2 p-4"
+      class="mx-auto flex max-w-sm flex-row items-center gap-2 rounded-lg p-4 text-black shadow-lg"
       class:bg-red-300={$item.type === ToastTypes.ERROR}
       class:bg-teal-300={$item.type === ToastTypes.SUCCESS}
     >
       <div>
         {#if $item.type === ToastTypes.ERROR}
-          <IconWarning class="w-5 h-5" />
+          <IconWarning class="h-5 w-5" />
         {:else}
-          <IconCheck class="w-5 h-5" />
+          <IconCheck class="h-5 w-5" />
         {/if}
       </div>
-      <div class="leading-4 text-sm">{$item.message}</div>
+      <div class="text-sm leading-4">{$item.message}</div>
     </div>
   </div>
 {/if}

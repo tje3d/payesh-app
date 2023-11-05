@@ -240,11 +240,11 @@
     <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
     <!-- svelte-ignore a11y-no-static-element-interactions -->
     <div
-      class={`selectdown h-full w-full rounded-[7px] border border-blue-gray-200 bg-transparent px-3 py-2.5 text-sm font-normal text-blue-gray-700 dark:text-blue-gray-200 outline outline-0 transition-all focus:border-2 focus:border-primary dark:focus:border-primary focus:outline-0 flex items-center cursor-pointer ${
+      class={`selectdown border-blue-gray-200 text-blue-gray-700 dark:text-blue-gray-200 flex h-full w-full cursor-pointer items-center rounded-[7px] border bg-transparent px-3 py-2.5 text-sm font-normal outline outline-0 transition-all focus:border-2 focus:border-primary focus:outline-0 dark:focus:border-primary ${
         $isEmpty
-          ? 'border border-blue-gray-200 border-t-blue-gray-200 dark:border-gray-600 dark:border-t-gray-600'
+          ? 'border-blue-gray-200 border-t-blue-gray-200 border dark:border-gray-600 dark:border-t-gray-600'
           : 'border-t-transparent focus:border-t-transparent dark:focus:border-t-transparent'
-      } ${disabled ? 'border-0 bg-blue-gray-50' : ''}`}
+      } ${disabled ? 'bg-blue-gray-50 border-0' : ''}`}
       class:border-gray-400={!$isEmpty}
       use:Ripple
       tabindex="0"
@@ -267,20 +267,20 @@
 
       <div class="absolute end-4 top-1/2 -mt-2">
         <IconChevDown
-          class={`w-4 h-4 transition-all duration-350 ${$showDropdown ? 'rotate-180' : ''}`}
+          class={`duration-350 h-4 w-4 transition-all ${$showDropdown ? 'rotate-180' : ''}`}
         />
       </div>
     </div>
     <label
-      class={`before:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-normal text-gray-400 transition-all before:pointer-events-none before:mt-[6.5px] before:ml-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tr-md before:border-t before:border-r before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:mr-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tl-md after:border-t after:border-l after:border-blue-gray-200 after:transition-all ${
+      class={`before:content[' '] after:content[' '] before:border-blue-gray-200 after:border-blue-gray-200 pointer-events-none absolute -top-1.5 left-0 flex h-full w-full select-none text-[11px] font-normal text-gray-400 transition-all before:pointer-events-none before:ml-1 before:mt-[6.5px] before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tr-md before:border-r before:border-t before:transition-all after:pointer-events-none after:mr-1 after:mt-[6.5px] after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tl-md after:border-l after:border-t after:transition-all ${
         $isEmpty ? 'text-sm text-gray-500 before:border-transparent after:border-transparent' : ''
       } ${
         $isFocus
-          ? 'text-[11px] text-primary before:border-t-2 before:border-r-2 after:border-t-2 after:border-l-2'
+          ? 'text-[11px] text-primary before:border-r-2 before:border-t-2 after:border-l-2 after:border-t-2'
           : ''
       } ${$isFocus && !$isEmpty ? 'before:!border-primary after:!border-primary' : ''} ${
         disabled
-          ? 'text-transparent before:border-transparent after:border-transparent text-gray-500'
+          ? 'text-gray-500 text-transparent before:border-transparent after:border-transparent'
           : ''
       } ${$isEmpty ? 'leading-[4.6]' : 'leading-tight'}`}
       class:before:border-gray-400={!$isEmpty}
@@ -292,7 +292,7 @@
 
   {#if !disabled && $showDropdown && $list$.length > 0}
     <div
-      class="absolute right-0 z-20 w-full pb-2 mt-2 origin-top bg-white dark:bg-[#30334e] rounded-md shadow-[rgba(0,_0,_0,_0.25)_0px_25px_50px_-12px]"
+      class="absolute right-0 z-20 mt-2 w-full origin-top rounded-md bg-white pb-2 shadow-[rgba(0,_0,_0,_0.25)_0px_25px_50px_-12px] dark:bg-[#30334e]"
       class:pt-14={$hasSearch}
       class:pt-2={!$hasSearch}
       use:eleContent
@@ -301,8 +301,8 @@
     >
       <!-- Search -->
       {#if $hasSearch}
-        <div class="px-2 h-12 overflow-hidden absolute top-2 right-0 left-0">
-          <div class="flex items-center bg-gray-100 dark:bg-white/10 rounded-full px-4">
+        <div class="absolute left-0 right-0 top-2 h-12 overflow-hidden px-2">
+          <div class="flex items-center rounded-full bg-gray-100 px-4 dark:bg-white/10">
             <div
               class="swap swap-rotate"
               on:click={clearSearch}
@@ -312,14 +312,14 @@
             >
               <input type="checkbox" checked={!!$searchText} />
 
-              <IconSearch class="swap-off w-5 h-5" />
+              <IconSearch class="swap-off h-5 w-5" />
 
-              <IconXMark class="swap-on w-5 h-5" />
+              <IconXMark class="swap-on h-5 w-5" />
             </div>
             <div class="flex-auto">
               <input
                 type="text"
-                class="w-full bg-transparent py-3 outline-none ps-2 pe-1 text-sm"
+                class="w-full bg-transparent py-3 pe-1 ps-2 text-sm outline-none"
                 placeholder="جستجو"
                 maxlength={150}
                 spellcheck={false}
@@ -340,7 +340,7 @@
       <div class="max-h-[300px] overflow-auto">
         {#each $filteredOptions as opt, i (opt.value)}
           <div
-            class={`w-full text-start px-4 py-3 text-sm text-gray-600 capitalize transition-colors duration-300 transform dark:text-gray-300 ${
+            class={`w-full transform px-4 py-3 text-start text-sm capitalize text-gray-600 transition-colors duration-300 dark:text-gray-300 ${
               $selected === opt.value ? 'bg-indigo-500/10 dark:bg-indigo-500/20' : ''
             } ${$hoverIndex === i ? 'bg-black/5 dark:bg-white/5' : ''}`}
             on:click={() => onSelect(i)}

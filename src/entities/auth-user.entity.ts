@@ -1,3 +1,6 @@
 export default class AuthUser {
-  constructor(public token: string, public name: string) {}
+  constructor(
+    public token: string,
+    public name: string,
+  ) {}
 }

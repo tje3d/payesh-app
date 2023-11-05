@@ -84,9 +84,9 @@
 </script>
 
 {#if $show && !$backMode}
-  <div class="fixed right-4 bottom-4 left-4 z-10" transition:fly|local={{ y: 100 }}>
+  <div class="fixed bottom-4 left-4 right-4 z-10" transition:fly|local={{ y: 100 }}>
     <div
-      class="bg-light-surface-2 dark:bg-dark-surface-2 flex justify-between items-center px-6 h-16 text-light-surface-text dark:text-dark-surface-text rounded-2xl drop-shadow-bottombar"
+      class="flex h-16 items-center justify-between rounded-2xl bg-light-surface-2 px-6 text-light-surface-text drop-shadow-bottombar dark:bg-dark-surface-2 dark:text-dark-surface-text"
     >
       {#each menuItemList as menu, index (menu.href)}
         <BottomBarItem
@@ -101,17 +101,17 @@
   </div>
 {:else if $show && $backMode}
   <div
-    class="fixed right-4 bottom-4 left-4 z-10"
+    class="fixed bottom-4 left-4 right-4 z-10"
     role="button"
     tabindex="-1"
     transition:fly|local={{ y: 100 }}
     on:click={onBackClick}
   >
     <div
-      class="bg-light-surface-2 dark:bg-dark-surface-2 flex justify-center items-center px-6 h-12 text-light-surface-text dark:text-dark-surface-text rounded-2xl drop-shadow-bottombar"
+      class="flex h-12 items-center justify-center rounded-2xl bg-light-surface-2 px-6 text-light-surface-text drop-shadow-bottombar dark:bg-dark-surface-2 dark:text-dark-surface-text"
       use:Ripple
     >
-      <IconBack class="w-5 h-5" />
+      <IconBack class="h-5 w-5" />
     </div>
   </div>
 {/if}

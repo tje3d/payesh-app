@@ -14,12 +14,12 @@
     <Sidebar />
 
     <div
-      class="flex-auto transition-all duration-300 ease-out w-full bg-light-surface dark:bg-dark-surface"
+      class="w-full flex-auto bg-light-surface transition-all duration-300 ease-out dark:bg-dark-surface"
       class:md:pr-72={$isSidebarOpen}
     >
       <Navbar />
 
-      <div class="w-full max-w-screen-xl mx-auto px-6 pb-8">
+      <div class="mx-auto w-full max-w-screen-xl px-6 pb-8">
         <slot />
       </div>
     </div>

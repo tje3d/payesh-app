@@ -21,7 +21,7 @@ html.light {
 }
 
 body {
-  @apply bg-light-surface dark:bg-dark-surface text-light-surface-text dark:text-dark-surface-text;
+  @apply bg-light-surface text-light-surface-text dark:bg-dark-surface dark:text-dark-surface-text;
 }
 
 img {

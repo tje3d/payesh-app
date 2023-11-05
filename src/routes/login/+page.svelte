@@ -47,14 +47,14 @@
 
 <MetaTitle titles="ورود" />
 
-<div class="h-full mx-auto flex justify-center items-center px-4 sm:px-0" dir="rtl">
-  <div class="space-y-10 text-center flex flex-col items-center m-auto">
+<div class="mx-auto flex h-full items-center justify-center px-4 sm:px-0" dir="rtl">
+  <div class="m-auto flex flex-col items-center space-y-10 text-center">
     <div
-      class="p-6 shadow-xl relative overflow-hidden bg-white dark:bg-[#30334e] rounded-lg min-w-[300px] border dark:border-gray-700"
+      class="relative min-w-[300px] overflow-hidden rounded-lg border bg-white p-6 shadow-xl dark:border-gray-700 dark:bg-[#30334e]"
     >
       <header class="text-start">
-        <div class="flex justify-between items-center pb-2">
-          <h1 class="font-bold text-lg text-primary">
+        <div class="flex items-center justify-between pb-2">
+          <h1 class="text-lg font-bold text-primary">
             ورود به سامانه {import.meta.env.VITE_APP_NAME}
           </h1>
           <div dir="ltr"><LightSwitch /></div>
@@ -89,7 +89,7 @@
             />
           </div>
 
-          <div class="flex flex-wrap text-center justify-between items-center" dir="ltr">
+          <div class="flex flex-wrap items-center justify-between text-center" dir="ltr">
             <!-- <a href="/register" class="text-sm underline">ثبت نام نکرده اید؟</a> -->
             <div />
 
@@ -110,7 +110,7 @@
             <span>ورود</span>
 
             {#if $loading}
-              <Spinner class="w-4 h-4 mx-auto" />
+              <Spinner class="mx-auto h-4 w-4" />
             {/if}
           </button>
         </form>

@@ -1,7 +1,4 @@
-export default function scrollHorizontal(
-  node: HTMLElement,
-  enable: boolean = true,
-) {
+export default function scrollHorizontal(node: HTMLElement, enable: boolean = true) {
   let isDown = false
   let startX: number
   let scrollLeft: number

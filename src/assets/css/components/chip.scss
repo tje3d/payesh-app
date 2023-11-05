@@ -1,5 +1,5 @@
 .chip {
-  @apply relative inline-block select-none whitespace-nowrap rounded-lg py-2 px-3.5 align-baseline text-xs font-bold uppercase leading-none;
+  @apply relative inline-block select-none whitespace-nowrap rounded-lg px-3.5 py-2 align-baseline text-xs font-bold uppercase leading-none;
 
   &.primary {
     @apply bg-primary text-white;

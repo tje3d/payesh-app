@@ -34,7 +34,7 @@
 {#if $visible}
   <div
     transition:fly|local={{ duration: 300, opacity: 1, y: $height }}
-    class="fixed inset-0 bg-light-surface dark:bg-dark-surface overflow-auto overscroll-contain popindex"
+    class="popindex fixed inset-0 overflow-auto overscroll-contain bg-light-surface dark:bg-dark-surface"
     style={`z-index: ${$zIndex}`}
   >
     <slot {close} />
