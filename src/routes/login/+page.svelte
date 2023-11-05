@@ -50,7 +50,7 @@
 <div class="mx-auto flex h-full items-center justify-center px-4 sm:px-0" dir="rtl">
   <div class="m-auto flex flex-col items-center space-y-10 text-center">
     <div
-      class="relative min-w-[300px] overflow-hidden rounded-lg border bg-white p-6 shadow-xl dark:border-gray-700 dark:bg-[#30334e]"
+      class="relative min-w-[300px] overflow-hidden rounded-lg border border-blue-500 bg-white p-6 shadow-xl dark:border-gray-700 dark:bg-[#30334e]"
     >
       <header class="text-start">
         <div class="flex items-center justify-between pb-2">
