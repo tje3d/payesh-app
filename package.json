@@ -7,7 +7,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
+    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@sveltejs/adapter-cloudflare": "^2.3.3",
@@ -15,6 +16,8 @@
     "@types/jalaali-js": "^1.1.1",
     "@types/node": "^20.8.3",
     "autoprefixer": "^10.4.16",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.0.2",
     "postcss": "^8.4.31",
     "prettier": "^3.0.3",
     "prettier-plugin-svelte": "^3.0.3",
@@ -39,5 +42,8 @@
     "svelte-floating-ui": "^1.5.3",
     "unplugin-icons": "^0.16.6",
     "zod": "^3.22.4"
+  },
+  "lint-staged": {
+    "*.{js,css,md,ts,svelte,html}": "prettier --write"
   }
 }
