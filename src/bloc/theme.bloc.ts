@@ -45,8 +45,12 @@ export class ThemeBloc extends Bloc {
             this.layout.next(userLayout as Layouts)
           }
 
-          this.sub(this.layout.pipe(skip(1), distinctUntilChanged()), (layout) => {
+          this.sub(this.layout.pipe(distinctUntilChanged()), (layout) => {
             localStorage.setItem('layout', layout)
+            const oppositeLayout: Layouts = layout === 'inspect' ? 'admin' : 'inspect'
+
+            document.documentElement.classList.remove(oppositeLayout)
+            document.documentElement.classList.add(layout)
           })
 
           this.sub(this.onPreferChange, (event) => {

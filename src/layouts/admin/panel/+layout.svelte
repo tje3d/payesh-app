@@ -19,7 +19,7 @@
     >
       <Navbar />
 
-      <div class="mx-auto w-full max-w-screen-xl px-6 pb-8">
+      <div class="mx-auto w-full px-6 pb-8">
         <slot />
       </div>
     </div>
