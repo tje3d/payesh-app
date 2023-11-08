@@ -14,34 +14,30 @@ const to_cache = build.concat(['/manifest.json', '/favicon.png']).concat(prerend
 
 const staticAssets = new Set(to_cache.concat(files).concat(['/']))
 
-worker.addEventListener('message', (event) => {
-  if (event.data && event.data.type === 'SKIP_WAITING') {
+worker.addEventListener('install', (event) => {
+  // Create a new cache and add all files to it
+  async function addFilesToCache() {
+    const cache = await caches.open(KEY_FILES)
+    await cache.addAll(to_cache)
     worker.skipWaiting()
   }
-})
 
-worker.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches
-      .open(KEY_FILES)
-      .then((cache) => cache.addAll(to_cache))
-      .then(() => {
-        worker.skipWaiting()
-      }),
-  )
+  event.waitUntil(addFilesToCache())
 })
 
 worker.addEventListener('activate', (event) => {
-  event.waitUntil(
-    caches.keys().then(async (keys) => {
-      // delete old caches
-      for (const key of keys) {
-        if (key !== KEY_FILES) await caches.delete(key)
+  // Remove previous cached data from disk
+  async function deleteOldCaches() {
+    for (const key of await caches.keys()) {
+      if (key !== KEY_FILES && key !== KEY_FONTS && key !== KEY_DRACO) {
+        await caches.delete(key)
       }
+    }
 
-      worker.clients.claim()
-    }),
-  )
+    worker.clients.claim()
+  }
+
+  event.waitUntil(deleteOldCaches())
 })
 
 /**
@@ -68,6 +64,7 @@ worker.addEventListener('fetch', (event) => {
     return
   }
 
+  // ignore POST requests etc
   if (event.request.method !== 'GET' || event.request.headers.has('range')) return
 
   const url = new URL(event.request.url)
@@ -86,7 +83,7 @@ worker.addEventListener('fetch', (event) => {
   const isVersionJson = !!url.pathname.match(/version\.json$/)
   const isDraco = !!url.pathname.match(/draco_decoder\.wasm$|draco_wasm_wrapper\.js$/)
 
-  if (isStaticAsset || isImage || isFont || (isJson && !isVersionJson)) {
+  if (isStaticAsset || isImage || isFont || isDraco || (isJson && !isVersionJson)) {
     event.respondWith(
       (async () => {
         // always serve static files and bundler-generated assets from cache.
