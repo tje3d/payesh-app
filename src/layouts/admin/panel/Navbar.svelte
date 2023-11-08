@@ -30,7 +30,7 @@
 </script>
 
 <div
-  class="relative flex h-16 items-center justify-between border-b-white/10 bg-light-surface-2 px-4 shadow-sm dark:border-b dark:bg-dark-surface dark:text-[#94a2b8]"
+  class="relative flex h-16 items-center justify-between border-b-white/10 bg-light-2 px-4 shadow-sm dark:border-b dark:bg-dark dark:text-[#94a2b8]"
 >
   <div>
     <button tabindex="0" class="btn ghost gray circle" use:Ripple on:click={sidebarToggle}>

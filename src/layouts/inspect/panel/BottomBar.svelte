@@ -86,7 +86,7 @@
 {#if $show && !$backMode}
   <div class="fixed bottom-4 left-4 right-4 z-10" transition:fly|local={{ y: 100 }}>
     <div
-      class="flex h-16 items-center justify-between rounded-2xl bg-light-surface-2 px-6 text-light-surface-text drop-shadow-bottombar dark:bg-dark-surface-2 dark:text-dark-surface-text"
+      class="flex h-16 items-center justify-between rounded-2xl bg-light-2 px-6 text-light-text drop-shadow-bottombar dark:bg-dark-2 dark:text-dark-text"
     >
       {#each menuItemList as menu, index (menu.href)}
         <BottomBarItem
@@ -108,7 +108,7 @@
     on:click={onBackClick}
   >
     <div
-      class="flex h-12 items-center justify-center rounded-2xl bg-light-surface-2 px-6 text-light-surface-text drop-shadow-bottombar dark:bg-dark-surface-2 dark:text-dark-surface-text"
+      class="flex h-12 items-center justify-center rounded-2xl bg-light-2 px-6 text-light-text drop-shadow-bottombar dark:bg-dark-2 dark:text-dark-text"
       use:Ripple
     >
       <IconBack class="h-5 w-5" />

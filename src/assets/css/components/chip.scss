@@ -1,69 +1,71 @@
-.chip {
-  @apply relative inline-block select-none whitespace-nowrap rounded-lg px-3.5 py-2 align-baseline text-xs font-bold uppercase leading-none;
+@layer components {
+  .chip {
+    @apply relative inline-block select-none whitespace-nowrap rounded-lg px-3.5 py-2 align-baseline text-xs font-bold uppercase leading-none;
 
-  &.primary {
-    @apply bg-primary text-white;
-  }
-
-  &.blue {
-    @apply bg-blue-500 text-white;
-  }
-
-  &.indigo {
-    @apply bg-indigo-500 text-white;
-  }
-
-  &.green {
-    @apply bg-green-500 text-white;
-  }
-
-  &.teal {
-    @apply bg-teal-500 text-white;
-  }
-
-  &.orange {
-    @apply bg-orange-500 text-white;
-  }
-
-  &.gray {
-    @apply bg-gray-500 text-white;
-  }
-
-  &.red {
-    @apply bg-red-500 text-white;
-  }
-
-  &.ghost {
     &.primary {
-      @apply bg-primary/10 text-primary;
+      @apply bg-primary text-white;
     }
 
     &.blue {
-      @apply bg-blue-500/10 text-blue-500;
+      @apply bg-blue-500 text-white;
     }
 
     &.indigo {
-      @apply bg-indigo-500/10 text-indigo-500;
+      @apply bg-indigo-500 text-white;
     }
 
     &.green {
-      @apply bg-green-500/10 text-green-500;
+      @apply bg-green-500 text-white;
     }
 
     &.teal {
-      @apply bg-teal-500/10 text-teal-500;
+      @apply bg-teal-500 text-white;
     }
 
     &.orange {
-      @apply bg-orange-500/10 text-orange-500;
+      @apply bg-orange-500 text-white;
     }
 
     &.gray {
-      @apply bg-gray-600/10 text-gray-600;
+      @apply bg-gray-500 text-white;
     }
 
     &.red {
-      @apply bg-red-500/10 text-red-500;
+      @apply bg-red-500 text-white;
+    }
+
+    &.ghost {
+      &.primary {
+        @apply bg-primary/10 text-primary;
+      }
+
+      &.blue {
+        @apply bg-blue-500/10 text-blue-500;
+      }
+
+      &.indigo {
+        @apply bg-indigo-500/10 text-indigo-500;
+      }
+
+      &.green {
+        @apply bg-green-500/10 text-green-500;
+      }
+
+      &.teal {
+        @apply bg-teal-500/10 text-teal-500;
+      }
+
+      &.orange {
+        @apply bg-orange-500/10 text-orange-500;
+      }
+
+      &.gray {
+        @apply bg-gray-600/10 text-gray-600;
+      }
+
+      &.red {
+        @apply bg-red-500/10 text-red-500;
+      }
     }
   }
 }

@@ -163,7 +163,7 @@
   <div class="py-8 pb-8" use:focusTrap>
     <!-- info -->
     <div
-      class="mx-4 mb-4 rounded-2xl bg-light-surface-2 shadow-sm dark:bg-dark-surface-2"
+      class="mx-4 mb-4 rounded-2xl bg-light-2 shadow-sm dark:bg-dark-2"
       on:click={() => addHash('selectPerson')}
       role="button"
       tabindex="-1"
@@ -198,7 +198,7 @@
       {#if $inspectItems}
         {#each $inspectItems as option (option.id)}
           <label
-            class="btn icon cursor-pointer justify-between rounded-2xl bg-light-surface-2 pe-2 text-sm font-normal shadow-sm dark:bg-dark-surface-2"
+            class="btn icon cursor-pointer justify-between rounded-2xl bg-light-2 pe-2 text-sm font-normal shadow-sm dark:bg-dark-2"
             use:Ripple
           >
             <div>{option.title}</div>
@@ -238,7 +238,7 @@
       {/if}
 
       <div
-        class="mx-auto flex w-full cursor-pointer flex-col items-center rounded-2xl border-2 border-dashed border-gray-300 bg-light-surface-2 p-4 text-center dark:border-gray-700 dark:bg-dark-surface-2"
+        class="mx-auto flex w-full cursor-pointer flex-col items-center rounded-2xl border-2 border-dashed border-gray-300 bg-light-2 p-4 text-center dark:border-gray-700 dark:bg-dark-2"
         role="button"
         tabindex="-1"
         on:click={chooseFile}

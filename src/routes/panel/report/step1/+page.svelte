@@ -79,9 +79,7 @@
   <div>
     <div class="mb-4 px-4 text-sm font-bold">اطلاعات سازمانی</div>
 
-    <div
-      class="mx-4 flex flex-col gap-4 rounded-2xl bg-light-surface-2 p-4 shadow-sm dark:bg-dark-surface-2"
-    >
+    <div class="mx-4 flex flex-col gap-4 rounded-2xl bg-light-2 p-4 shadow-sm dark:bg-dark-2">
       {#if !$organs && $organsLoading}
         <div class="flex justify-center"><Spinner class="h-6 w-6" /></div>
       {:else}
@@ -102,7 +100,7 @@
   <div class="px-4">
     <div class="mb-4 text-sm font-bold">انتخاب خادم</div>
 
-    <div class="rounded-2xl bg-light-surface-2 p-4 shadow-sm dark:bg-dark-surface-2">
+    <div class="rounded-2xl bg-light-2 p-4 shadow-sm dark:bg-dark-2">
       <button
         type="button"
         class="flex h-14 w-full flex-row items-center rounded-lg border px-3 text-start"

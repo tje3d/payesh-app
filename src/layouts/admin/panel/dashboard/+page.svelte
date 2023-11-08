@@ -100,7 +100,7 @@
 <div class="flex flex-col gap-6 py-6">
   <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
     <div
-      class="flex flex-col items-center gap-4 rounded-2xl bg-light-surface-2 p-6 shadow-sm dark:bg-dark-surface-2"
+      class="flex flex-col items-center gap-4 rounded-2xl bg-light-2 p-6 shadow-sm dark:bg-dark-2"
     >
       <div class="w-full font-bold">گزارشات امروز</div>
 
@@ -116,7 +116,7 @@
     </div>
 
     <div
-      class="flex flex-col items-center gap-4 rounded-2xl bg-light-surface-2 p-6 shadow-sm dark:bg-dark-surface-2"
+      class="flex flex-col items-center gap-4 rounded-2xl bg-light-2 p-6 shadow-sm dark:bg-dark-2"
     >
       <div class="w-full font-bold">گزارشات دیروز</div>
 
@@ -132,7 +132,7 @@
     </div>
 
     <div
-      class="flex flex-col items-center gap-4 rounded-2xl bg-light-surface-2 p-6 shadow-sm dark:bg-dark-surface-2"
+      class="flex flex-col items-center gap-4 rounded-2xl bg-light-2 p-6 shadow-sm dark:bg-dark-2"
     >
       <div class="w-full font-bold">گزارشات این هفته</div>
 
@@ -148,7 +148,7 @@
     </div>
 
     <div
-      class="flex flex-col items-center gap-4 rounded-2xl bg-light-surface-2 p-6 shadow-sm dark:bg-dark-surface-2"
+      class="flex flex-col items-center gap-4 rounded-2xl bg-light-2 p-6 shadow-sm dark:bg-dark-2"
     >
       <div class="w-full font-bold">گزارشات این ماه</div>
 
@@ -165,7 +165,7 @@
   </div>
 
   <div>
-    <div class="rounded-2xl bg-light-surface-2 p-6 shadow-sm dark:bg-dark-surface-2" dir="ltr">
+    <div class="rounded-2xl bg-light-2 p-6 shadow-sm dark:bg-dark-2" dir="ltr">
       <div bind:this={chartTarget} style="width: 100%; height: 500px;" />
     </div>
   </div>

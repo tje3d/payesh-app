@@ -41,7 +41,7 @@
   <div class="mx-4 mt-8 flex flex-col gap-4">
     <LightSwitchWrapper let:toggleMode>
       <div
-        class="block w-full rounded-2xl bg-light-surface-2 p-4 shadow-sm dark:bg-dark-surface-2"
+        class="block w-full rounded-2xl bg-light-2 p-4 shadow-sm dark:bg-dark-2"
         role="button"
         tabindex="-1"
         on:click|preventDefault|stopPropagation={toggleMode}
@@ -57,7 +57,7 @@
     </LightSwitchWrapper>
 
     <div
-      class="rounded-2xl bg-light-surface-2 p-4 shadow-sm dark:bg-dark-surface-2"
+      class="rounded-2xl bg-light-2 p-4 shadow-sm dark:bg-dark-2"
       role="button"
       aria-pressed="false"
       tabindex="0"
@@ -73,7 +73,7 @@
     </div>
 
     <div
-      class="rounded-2xl bg-light-surface-2 p-4 shadow-sm dark:bg-dark-surface-2"
+      class="rounded-2xl bg-light-2 p-4 shadow-sm dark:bg-dark-2"
       role="button"
       aria-pressed="false"
       tabindex="0"

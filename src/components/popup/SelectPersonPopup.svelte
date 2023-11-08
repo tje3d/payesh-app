@@ -44,7 +44,7 @@
 
 <div class="pt-28">
   <div
-    class="fixed left-0 right-0 top-0 z-10 flex flex-col gap-2 bg-light-surface-2 px-4 py-2 shadow-md dark:bg-dark-surface-2"
+    class="fixed left-0 right-0 top-0 z-10 flex flex-col gap-2 bg-light-2 px-4 py-2 shadow-md dark:bg-dark-2"
   >
     <div class="flex items-center">
       <div class="flex-auto">انتخاب خادم</div>

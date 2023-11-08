@@ -14,7 +14,7 @@
     <Sidebar />
 
     <div
-      class="w-full flex-auto bg-light-surface transition-all duration-300 ease-out dark:bg-dark-surface"
+      class="w-full flex-auto bg-light transition-all duration-300 ease-out dark:bg-dark"
       class:md:pr-72={$isSidebarOpen}
     >
       <Navbar />

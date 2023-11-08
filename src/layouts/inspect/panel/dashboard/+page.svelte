@@ -112,13 +112,13 @@
   </div>
 
   <div
-    class="absolute bottom-0 left-0 right-0 -mb-7 h-10 w-full rounded-t-xl bg-light-surface dark:bg-dark-surface"
+    class="absolute bottom-0 left-0 right-0 -mb-7 h-10 w-full rounded-t-xl bg-light dark:bg-dark"
   />
 </div>
 
 <div class="relative z-10 -mt-10 flex h-20 gap-4 px-4">
   <div
-    class="flex h-20 flex-auto flex-col items-center justify-center gap-1 rounded-2xl bg-light-surface-2 shadow-sm dark:bg-dark-surface-2"
+    class="flex h-20 flex-auto flex-col items-center justify-center gap-1 rounded-2xl bg-light-2 shadow-sm dark:bg-dark-2"
   >
     {#if $inspectStatLoading && !$inspectStat}
       <Spinner class="mb-2 h-5 w-5" />
@@ -129,7 +129,7 @@
   </div>
 
   <div
-    class="flex h-20 flex-auto flex-col items-center justify-center gap-1 rounded-2xl bg-light-surface-2 shadow-sm dark:bg-dark-surface-2"
+    class="flex h-20 flex-auto flex-col items-center justify-center gap-1 rounded-2xl bg-light-2 shadow-sm dark:bg-dark-2"
   >
     {#if $inspectStatLoading && !$inspectStat}
       <Spinner class="mb-2 h-5 w-5" />
@@ -143,7 +143,7 @@
 <div class="relative flex flex-col gap-4 px-4 pb-6 pt-4">
   {#if $offlineCount}
     <div
-      class="flex flex-col items-center gap-4 rounded-2xl bg-light-surface-2 p-6 text-sm font-bold shadow-sm dark:bg-dark-surface-2"
+      class="flex flex-col items-center gap-4 rounded-2xl bg-light-2 p-6 text-sm font-bold shadow-sm dark:bg-dark-2"
       role="button"
       tabindex={0}
       use:Ripple
@@ -173,7 +173,7 @@
   {/if}
 
   <a
-    class="flex items-center gap-4 rounded-2xl bg-light-surface-2 p-6 text-sm font-bold shadow-sm dark:bg-dark-surface-2"
+    class="flex items-center gap-4 rounded-2xl bg-light-2 p-6 text-sm font-bold shadow-sm dark:bg-dark-2"
     href="/panel/report"
     use:Ripple
   >
@@ -188,7 +188,7 @@
   </a>
 
   <div
-    class="flex items-center gap-4 rounded-2xl bg-light-surface-2 p-6 text-sm font-bold shadow-sm dark:bg-dark-surface-2"
+    class="flex items-center gap-4 rounded-2xl bg-light-2 p-6 text-sm font-bold shadow-sm dark:bg-dark-2"
     role="button"
     tabindex={0}
     use:Ripple
@@ -204,7 +204,7 @@
   </div>
 
   <div
-    class="flex items-center gap-4 rounded-2xl bg-light-surface-2 p-6 text-sm font-bold shadow-sm dark:bg-dark-surface-2"
+    class="flex items-center gap-4 rounded-2xl bg-light-2 p-6 text-sm font-bold shadow-sm dark:bg-dark-2"
     role="button"
     tabindex={0}
     on:click={() => addHash('newPerson')}

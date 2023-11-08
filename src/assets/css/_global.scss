@@ -1,50 +1,56 @@
-html,
-body {
-  @apply h-full overflow-x-hidden overscroll-none;
-  font-family: VazirFA;
-  font-weight: 300;
-}
+@layer base {
+  html {
+    font-family: VazirFA, system-ui, sans-serif;
+    font-weight: 300;
+    text-rendering: optimizeSpeed;
+    -webkit-font-smoothing: antialiased;
+    font-size: 16px;
+  }
 
-body {
-  text-rendering: optimizeSpeed;
-  font-size: 16px;
-  -webkit-font-smoothing: antialiased;
-  @apply select-none;
-}
+  html.dark {
+    color-scheme: dark;
+  }
 
-html.dark {
-  color-scheme: dark;
-}
+  html.light {
+    color-scheme: light;
+  }
 
-html.light {
-  color-scheme: light;
-}
+  html,
+  body {
+    @apply h-full overflow-x-hidden overscroll-none;
+  }
 
-body {
-  @apply bg-light-surface text-light-surface-text dark:bg-dark-surface dark:text-dark-surface-text;
-}
+  body {
+    @apply bg-light text-light-text dark:bg-dark dark:text-dark-text;
+  }
 
-img {
-  -webkit-user-drag: none;
-  @apply select-none;
-}
+  img {
+    -webkit-user-drag: none;
+    @apply select-none;
+  }
 
-.nodrag {
-  -webkit-user-drag: none;
-}
+  .drag-none {
+    -webkit-user-drag: none;
+  }
 
-input[type='password'] {
-  font-family: sans-serif;
-}
+  input[type='password'] {
+    font-family: sans-serif;
+  }
 
-.hide-border-t-notempty:not(:placeholder-shown) {
-  @apply border-t-transparent;
-}
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
 
-* {
-  -webkit-tap-highlight-color: transparent;
-}
+  html.theme-transition * {
+    transition: all linear 0.01s !important;
+  }
 
-html.theme-transition * {
-  transition: all linear 0.01s !important;
+  .hide-border-t-notempty:not(:placeholder-shown) {
+    @apply border-t-transparent;
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
 }
