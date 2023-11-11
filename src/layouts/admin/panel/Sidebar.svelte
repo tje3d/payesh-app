@@ -63,7 +63,7 @@
 {#if $isOpen}
   <div
     class="sidebar fixed bottom-0 top-0 z-[20] flex w-72 flex-col border-l border-white/10 bg-gray-900"
-    transition:fly|local={{ x: 288, opacity: 1 }}
+    transition:fly|local={{ x: '100%', opacity: 1 }}
   >
     <!-- Header - Start -->
     {#if !$isMobile}
